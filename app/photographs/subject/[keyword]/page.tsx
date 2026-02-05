@@ -3,6 +3,7 @@ import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
+import type { Metadata } from "next";
 
 interface Photo {
   id: number;
@@ -39,6 +40,21 @@ async function getPhotosByKeyword(keyword: string): Promise<Photo[]> {
     const imagePath = path.join(photosDir, `${photo.photographer}_${photo.id}.jpg`);
     return fs.existsSync(imagePath);
   });
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { keyword } = await params;
+  const decodedKeyword = decodeURIComponent(keyword);
+  const photos = await getPhotosByKeyword(decodedKeyword);
+  
+  return {
+    title: decodedKeyword,
+    description: `Browse ${photos.length} vintage photograph${photos.length !== 1 ? 's' : ''} tagged with ${decodedKeyword} from the Hertzmann photography collection.`,
+    openGraph: {
+      title: `${decodedKeyword} Photography`,
+      description: `${photos.length} photograph${photos.length !== 1 ? 's' : ''}`,
+    }
+  };
 }
 
 export default async function SubjectPage({ params }: PageProps) {

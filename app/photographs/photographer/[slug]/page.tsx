@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
+import { decodeHtmlEntities } from '@/lib/htmlDecode';
 
 interface Photo {
   id: number;
@@ -66,6 +68,31 @@ async function getPhotos(photographerId: number): Promise<Photo[]> {
   });
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug } = await params;
+    const photographer = await getPhotographer(slug);
+    
+    if (!photographer) {
+      return {
+        title: 'Photographer Not Found'
+      };
+    }
+    
+    const photos = await getPhotos(photographer.id);
+    const fullName = `${photographer.firstName || ''} ${photographer.lastName}`.trim();
+    const years = decodeHtmlEntities(photographer.years);
+    
+    return {
+      title: fullName,
+      description: `Explore ${photos.length} photograph${photos.length !== 1 ? 's' : ''} by ${fullName}${years ? ` (${years})` : ''}. Vintage photography from the Hertzmann collection.`,
+      openGraph: {
+        title: fullName,
+        description: `${photos.length} photograph${photos.length !== 1 ? 's' : ''} by ${fullName}`,
+        type: 'profile',
+      }
+    };
+  }
+
 export default async function PhotographerPage({ params }: PageProps) {
   const { slug } = await params;
   const photographer = await getPhotographer(slug);
@@ -84,8 +111,7 @@ export default async function PhotographerPage({ params }: PageProps) {
       
       <header style={{ textAlign: 'center', marginBottom: '3rem', borderBottom: '2px solid #333', paddingBottom: '1.5rem' }}>
         <h1>{photographer.firstName} {photographer.lastName}</h1>
-        {photographer.years && <p style={{ color: '#666', fontStyle: 'italic' }}>{photographer.years}</p>}
-        {photographer.country && <p style={{ color: '#666' }}>{photographer.country}</p>}
+        {photographer.years && <p style={{ color: '#666', fontStyle: 'italic' }}>{decodeHtmlEntities(photographer.years)}</p>}        {photographer.country && <p style={{ color: '#666' }}>{photographer.country}</p>}
       </header>
       
       <main>

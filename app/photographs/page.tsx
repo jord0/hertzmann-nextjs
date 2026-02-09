@@ -1,17 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// We'll embed the data directly in the client component for now
-// Later we can optimize this
+interface Photographer {
+  id: number;
+  firstName: string;
+  lastName: string;
+  slug: string;
+}
 
 export default function PhotographsPage() {
   const [view, setView] = useState('photographers');
+  const [photographers, setPhotographers] = useState<Photographer[]>([]);
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // This data will be fetched on the client side
-  // For static export, we need a different approach than server-side data fetching
-  
+  useEffect(() => {
+    fetch('/data.json')
+      .then(res => res.json())
+      .then(data => {
+        setPhotographers(data.photographers);
+        setKeywords(data.keywords);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div style={{ padding: '2rem' }}>Loading...</div>;
+
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
       <h1>Browse Photographs</h1>
@@ -47,15 +63,57 @@ export default function PhotographsPage() {
 
       {view === 'photographers' && (
         <div>
-          <h2>Photographers</h2>
-          <p>Coming soon - photographer list will load here</p>
+          <h2>Photographers ({photographers.length})</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '1.5rem',
+            marginTop: '1rem'
+          }}>
+            {photographers.map(p => (
+              <Link 
+                key={p.id}
+                href={`/photographs/photographer/${p.slug}`}
+                style={{
+                  padding: '1.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  color: '#333'
+                }}
+              >
+                <h3>{p.firstName} {p.lastName}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       )}
 
       {view === 'subjects' && (
         <div>
-          <h2>Subjects</h2>
-          <p>Coming soon - subject list will load here</p>
+          <h2>Subjects ({keywords.length})</h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '1.5rem',
+            marginTop: '1rem'
+          }}>
+            {keywords.map(keyword => (
+              <Link 
+                key={keyword}
+                href={`/photographs/subject/${encodeURIComponent(keyword)}`}
+                style={{
+                  padding: '1.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  color: '#333'
+                }}
+              >
+                <h3>{keyword}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>

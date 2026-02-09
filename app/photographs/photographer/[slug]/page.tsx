@@ -55,18 +55,14 @@ async function getPhotographer(slug: string) {
     return photographer;
   }
 
-async function getPhotos(photographerId: number): Promise<Photo[]> {
-  const sql = 'SELECT * FROM photos WHERE photographer = ? AND enabled = 1';
-  const results = await query(sql, [photographerId]) as Photo[];
-  
-  // Filter to only photos with actual image files
-  const photosDir = '/Users/inez/Documents/HertzmannWebDev/pmhi_website_coding/public_html/pages/photos';
-  
-  return results.filter(photo => {
-    const imagePath = path.join(photosDir, `${photographerId}_${photo.id}.jpg`);
-    return fs.existsSync(imagePath);
-  });
-}
+  async function getPhotos(photographerId: number): Promise<Photo[]> {
+    const sql = 'SELECT * FROM photos WHERE photographer = ? AND enabled = 1';
+    const results = await query(sql, [photographerId]) as Photo[];
+    
+    // Return all photos - we can't check HE filesystem from Vercel
+    // Images that don't exist will just fail to load (handled by onError in img tag)
+    return results;
+  }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
@@ -125,7 +121,7 @@ export default async function PhotographerPage({ params }: PageProps) {
           {photos.map(photo => (
             <div key={photo.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
               <img 
-                src={`http://127.0.0.1:8888/pages/photos/${photographer.id}_${photo.id}.jpg`}
+                src={`http://hertzmann.net/pages/photos/${photographer.id}_${photo.id}.jpg`}
                 alt={photo.title}
                 style={{ width: '100%', height: 'auto', marginBottom: '1rem' }}
               />

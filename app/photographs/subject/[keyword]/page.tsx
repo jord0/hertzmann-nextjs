@@ -91,7 +91,7 @@ export default async function SubjectPage({ params }: PageProps) {
           return (
             <div key={photo.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px', backgroundColor: 'white' }}>
               <img 
-                src={`http://127.0.0.1:8888/pages/photos/${photo.photographer}_${photo.id}.jpg`}
+                src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
                 alt={photo.title}
                 style={{ width: '100%', height: 'auto', display: 'block', marginBottom: '1rem' }}
               />

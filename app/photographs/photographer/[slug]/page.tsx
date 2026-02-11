@@ -121,7 +121,7 @@ export default async function PhotographerPage({ params }: PageProps) {
           {photos.map(photo => (
             <div key={photo.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
               <img 
-                src={`http://hertzmann.net/pages/photos/${photographer.id}_${photo.id}.jpg`}
+                src={`https://hertzmann.net/pages/photos/${photographer.id}_${photo.id}.jpg`}
                 alt={photo.title}
                 style={{ width: '100%', height: 'auto', marginBottom: '1rem' }}
               />

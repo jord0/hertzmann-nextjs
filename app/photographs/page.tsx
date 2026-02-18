@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface Photographer {
@@ -142,7 +143,18 @@ function SearchInput({ value, onChange, placeholder, resultCount, totalCount, no
 }
 
 export default function PhotographsPage() {
-  const [view, setView] = useState<'photographers' | 'subjects'>('photographers');
+  return (
+    <Suspense>
+      <PhotographsPageInner />
+    </Suspense>
+  );
+}
+
+function PhotographsPageInner() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const view = searchParams.get('view') === 'subjects' ? 'subjects' : 'photographers';
+
   const [photographers, setPhotographers] = useState<Photographer[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -178,7 +190,7 @@ export default function PhotographsPage() {
       {/* View toggle */}
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
         <button
-          onClick={() => setView('photographers')}
+          onClick={() => router.replace('/photographs?view=photographers')}
           style={{
             padding: '0.75rem 1.5rem',
             border: '2px solid #333',
@@ -191,7 +203,7 @@ export default function PhotographsPage() {
           By Photographer
         </button>
         <button
-          onClick={() => setView('subjects')}
+          onClick={() => router.replace('/photographs?view=subjects')}
           style={{
             padding: '0.75rem 1.5rem',
             border: '2px solid #333',

@@ -119,8 +119,12 @@ export default async function PhotographerPage({ params }: PageProps) {
           marginTop: '2rem'
         }}>
           {photos.map(photo => (
-            <div key={photo.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
-              <img 
+            <Link
+              key={photo.id}
+              href={`/photographs/photo/${photo.id}?from=${encodeURIComponent(`photographer/${slug}`)}`}
+              style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px', textDecoration: 'none', color: 'inherit', display: 'block' }}
+            >
+              <img
                 src={`https://hertzmann.net/pages/photos/${photographer.id}_${photo.id}.jpg`}
                 alt={photo.title}
                 style={{ width: '100%', height: 'auto', marginBottom: '1rem' }}
@@ -131,7 +135,7 @@ export default async function PhotographerPage({ params }: PageProps) {
               {photo.width && photo.height && (
                 <p style={{ margin: '0.25rem 0', color: '#666', fontSize: '0.9rem' }}>{photo.width}" × {photo.height}"</p>
               )}
-            </div>
+            </Link>
           ))}
         </div>
       </main>

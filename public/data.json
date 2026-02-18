@@ -1,0 +1,1443 @@
+{
+  "photographers": [
+    {
+      "id": 214,
+      "firstName": "Berenice",
+      "lastName": "Abbott",
+      "slug": "berenice-abbott"
+    },
+    {
+      "id": 404,
+      "firstName": "",
+      "lastName": "Acme News Pictures",
+      "slug": "acme-news-pictures"
+    },
+    {
+      "id": 411,
+      "firstName": "Ansel",
+      "lastName": "Adams",
+      "slug": "ansel-adams"
+    },
+    {
+      "id": 3,
+      "firstName": "Laure",
+      "lastName": "Albin-Guillot",
+      "slug": "laure-albin-guillot"
+    },
+    {
+      "id": 7,
+      "firstName": "Thomas",
+      "lastName": "Annan",
+      "slug": "thomas-annan"
+    },
+    {
+      "id": 388,
+      "firstName": "",
+      "lastName": "Anonymous",
+      "slug": "anonymous"
+    },
+    {
+      "id": 346,
+      "firstName": "Eleanor",
+      "lastName": "Antin",
+      "slug": "eleanor-antin"
+    },
+    {
+      "id": 208,
+      "firstName": "Eugene",
+      "lastName": "Atget",
+      "slug": "eugene-atget"
+    },
+    {
+      "id": 301,
+      "firstName": "Charles",
+      "lastName": "Aubry",
+      "slug": "charles-aubry"
+    },
+    {
+      "id": 391,
+      "firstName": "Kurt",
+      "lastName": "Baasch",
+      "slug": "kurt-baasch"
+    },
+    {
+      "id": 279,
+      "firstName": "Lewis",
+      "lastName": "Baltz",
+      "slug": "lewis-baltz"
+    },
+    {
+      "id": 397,
+      "firstName": "Jessie Tarbox",
+      "lastName": "Beals",
+      "slug": "jessie-tarbox-beals"
+    },
+    {
+      "id": 343,
+      "firstName": "William",
+      "lastName": "Bell",
+      "slug": "william-bell"
+    },
+    {
+      "id": 405,
+      "firstName": "",
+      "lastName": "Bell Photo and Rise Studio",
+      "slug": "bell-photo-and-rise-studio"
+    },
+    {
+      "id": 16,
+      "firstName": "Hans",
+      "lastName": "Bellmer",
+      "slug": "hans-bellmer"
+    },
+    {
+      "id": 161,
+      "firstName": "Ruth",
+      "lastName": "Bernhard",
+      "slug": "ruth-bernhard"
+    },
+    {
+      "id": 258,
+      "firstName": "John",
+      "lastName": "Bertolino",
+      "slug": "john-bertolino"
+    },
+    {
+      "id": 162,
+      "firstName": "Ilse",
+      "lastName": "Bing",
+      "slug": "ilse-bing"
+    },
+    {
+      "id": 398,
+      "firstName": "James Wallace",
+      "lastName": "Black",
+      "slug": "james-wallace-black"
+    },
+    {
+      "id": 413,
+      "firstName": "Lou",
+      "lastName": "Bonin-Tchimoukoff",
+      "slug": "lou-bonin-tchimoukoff"
+    },
+    {
+      "id": 163,
+      "firstName": "Margaret",
+      "lastName": "Bourke-White",
+      "slug": "margaret-bourke-white"
+    },
+    {
+      "id": 216,
+      "firstName": "Marcel",
+      "lastName": "Bovis",
+      "slug": "marcel-bovis"
+    },
+    {
+      "id": 399,
+      "firstName": "Mathew",
+      "lastName": "Brady",
+      "slug": "mathew-brady"
+    },
+    {
+      "id": 164,
+      "firstName": "Constantin",
+      "lastName": "Brancusi",
+      "slug": "constantin-brancusi"
+    },
+    {
+      "id": 165,
+      "firstName": "Bill",
+      "lastName": "Brandt",
+      "slug": "bill-brandt"
+    },
+    {
+      "id": 166,
+      "firstName": "",
+      "lastName": "Brassai",
+      "slug": "brassai"
+    },
+    {
+      "id": 312,
+      "firstName": "Lola Alvarez",
+      "lastName": "Bravo",
+      "slug": "lola-alvarez-bravo"
+    },
+    {
+      "id": 167,
+      "firstName": "Manuel Alvarez",
+      "lastName": "Bravo",
+      "slug": "manuel-alvarez-bravo"
+    },
+    {
+      "id": 17,
+      "firstName": "Anne",
+      "lastName": "Brigman",
+      "slug": "anne-brigman"
+    },
+    {
+      "id": 212,
+      "firstName": "Zoe",
+      "lastName": "Brown",
+      "slug": "zoe-brown"
+    },
+    {
+      "id": 168,
+      "firstName": "Francis",
+      "lastName": "Bruguiere",
+      "slug": "francis-bruguiere"
+    },
+    {
+      "id": 169,
+      "firstName": "Wynn",
+      "lastName": "Bullock",
+      "slug": "wynn-bullock"
+    },
+    {
+      "id": 371,
+      "firstName": "Pol",
+      "lastName": "Bury",
+      "slug": "pol-bury"
+    },
+    {
+      "id": 414,
+      "firstName": "Pol",
+      "lastName": "Bury",
+      "slug": "pol-bury"
+    },
+    {
+      "id": 357,
+      "firstName": "Paul",
+      "lastName": "Cadmus",
+      "slug": "paul-cadmus"
+    },
+    {
+      "id": 18,
+      "firstName": "Harry ",
+      "lastName": "Callahan",
+      "slug": "harry--callahan"
+    },
+    {
+      "id": 21,
+      "firstName": "Henri",
+      "lastName": "Cartier-Bresson",
+      "slug": "henri-cartier-bresson"
+    },
+    {
+      "id": 265,
+      "firstName": "Pere",
+      "lastName": "Catala Pic",
+      "slug": "pere-catala-pic"
+    },
+    {
+      "id": 303,
+      "firstName": "Desiré",
+      "lastName": "Charnay",
+      "slug": "desir-charnay"
+    },
+    {
+      "id": 259,
+      "firstName": "Benjamen",
+      "lastName": "Chinn",
+      "slug": "benjamen-chinn"
+    },
+    {
+      "id": 170,
+      "firstName": "Alvin Langdon",
+      "lastName": "Coburn",
+      "slug": "alvin-langdon-coburn"
+    },
+    {
+      "id": 304,
+      "firstName": "John",
+      "lastName": "Collins",
+      "slug": "john-collins"
+    },
+    {
+      "id": 384,
+      "firstName": "",
+      "lastName": "Colton Studios",
+      "slug": "colton-studios"
+    },
+    {
+      "id": 222,
+      "firstName": "Larry",
+      "lastName": "Colwell",
+      "slug": "larry-colwell"
+    },
+    {
+      "id": 283,
+      "firstName": "Will",
+      "lastName": "Connell",
+      "slug": "will-connell"
+    },
+    {
+      "id": 290,
+      "firstName": "Carlotta M.",
+      "lastName": "Corpron",
+      "slug": "carlotta-m-corpron"
+    },
+    {
+      "id": 386,
+      "firstName": "Harold Haliday",
+      "lastName": "Costain",
+      "slug": "harold-haliday-costain"
+    },
+    {
+      "id": 23,
+      "firstName": "Imogen",
+      "lastName": "Cunningham",
+      "slug": "imogen-cunningham"
+    },
+    {
+      "id": 416,
+      "firstName": "Louise",
+      "lastName": "Dahl-Wolfe",
+      "slug": "louise-dahl-wolfe"
+    },
+    {
+      "id": 415,
+      "firstName": "Louise",
+      "lastName": "Dahl-Wolfe",
+      "slug": "louise-dahl-wolfe"
+    },
+    {
+      "id": 24,
+      "firstName": "William E.",
+      "lastName": "Dassonville",
+      "slug": "william-e-dassonville"
+    },
+    {
+      "id": 374,
+      "firstName": "Margo",
+      "lastName": "Davis",
+      "slug": "margo-davis"
+    },
+    {
+      "id": 171,
+      "firstName": "Robert",
+      "lastName": "Doisneau",
+      "slug": "robert-doisneau"
+    },
+    {
+      "id": 172,
+      "firstName": "Nell",
+      "lastName": "Dorr",
+      "slug": "nell-dorr"
+    },
+    {
+      "id": 173,
+      "firstName": "Frantisek",
+      "lastName": "Drtikol",
+      "slug": "frantisek-drtikol"
+    },
+    {
+      "id": 281,
+      "firstName": "Thomas",
+      "lastName": "Eakins or School of Thomas Eakins",
+      "slug": "thomas-eakins-or-school-of-thomas-eakins"
+    },
+    {
+      "id": 309,
+      "firstName": "Harold E.",
+      "lastName": "Edgerton",
+      "slug": "harold-e-edgerton"
+    },
+    {
+      "id": 217,
+      "firstName": "Frank",
+      "lastName": "Espada",
+      "slug": "frank-espada"
+    },
+    {
+      "id": 174,
+      "firstName": "Frederick",
+      "lastName": "Evans",
+      "slug": "frederick-evans"
+    },
+    {
+      "id": 175,
+      "firstName": "Walker",
+      "lastName": "Evans",
+      "slug": "walker-evans"
+    },
+    {
+      "id": 390,
+      "firstName": "Benjamin J.",
+      "lastName": "Falk Photography Studio, New York",
+      "slug": "benjamin-j-falk-photography-studio-new-york"
+    },
+    {
+      "id": 29,
+      "firstName": "Gerard Petrus",
+      "lastName": "Fieret",
+      "slug": "gerard-petrus-fieret"
+    },
+    {
+      "id": 394,
+      "firstName": "John H.",
+      "lastName": "Fitzgibbon",
+      "slug": "john-h-fitzgibbon"
+    },
+    {
+      "id": 407,
+      "firstName": "William Henry",
+      "lastName": "Fox-Talbot",
+      "slug": "william-henry-fox-talbot"
+    },
+    {
+      "id": 160,
+      "firstName": "Robert",
+      "lastName": "Frank",
+      "slug": "robert-frank"
+    },
+    {
+      "id": 418,
+      "firstName": "G.L. Manuel",
+      "lastName": "Frères",
+      "slug": "gl-manuel-frres"
+    },
+    {
+      "id": 176,
+      "firstName": "Jaromir",
+      "lastName": "Funke",
+      "slug": "jaromir-funke"
+    },
+    {
+      "id": 308,
+      "firstName": "Hector",
+      "lastName": "Garcia",
+      "slug": "hector-garcia"
+    },
+    {
+      "id": 211,
+      "firstName": "George",
+      "lastName": "Gardner",
+      "slug": "george-gardner"
+    },
+    {
+      "id": 177,
+      "firstName": "William",
+      "lastName": "Garnett",
+      "slug": "william-garnett"
+    },
+    {
+      "id": 31,
+      "firstName": "Arnold",
+      "lastName": "Genthe",
+      "slug": "arnold-genthe"
+    },
+    {
+      "id": 178,
+      "firstName": "Mario",
+      "lastName": "Giacomelli",
+      "slug": "mario-giacomelli"
+    },
+    {
+      "id": 179,
+      "firstName": "Laura",
+      "lastName": "Gilpin",
+      "slug": "laura-gilpin"
+    },
+    {
+      "id": 381,
+      "firstName": "",
+      "lastName": "Gledhill Studios",
+      "slug": "gledhill-studios"
+    },
+    {
+      "id": 180,
+      "firstName": "Emmet",
+      "lastName": "Gowin",
+      "slug": "emmet-gowin"
+    },
+    {
+      "id": 181,
+      "firstName": "Johan",
+      "lastName": "Hagemeyer",
+      "slug": "johan-hagemeyer"
+    },
+    {
+      "id": 330,
+      "firstName": "Heinz",
+      "lastName": "Hajek-Halke",
+      "slug": "heinz-hajek-halke"
+    },
+    {
+      "id": 272,
+      "firstName": "Philippe",
+      "lastName": "Halsman",
+      "slug": "philippe-halsman"
+    },
+    {
+      "id": 335,
+      "firstName": "Pat",
+      "lastName": "Harris",
+      "slug": "pat-harris"
+    },
+    {
+      "id": 319,
+      "firstName": "William",
+      "lastName": "Heick",
+      "slug": "william-heick"
+    },
+    {
+      "id": 255,
+      "firstName": "John",
+      "lastName": "Helsby (attributed)",
+      "slug": "john-helsby-attributed"
+    },
+    {
+      "id": 331,
+      "firstName": "",
+      "lastName": "Hill & Adamson",
+      "slug": "hill--adamson"
+    },
+    {
+      "id": 317,
+      "firstName": "John",
+      "lastName": "Hillers",
+      "slug": "john-hillers"
+    },
+    {
+      "id": 219,
+      "firstName": "Lewis",
+      "lastName": "Hine",
+      "slug": "lewis-hine"
+    },
+    {
+      "id": 182,
+      "firstName": "Hy",
+      "lastName": "Hirsh",
+      "slug": "hy-hirsh"
+    },
+    {
+      "id": 34,
+      "firstName": "Bob",
+      "lastName": "Hollingsworth",
+      "slug": "bob-hollingsworth"
+    },
+    {
+      "id": 313,
+      "firstName": "Don",
+      "lastName": "Hong-Oai",
+      "slug": "don-hong-oai"
+    },
+    {
+      "id": 336,
+      "firstName": "Helen",
+      "lastName": "Howell",
+      "slug": "helen-howell"
+    },
+    {
+      "id": 314,
+      "firstName": "Phinneas S.",
+      "lastName": "Hunt",
+      "slug": "phinneas-s-hunt"
+    },
+    {
+      "id": 396,
+      "firstName": "C.W.",
+      "lastName": "Huston",
+      "slug": "cw-huston"
+    },
+    {
+      "id": 337,
+      "firstName": "Philip",
+      "lastName": "Hyde",
+      "slug": "philip-hyde"
+    },
+    {
+      "id": 323,
+      "firstName": "",
+      "lastName": "IZIS (Bidermanas)",
+      "slug": "izis-bidermanas"
+    },
+    {
+      "id": 38,
+      "firstName": "William Henry",
+      "lastName": "Jackson",
+      "slug": "william-henry-jackson"
+    },
+    {
+      "id": 39,
+      "firstName": "Lotte",
+      "lastName": "Jacobi",
+      "slug": "lotte-jacobi"
+    },
+    {
+      "id": 419,
+      "firstName": "Beatriz",
+      "lastName": "Jaramillo",
+      "slug": "beatriz-jaramillo"
+    },
+    {
+      "id": 417,
+      "firstName": "Augustín",
+      "lastName": "Jiménez",
+      "slug": "augustn-jimnez"
+    },
+    {
+      "id": 350,
+      "firstName": "Peter A.",
+      "lastName": "Juley & Son [Paul Juley]",
+      "slug": "peter-a-juley--son-paul-juley"
+    },
+    {
+      "id": 41,
+      "firstName": "Consuelo",
+      "lastName": "Kanaga",
+      "slug": "consuelo-kanaga"
+    },
+    {
+      "id": 184,
+      "firstName": "Gertrude",
+      "lastName": "Kasebier",
+      "slug": "gertrude-kasebier"
+    },
+    {
+      "id": 332,
+      "firstName": "Joseph",
+      "lastName": "Keiley",
+      "slug": "joseph-keiley"
+    },
+    {
+      "id": 321,
+      "firstName": "Gyorgy",
+      "lastName": "Kepes",
+      "slug": "gyorgy-kepes"
+    },
+    {
+      "id": 185,
+      "firstName": "Andre",
+      "lastName": "Kertesz",
+      "slug": "andre-kertesz"
+    },
+    {
+      "id": 344,
+      "firstName": "Edmund",
+      "lastName": "Kesting",
+      "slug": "edmund-kesting"
+    },
+    {
+      "id": 347,
+      "firstName": "Barbara",
+      "lastName": "Kozlowska",
+      "slug": "barbara-kozlowska"
+    },
+    {
+      "id": 408,
+      "firstName": "Germaine",
+      "lastName": "Krull",
+      "slug": "germaine-krull"
+    },
+    {
+      "id": 186,
+      "firstName": "Heinrich ",
+      "lastName": "Kuhn",
+      "slug": "heinrich--kuhn"
+    },
+    {
+      "id": 362,
+      "firstName": "Anna",
+      "lastName": "Kutera",
+      "slug": "anna-kutera"
+    },
+    {
+      "id": 375,
+      "firstName": "Andrej",
+      "lastName": "Lachowicz",
+      "slug": "andrej-lachowicz"
+    },
+    {
+      "id": 187,
+      "firstName": "Dorothea",
+      "lastName": "Lange",
+      "slug": "dorothea-lange"
+    },
+    {
+      "id": 280,
+      "firstName": "Clarence John",
+      "lastName": "Laughlin",
+      "slug": "clarence-john-laughlin"
+    },
+    {
+      "id": 49,
+      "firstName": "Russell",
+      "lastName": "Lee",
+      "slug": "russell-lee"
+    },
+    {
+      "id": 361,
+      "firstName": "Natalia",
+      "lastName": "LL [Lach-Lachowicz]",
+      "slug": "natalia-ll-lach-lachowicz"
+    },
+    {
+      "id": 50,
+      "firstName": "Eli",
+      "lastName": "Lotar",
+      "slug": "eli-lotar"
+    },
+    {
+      "id": 338,
+      "firstName": "Zoe",
+      "lastName": "Lowenthal (Brown)",
+      "slug": "zoe-lowenthal-brown"
+    },
+    {
+      "id": 269,
+      "firstName": "George Platt",
+      "lastName": "Lynes",
+      "slug": "george-platt-lynes"
+    },
+    {
+      "id": 188,
+      "firstName": "Danny",
+      "lastName": "Lyon",
+      "slug": "danny-lyon"
+    },
+    {
+      "id": 53,
+      "firstName": "C. Cameron",
+      "lastName": "Macauley",
+      "slug": "c-cameron-macauley"
+    },
+    {
+      "id": 56,
+      "firstName": "",
+      "lastName": "Man Ray",
+      "slug": "man-ray"
+    },
+    {
+      "id": 345,
+      "firstName": "Werner",
+      "lastName": "Mantz",
+      "slug": "werner-mantz"
+    },
+    {
+      "id": 420,
+      "firstName": "Robert",
+      "lastName": "Mapplethorpe",
+      "slug": "robert-mapplethorpe"
+    },
+    {
+      "id": 189,
+      "firstName": "Margrethe",
+      "lastName": "Mather",
+      "slug": "margrethe-mather"
+    },
+    {
+      "id": 190,
+      "firstName": "Ralph Eugene",
+      "lastName": "Meatyard",
+      "slug": "ralph-eugene-meatyard"
+    },
+    {
+      "id": 62,
+      "firstName": "Richard",
+      "lastName": "Misrach",
+      "slug": "richard-misrach"
+    },
+    {
+      "id": 288,
+      "firstName": "Lisette",
+      "lastName": "Model",
+      "slug": "lisette-model"
+    },
+    {
+      "id": 191,
+      "firstName": "Tina",
+      "lastName": "Modotti",
+      "slug": "tina-modotti"
+    },
+    {
+      "id": 263,
+      "firstName": "Lucia",
+      "lastName": "Moholy",
+      "slug": "lucia-moholy"
+    },
+    {
+      "id": 63,
+      "firstName": "Laszlo",
+      "lastName": "Moholy-Nagy",
+      "slug": "laszlo-moholy-nagy"
+    },
+    {
+      "id": 366,
+      "firstName": "Marijan",
+      "lastName": "Molnar",
+      "slug": "marijan-molnar"
+    },
+    {
+      "id": 324,
+      "firstName": "Daido",
+      "lastName": "Moriyama",
+      "slug": "daido-moriyama"
+    },
+    {
+      "id": 193,
+      "firstName": "Wright",
+      "lastName": "Morris",
+      "slug": "wright-morris"
+    },
+    {
+      "id": 325,
+      "firstName": "William",
+      "lastName": "Mortensen",
+      "slug": "william-mortensen"
+    },
+    {
+      "id": 402,
+      "firstName": "George",
+      "lastName": "Munchausen",
+      "slug": "george-munchausen"
+    },
+    {
+      "id": 69,
+      "firstName": "Eadweard",
+      "lastName": "Muybridge",
+      "slug": "eadweard-muybridge"
+    },
+    {
+      "id": 356,
+      "firstName": "Hans",
+      "lastName": "Namuth",
+      "slug": "hans-namuth"
+    },
+    {
+      "id": 421,
+      "firstName": "Floris M.",
+      "lastName": "Neüsuss",
+      "slug": "floris-m-nesuss"
+    },
+    {
+      "id": 70,
+      "firstName": "Sonya",
+      "lastName": "Noskowiak",
+      "slug": "sonya-noskowiak"
+    },
+    {
+      "id": 71,
+      "firstName": "Timothy",
+      "lastName": "O’Sullivan",
+      "slug": "timothy-osullivan"
+    },
+    {
+      "id": 75,
+      "firstName": "Paul",
+      "lastName": "Outerbridge Jr.",
+      "slug": "paul-outerbridge-jr"
+    },
+    {
+      "id": 195,
+      "firstName": "Roger",
+      "lastName": "Parry",
+      "slug": "roger-parry"
+    },
+    {
+      "id": 364,
+      "firstName": "Andrej",
+      "lastName": "Paruzel",
+      "slug": "andrej-paruzel"
+    },
+    {
+      "id": 310,
+      "firstName": "Irving",
+      "lastName": "Penn",
+      "slug": "irving-penn"
+    },
+    {
+      "id": 359,
+      "firstName": "Géza",
+      "lastName": "Perneczky",
+      "slug": "gza-perneczky"
+    },
+    {
+      "id": 260,
+      "firstName": "Gene",
+      "lastName": "Petersen",
+      "slug": "gene-petersen"
+    },
+    {
+      "id": 365,
+      "firstName": "Marek",
+      "lastName": "Piasecki",
+      "slug": "marek-piasecki"
+    },
+    {
+      "id": 77,
+      "firstName": "Nata",
+      "lastName": "Piaskowski",
+      "slug": "nata-piaskowski"
+    },
+    {
+      "id": 389,
+      "firstName": "Peter",
+      "lastName": "Pollack",
+      "slug": "peter-pollack"
+    },
+    {
+      "id": 81,
+      "firstName": "Eliot",
+      "lastName": "Porter",
+      "slug": "eliot-porter"
+    },
+    {
+      "id": 83,
+      "firstName": "Marion",
+      "lastName": "Post Wolcott",
+      "slug": "marion-post-wolcott"
+    },
+    {
+      "id": 355,
+      "firstName": "Richard",
+      "lastName": "Pousette-Dart",
+      "slug": "richard-pousette-dart"
+    },
+    {
+      "id": 400,
+      "firstName": "Ernest M.",
+      "lastName": "Pratt",
+      "slug": "ernest-m-pratt"
+    },
+    {
+      "id": 385,
+      "firstName": "Alfred",
+      "lastName": "Puhn",
+      "slug": "alfred-puhn"
+    },
+    {
+      "id": 261,
+      "firstName": "Frederick William",
+      "lastName": "Quandt",
+      "slug": "frederick-william-quandt"
+    },
+    {
+      "id": 242,
+      "firstName": "Achille Léon",
+      "lastName": "Quinet",
+      "slug": "achille-lon-quinet"
+    },
+    {
+      "id": 423,
+      "firstName": "Test",
+      "lastName": "Railway",
+      "slug": "test-railway"
+    },
+    {
+      "id": 196,
+      "firstName": "Albert",
+      "lastName": "Renger-Patzsch",
+      "slug": "albert-renger-patzsch"
+    },
+    {
+      "id": 285,
+      "firstName": "Marcia",
+      "lastName": "Resnick",
+      "slug": "marcia-resnick"
+    },
+    {
+      "id": 387,
+      "firstName": "Frederick De Bourg",
+      "lastName": "Richards",
+      "slug": "frederick-de-bourg-richards"
+    },
+    {
+      "id": 339,
+      "firstName": "Alfred",
+      "lastName": "Richter",
+      "slug": "alfred-richter"
+    },
+    {
+      "id": 383,
+      "firstName": "George Gardner",
+      "lastName": "Rockwood",
+      "slug": "george-gardner-rockwood"
+    },
+    {
+      "id": 94,
+      "firstName": "Werner",
+      "lastName": "Rohde",
+      "slug": "werner-rohde"
+    },
+    {
+      "id": 348,
+      "firstName": "Willy",
+      "lastName": "Ronis",
+      "slug": "willy-ronis"
+    },
+    {
+      "id": 95,
+      "firstName": "Donald",
+      "lastName": "Ross",
+      "slug": "donald-ross"
+    },
+    {
+      "id": 97,
+      "firstName": "Arthur",
+      "lastName": "Rothstein",
+      "slug": "arthur-rothstein"
+    },
+    {
+      "id": 235,
+      "firstName": "Andrew J.",
+      "lastName": "Russell",
+      "slug": "andrew-j-russell"
+    },
+    {
+      "id": 410,
+      "firstName": "Mark",
+      "lastName": "Ruwedel",
+      "slug": "mark-ruwedel"
+    },
+    {
+      "id": 197,
+      "firstName": "Erich",
+      "lastName": "Salomon",
+      "slug": "erich-salomon"
+    },
+    {
+      "id": 373,
+      "firstName": "Lucas",
+      "lastName": "Samaras",
+      "slug": "lucas-samaras"
+    },
+    {
+      "id": 276,
+      "firstName": "August",
+      "lastName": "Sander",
+      "slug": "august-sander"
+    },
+    {
+      "id": 232,
+      "firstName": "Napoleon",
+      "lastName": "Sarony",
+      "slug": "napoleon-sarony"
+    },
+    {
+      "id": 296,
+      "firstName": "Charles",
+      "lastName": "Savage",
+      "slug": "charles-savage"
+    },
+    {
+      "id": 409,
+      "firstName": "Sherill V.",
+      "lastName": "Schell",
+      "slug": "sherill-v-schell"
+    },
+    {
+      "id": 406,
+      "firstName": "Eberhard",
+      "lastName": "Schrammen",
+      "slug": "eberhard-schrammen"
+    },
+    {
+      "id": 379,
+      "firstName": "Paul",
+      "lastName": "Schuitema",
+      "slug": "paul-schuitema"
+    },
+    {
+      "id": 333,
+      "firstName": "Ben",
+      "lastName": "Shahn",
+      "slug": "ben-shahn"
+    },
+    {
+      "id": 392,
+      "firstName": "Musya",
+      "lastName": "Sheeler",
+      "slug": "musya-sheeler"
+    },
+    {
+      "id": 328,
+      "firstName": "Osamu",
+      "lastName": "Shiihara",
+      "slug": "osamu-shiihara"
+    },
+    {
+      "id": 369,
+      "firstName": "Arthur",
+      "lastName": "Siegel",
+      "slug": "arthur-siegel"
+    },
+    {
+      "id": 297,
+      "firstName": "Arthur",
+      "lastName": "Siegel",
+      "slug": "arthur-siegel"
+    },
+    {
+      "id": 367,
+      "firstName": "Rudolf",
+      "lastName": "Sikora",
+      "slug": "rudolf-sikora"
+    },
+    {
+      "id": 273,
+      "firstName": "Art",
+      "lastName": "Sinsabaugh",
+      "slug": "art-sinsabaugh"
+    },
+    {
+      "id": 393,
+      "firstName": "Clara",
+      "lastName": "Sipprell",
+      "slug": "clara-sipprell"
+    },
+    {
+      "id": 111,
+      "firstName": "Aaron",
+      "lastName": "Siskind",
+      "slug": "aaron-siskind"
+    },
+    {
+      "id": 112,
+      "firstName": "W. Eugene",
+      "lastName": "Smith",
+      "slug": "w-eugene-smith"
+    },
+    {
+      "id": 198,
+      "firstName": "Frederick ",
+      "lastName": "Sommer",
+      "slug": "frederick--sommer"
+    },
+    {
+      "id": 334,
+      "firstName": "Emmanuel",
+      "lastName": "Sougez",
+      "slug": "emmanuel-sougez"
+    },
+    {
+      "id": 395,
+      "firstName": "A.F.",
+      "lastName": "Sozio",
+      "slug": "af-sozio"
+    },
+    {
+      "id": 300,
+      "firstName": "Peter",
+      "lastName": "Stackpole",
+      "slug": "peter-stackpole"
+    },
+    {
+      "id": 380,
+      "firstName": "Mike and Doug",
+      "lastName": "Starn",
+      "slug": "mike-and-doug-starn"
+    },
+    {
+      "id": 199,
+      "firstName": "Edward",
+      "lastName": "Steichen",
+      "slug": "edward-steichen"
+    },
+    {
+      "id": 200,
+      "firstName": "Alfred",
+      "lastName": "Stieglitz",
+      "slug": "alfred-stieglitz"
+    },
+    {
+      "id": 284,
+      "firstName": "Seneca Ray",
+      "lastName": "Stoddard",
+      "slug": "seneca-ray-stoddard"
+    },
+    {
+      "id": 201,
+      "firstName": "Paul ",
+      "lastName": "Strand",
+      "slug": "paul--strand"
+    },
+    {
+      "id": 202,
+      "firstName": "Karl",
+      "lastName": "Struss",
+      "slug": "karl-struss"
+    },
+    {
+      "id": 203,
+      "firstName": "Josef",
+      "lastName": "Sudek",
+      "slug": "josef-sudek"
+    },
+    {
+      "id": 204,
+      "firstName": "Maurice",
+      "lastName": "Tabard",
+      "slug": "maurice-tabard"
+    },
+    {
+      "id": 121,
+      "firstName": "Isaiah West",
+      "lastName": "Taber",
+      "slug": "isaiah-west-taber"
+    },
+    {
+      "id": 298,
+      "firstName": "Lew",
+      "lastName": "Thomas",
+      "slug": "lew-thomas"
+    },
+    {
+      "id": 360,
+      "firstName": "Péter",
+      "lastName": "Türk",
+      "slug": "pter-trk"
+    },
+    {
+      "id": 205,
+      "firstName": "Doris",
+      "lastName": "Ulmann",
+      "slug": "doris-ulmann"
+    },
+    {
+      "id": 382,
+      "firstName": "",
+      "lastName": "Underwood & Underwood",
+      "slug": "underwood--underwood"
+    },
+    {
+      "id": 351,
+      "firstName": "Alfredo",
+      "lastName": "Valente",
+      "slug": "alfredo-valente"
+    },
+    {
+      "id": 125,
+      "firstName": "Willard",
+      "lastName": "Van Dyke",
+      "slug": "willard-van-dyke"
+    },
+    {
+      "id": 127,
+      "firstName": "Pim",
+      "lastName": "van Os",
+      "slug": "pim-van-os"
+    },
+    {
+      "id": 403,
+      "firstName": "Carl",
+      "lastName": "Van Vechten",
+      "slug": "carl-van-vechten"
+    },
+    {
+      "id": 316,
+      "firstName": "James",
+      "lastName": "Vanderzee",
+      "slug": "james-vanderzee"
+    },
+    {
+      "id": 307,
+      "firstName": "Geza",
+      "lastName": "Vandor",
+      "slug": "geza-vandor"
+    },
+    {
+      "id": 329,
+      "firstName": "Roman",
+      "lastName": "Vishniac",
+      "slug": "roman-vishniac"
+    },
+    {
+      "id": 224,
+      "firstName": "Baron Wilhelm",
+      "lastName": "Von Gloeden",
+      "slug": "baron-wilhelm-von-gloeden"
+    },
+    {
+      "id": 340,
+      "firstName": "George",
+      "lastName": "Wallace",
+      "slug": "george-wallace"
+    },
+    {
+      "id": 131,
+      "firstName": "Carleton E.",
+      "lastName": "Watkins",
+      "slug": "carleton-e-watkins"
+    },
+    {
+      "id": 207,
+      "firstName": "Charles L.",
+      "lastName": "Weed",
+      "slug": "charles-l-weed"
+    },
+    {
+      "id": 133,
+      "firstName": "",
+      "lastName": "Weegee",
+      "slug": "weegee"
+    },
+    {
+      "id": 135,
+      "firstName": "Brett",
+      "lastName": "Weston",
+      "slug": "brett-weston"
+    },
+    {
+      "id": 137,
+      "firstName": "Edward",
+      "lastName": "Weston",
+      "slug": "edward-weston"
+    },
+    {
+      "id": 139,
+      "firstName": "Clarence",
+      "lastName": "White",
+      "slug": "clarence-white"
+    },
+    {
+      "id": 274,
+      "firstName": "John Claude",
+      "lastName": "White",
+      "slug": "john-claude-white"
+    },
+    {
+      "id": 140,
+      "firstName": "Minor",
+      "lastName": "White",
+      "slug": "minor-white"
+    },
+    {
+      "id": 143,
+      "firstName": "Charles",
+      "lastName": "Wong",
+      "slug": "charles-wong"
+    },
+    {
+      "id": 401,
+      "firstName": "George B.",
+      "lastName": "Wood",
+      "slug": "george-b-wood"
+    },
+    {
+      "id": 146,
+      "firstName": "Max",
+      "lastName": "Yavno",
+      "slug": "max-yavno"
+    },
+    {
+      "id": 150,
+      "firstName": "Harold",
+      "lastName": "Zegart",
+      "slug": "harold-zegart"
+    }
+  ],
+  "keywords": [
+    "19th Century",
+    "Abstract",
+    "Africa",
+    "African-Americans",
+    "Aircraft/Aeronautics",
+    "Albumen",
+    "Animals",
+    "Architecture",
+    "Artist Studio",
+    "Artists Portrait Collection",
+    "Authors",
+    "Automobiles/Motor Vehicles",
+    "Bars",
+    "Beach",
+    "Bicycles/Motorcycles",
+    "Birds",
+    "Boats/Ships",
+    "Books",
+    "Botanical/Plants",
+    "Bridges",
+    "California",
+    "California School of Fine Arts",
+    "Cemeteries",
+    "Ceremonies",
+    "Children",
+    "Chinese Americans",
+    "Churches and Cathedrals",
+    "Cityscapes",
+    "Clothing/Costume",
+    "Clouds/Sky",
+    "Collage",
+    "Color Photographs",
+    "Commerce/Shops",
+    "Conceptual",
+    "Construction",
+    "Cyantotype",
+    "Depression Era",
+    "Distortions",
+    "Documentary/Photojournalism",
+    "East European",
+    "England",
+    "Experimental",
+    "F.64",
+    "Figural",
+    "Flora",
+    "Food",
+    "France",
+    "FSA & Resettlement Administration",
+    "Gambling/Betting",
+    "Gardens",
+    "Germany",
+    "Guns/Arms/Weapons",
+    "Humor",
+    "Humor, Satire, Irony",
+    "India",
+    "Industry/Machinery",
+    "Interiors",
+    "Irony",
+    "Italy",
+    "Labor/Working",
+    "Landscape",
+    "Latin America",
+    "Light and Shadow",
+    "Markets",
+    "Men",
+    "Mexico",
+    "Migrants",
+    "Military/War",
+    "Modernism",
+    "Multiple Imagery",
+    "Music",
+    "Native Americans",
+    "Nevada",
+    "New Vision",
+    "New York City/State",
+    "Night",
+    "Nudes",
+    "Parades/Festivals",
+    "Paris",
+    "People",
+    "Photo-Secession",
+    "Photographers",
+    "Pictorialism",
+    "Platinum",
+    "Play",
+    "Politics",
+    "Portraits",
+    "Post 1970",
+    "Post-War",
+    "Railroads",
+    "Recreation/Sports",
+    "Reflections",
+    "Roads or Highways",
+    "San Francisco",
+    "Satire",
+    "Sculpture",
+    "Seascapes",
+    "Self-Portraits",
+    "Signage",
+    "Smoking",
+    "Solarization",
+    "Still Life",
+    "Street Scenes",
+    "Surrealism",
+    "Tools",
+    "Travel/Exploration",
+    "Trees",
+    "Viet Nam",
+    "Water/Waves",
+    "Women",
+    "Yosemite"
+  ]
+}

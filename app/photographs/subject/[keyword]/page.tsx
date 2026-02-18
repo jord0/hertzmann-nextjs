@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
-import fs from 'fs';
-import path from 'path';
 import type { Metadata } from "next";
 
 interface Photo {
@@ -31,15 +29,7 @@ async function getPhotosByKeyword(keyword: string): Promise<Photo[]> {
     ORDER BY ph.lastName, ph.firstName, p.title
   `;
   
-  const results = await query(sql, [`%|${keyword}|%`]) as Photo[];
-  
-  // Filter to only photos with actual image files
-  const photosDir = '/Users/inez/Documents/HertzmannWebDev/pmhi_website_coding/public_html/pages/photos';
-  
-  return results.filter(photo => {
-    const imagePath = path.join(photosDir, `${photo.photographer}_${photo.id}.jpg`);
-    return fs.existsSync(imagePath);
-  });
+  return await query(sql, [`%|${keyword}|%`]) as Photo[];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -88,16 +78,22 @@ export default async function SubjectPage({ params }: PageProps) {
             .replace(/[^\w-]/g, '')
             .replace(/^-+|-+$/g, '');
             
+          const detailHref = `/photographs/photo/${photo.id}?from=${encodeURIComponent(`subject/${decodedKeyword}`)}`;
+
           return (
             <div key={photo.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px', backgroundColor: 'white' }}>
-              <img 
-                src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
-                alt={photo.title}
-                style={{ width: '100%', height: 'auto', display: 'block', marginBottom: '1rem' }}
-              />
+              <Link href={detailHref} style={{ display: 'block', marginBottom: '1rem' }}>
+                <img
+                  src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
+                  alt={photo.title}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </Link>
               <div>
-                <h3 style={{ fontSize: '1.1rem', margin: '0.5rem 0' }}>{photo.title}</h3>
-                <Link 
+                <Link href={detailHref} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                  <h3 style={{ fontSize: '1.1rem', margin: '0.5rem 0' }}>{photo.title}</h3>
+                </Link>
+                <Link
                   href={`/photographs/photographer/${photographerSlug}`}
                   style={{ display: 'block', color: '#0066cc', textDecoration: 'none', fontSize: '0.95rem', marginBottom: '0.5rem' }}
                 >

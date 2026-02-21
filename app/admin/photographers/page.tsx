@@ -14,7 +14,7 @@ export default async function PhotographersPage() {
     SELECT p.id, p.firstName, p.lastName, p.enabled,
            COUNT(ph.id) AS photoCount
     FROM photographers p
-    LEFT JOIN photos ph ON ph.photographerId = p.id
+    LEFT JOIN photos ph ON ph.photographer = p.id
     GROUP BY p.id
     ORDER BY p.lastName, p.firstName
   `)) as PhotographerRow[];

@@ -5,7 +5,7 @@ import { uploadPhotoToHE } from '@/lib/sftp';
 
 interface Photo {
   id: number;
-  photographerId: number;
+  photographer: number;
   title: string;
   medium: string;
   date: string;
@@ -40,7 +40,7 @@ function pipesToComma(keywords: string): string {
 
 async function updatePhoto(photoId: number, formData: FormData) {
   'use server';
-  const photographerId = parseInt(formData.get('photographerId') as string, 10);
+  const photographer = parseInt(formData.get('photographer') as string, 10);
   const title = (formData.get('title') as string).trim();
   const medium = (formData.get('medium') as string).trim();
   const date = (formData.get('date') as string).trim();
@@ -59,23 +59,23 @@ async function updatePhoto(photoId: number, formData: FormData) {
 
   await query(
     `UPDATE photos SET
-      photographerId=?, title=?, medium=?, date=?, width=?, height=?,
+      photographer=?, title=?, medium=?, date=?, width=?, height=?,
       price=?, description=?, provenance=?, inventoryNumber=?, keywords=?, enabled=?
      WHERE id=?`,
-    [photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, photoId]
+    [photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, photoId]
   );
 
   // Upload new image if provided
   const imageFile = formData.get('image') as File | null;
   if (imageFile && imageFile.size > 0) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await uploadPhotoToHE(photographerId, photoId, buffer);
+    await uploadPhotoToHE(photographer, photoId, buffer);
   }
 
   // Get photographer info for revalidation
   const photographers = (await query(
     'SELECT firstName, lastName FROM photographers WHERE id = ?',
-    [photographerId]
+    [photographer]
   )) as { firstName: string; lastName: string }[];
 
   revalidateTag('browse-data', 'default');
@@ -105,10 +105,10 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
 
       <form action={action} encType="multipart/form-data" style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="photographerId" style={labelStyle}>Photographer *</label>
-          <select id="photographerId" name="photographerId" required style={selectStyle}>
+          <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
+          <select id="photographer" name="photographer" required style={selectStyle}>
             {photographers.map(p => (
-              <option key={p.id} value={p.id} selected={p.id === photo.photographerId}>
+              <option key={p.id} value={p.id} selected={p.id === photo.photographer}>
                 {p.firstName} {p.lastName}
               </option>
             ))}
@@ -143,7 +143,7 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
             style={{ display: 'block', marginTop: '0.3rem' }}
           />
           <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>
-            Current: {photo.photographerId}_{photo.id}.jpg — leave blank to keep existing image
+            Current: {photo.photographer}_{photo.id}.jpg — leave blank to keep existing image
           </p>
         </div>
 

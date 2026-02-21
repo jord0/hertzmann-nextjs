@@ -39,7 +39,7 @@ async function createPhoto(formData: FormData) {
 
   const result = (await query(
     `INSERT INTO photos
-      (photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled)
+      (photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
   )) as { insertId: number };

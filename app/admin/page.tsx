@@ -14,7 +14,7 @@ export default async function AdminDashboard() {
     SELECT p.id, p.firstName, p.lastName, p.enabled,
            COUNT(ph.id) AS photoCount
     FROM photographers p
-    LEFT JOIN photos ph ON ph.photographerId = p.id AND ph.enabled = 1
+    LEFT JOIN photos ph ON ph.photographer = p.id AND ph.enabled = 1
     GROUP BY p.id
     ORDER BY p.lastName, p.firstName
   `)) as PhotographerRow[];

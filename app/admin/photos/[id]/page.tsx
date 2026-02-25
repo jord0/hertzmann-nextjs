@@ -79,6 +79,7 @@ async function updatePhoto(photoId: number, formData: FormData) {
   )) as { firstName: string; lastName: string }[];
 
   revalidateTag('browse-data', 'default');
+  revalidateTag('carousel-photos', 'default');
   if (photographers.length > 0) {
     const slug = makeSlug(photographers[0].firstName, photographers[0].lastName);
     revalidatePath(`/photographs/photographer/${slug}`);

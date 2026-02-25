@@ -1,5 +1,4 @@
 import Link from 'next/link';
-//Sitewide metadata
 import type { Metadata } from "next";
 import Script from 'next/script';
 
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
     template: '%s | Hertzmann Photography'
   },
   description: 'Vintage photography collection specializing in 20th-century modernism, f.64, photojournalism, and American landscape photography',
-  keywords: ['vintage photography', 'photojournalism', 'modernism', 'f.64', 'American landscape', 'Photo-Secession', 'Post-World War II', '19th century American landscape photography', 'Unusual or exceptional photographic albums'], 
+  keywords: ['vintage photography', 'photojournalism', 'modernism', 'f.64', 'American landscape', 'Photo-Secession', 'Post-World War II', '19th century American landscape photography', 'Unusual or exceptional photographic albums'],
   authors: [{ name: 'Susan Herzig and Paul Hertzmann' }],
   openGraph: {
     type: 'website',
@@ -22,17 +21,21 @@ export const metadata: Metadata = {
   },
 };
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Cormorant } from "next/font/google";
 import "./globals.css";
+import { tokens } from "@/lib/design-tokens";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cormorant = Cormorant({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 export default function RootLayout({
@@ -42,7 +45,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${inter.variable} ${cormorant.variable}`}
+        style={{ fontFamily: tokens.font.sans, fontWeight: tokens.fontWeight.light, color: tokens.color.foreground }}
+      >
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Y87Y5056K0"
@@ -56,25 +62,38 @@ export default function RootLayout({
             gtag('config', 'G-Y87Y5056K0');
           `}
         </Script>
-        
+
+        <style>{`
+          .nav-link {
+            border-bottom: 2px solid transparent;
+            padding-bottom: 2px;
+            transition: border-bottom-color 0.15s;
+          }
+          .nav-link:hover {
+            border-bottom-color: ${tokens.color.gold};
+          }
+        `}</style>
+
         <nav style={navStyles.nav}>
           <div style={navStyles.container}>
             <Link href="/" style={navStyles.logo}>
-              Hertzmann Photography
+              Hertzmann
             </Link>
             <div style={navStyles.links}>
-              <Link href="/" style={navStyles.link}>Home</Link>
-              <Link href="/photographs" style={navStyles.link}>Photographs</Link>
-              <a 
-                href="https://edwardwestonbibliography.blog/" 
-                target="_blank" 
+              <Link href="/" className="nav-link" style={navStyles.link}>Home</Link>
+              <Link href="/photographs" className="nav-link" style={navStyles.link}>Photographs</Link>
+              <Link href="/catalogs" className="nav-link" style={navStyles.link}>Catalogs</Link>
+              <a
+                href="https://edwardwestonbibliography.blog/"
+                target="_blank"
                 rel="noopener noreferrer"
+                className="nav-link"
                 style={navStyles.link}
               >
                 Edward Weston Blog
               </a>
-              <Link href="/about" style={navStyles.link}>About</Link>
-              <Link href="/contact" style={navStyles.link}>Contact</Link>
+              <Link href="/contact" className="nav-link" style={navStyles.link}>Contact</Link>
+              <Link href="/about" className="nav-link" style={navStyles.link}>About Us</Link>
             </div>
           </div>
         </nav>
@@ -88,8 +107,8 @@ export default function RootLayout({
 
 const navStyles = {
   nav: {
-    backgroundColor: '#1a1a1a',
-    borderBottom: '1px solid #333',
+    backgroundColor: tokens.color.bg,
+    borderBottom: `1px solid ${tokens.color.borderWarm}`,
     position: 'sticky' as const,
     top: 0,
     zIndex: 1000,
@@ -97,28 +116,35 @@ const navStyles = {
   container: {
     maxWidth: '1200px',
     margin: '0 auto',
-    padding: '1rem 2rem',
+    padding: '1rem 2.5rem',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   logo: {
-    color: 'white',
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
+    fontFamily: tokens.font.serif,
+    fontStyle: 'italic' as const,
+    color: tokens.color.gold,
+    fontSize: '1.5rem',
+    fontWeight: tokens.fontWeight.semibold,
     textDecoration: 'none',
+    letterSpacing: '0.01em',
   },
   links: {
     display: 'flex',
     gap: '2rem',
+    alignItems: 'center',
   },
   link: {
-    color: '#ccc',
+    color: tokens.color.foreground,
     textDecoration: 'none',
-    fontSize: '1rem',
-    transition: 'color 0.2s',
+    fontSize: '0.75rem',
+    fontFamily: tokens.font.sans,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.08em',
+    fontWeight: tokens.fontWeight.medium,
   },
   main: {
-    minHeight: 'calc(100vh - 60px)',
+    minHeight: 'calc(100vh - 61px)',
   },
 };

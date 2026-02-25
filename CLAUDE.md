@@ -120,6 +120,40 @@ All styling uses inline React style objects. Tailwind is installed but not used 
 
 For responsive layouts, use a `<style>` tag with a media query inside the component (see `app/photographs/photo/[id]/page.tsx` for the pattern).
 
+### Design tokens
+
+All design values live in `lib/design-tokens.ts`. Import and use `tokens` — never hardcode hex colors or repeat raw values inline.
+
+```ts
+import { tokens } from '@/lib/design-tokens';
+```
+
+**Key tokens:**
+- `tokens.color.gold` — `#F0B23C` (accent, rules, highlights)
+- `tokens.color.foreground` — `#2a2a2a` (primary text)
+- `tokens.color.muted` — `#666666` (secondary text)
+- `tokens.color.dark` — `#1a1a1a` (CTA section background only — not for text)
+- `tokens.color.bg` — `#ffffff`
+- `tokens.color.bgWarm` — `#faf8f4` (caption bars, warm backgrounds)
+- `tokens.color.borderWarm` — `#e8e0d0`
+- `tokens.font.serif` — `'var(--font-cormorant)'` (Cormorant, headings)
+- `tokens.font.sans` — `'var(--font-inter)'` (Inter, body/nav)
+- `tokens.fontWeight.light` — `300` (body text default)
+- `tokens.fontWeight.medium` — `500` (labels, nav links)
+- `tokens.fontWeight.semibold` — `600` (headings)
+
+**Typography scale:**
+- Display / section headings: Cormorant 600, 2.75rem+
+- Sub-headings: Cormorant 600, 1.5rem
+- Body: Inter 300, 1rem / 1.8 line-height
+- Caps labels / nav: Inter 500, 0.75–0.8rem, `0.08–0.12em` letter-spacing, uppercase
+
+**Section anatomy:**
+- Content sections: `padding: tokens.section.padding` (`'5rem 2.5rem'`), `maxWidth: tokens.section.maxWidth` (`'1100px'`), `margin: '0 auto'`
+- Full-bleed colored bands: no maxWidth, `width: '100%'`
+
+**Design reference:** `_prototype/theme.css` is the designer's source of truth. `lib/design-tokens.ts` is the developer's port of it. Do not edit `_prototype/` files — they are reference only.
+
 ### `useSearchParams` requires Suspense
 
 Any client component that calls `useSearchParams()` must be wrapped in a `<Suspense>` boundary. The pattern used here is a thin exported wrapper that renders the real component inside `<Suspense>` (see `app/photographs/page.tsx`).

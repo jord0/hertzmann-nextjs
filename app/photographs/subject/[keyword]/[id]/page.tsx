@@ -5,7 +5,7 @@ import { PhotoDetail } from '@/app/photographs/_components/PhotoDetail';
 import type { PhotoData } from '@/app/photographs/_components/PhotoDetail';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ keyword: string; id: string }>;
 }
 
 async function getPhoto(id: number): Promise<PhotoData | null> {
@@ -37,19 +37,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function PhotoDetailPage({ params }: PageProps) {
-  const { id } = await params;
+export default async function SubjectPhotoPage({ params }: PageProps) {
+  const { keyword, id } = await params;
   const photoId = Number(id);
+  const decodedKeyword = decodeURIComponent(keyword);
   if (isNaN(photoId)) notFound();
 
-  const photo = await getPhoto(photoId);
+  const [photo, photos] = await Promise.all([
+    getPhoto(photoId),
+    query(
+      `SELECT p.id FROM photos p
+       JOIN photographers ph ON p.photographer = ph.id
+       WHERE p.enabled = 1 AND p.keywords LIKE ?
+       ORDER BY ph.lastName, ph.firstName, p.title`,
+      [`%|${decodedKeyword}|%`]
+    ) as Promise<{ id: number }[]>,
+  ]);
+
   if (!photo) notFound();
 
+  const idx = (photos as { id: number }[]).findIndex(p => p.id === photoId);
+  const photoList = photos as { id: number }[];
+  const encodedKeyword = encodeURIComponent(decodedKeyword);
   const nav = {
-    backHref: '/photographs',
-    backLabel: 'All Photographs',
-    prevHref: null,
-    nextHref: null,
+    backHref: `/photographs/subject/${encodedKeyword}`,
+    backLabel: decodedKeyword,
+    prevHref: idx > 0 ? `/photographs/subject/${encodedKeyword}/${photoList[idx - 1].id}` : null,
+    nextHref: idx < photoList.length - 1 ? `/photographs/subject/${encodedKeyword}/${photoList[idx + 1].id}` : null,
   };
 
   return <PhotoDetail photo={photo} nav={nav} />;

@@ -23,6 +23,12 @@
   object-fit: contain;
 }
 
+@media (max-width: 768px) {
+  .chevron {
+    display: none;
+  }
+}
+
 .chevron {
   position: absolute;
   top: 50%;

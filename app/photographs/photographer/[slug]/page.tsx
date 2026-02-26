@@ -12,6 +12,7 @@ interface Photo {
   date: string | null;
   width: string | null;
   height: string | null;
+  price: string | null;
 }
 
 interface Photographer {
@@ -98,25 +99,28 @@ export default async function PhotographerPage({ params }: PageProps) {
 
   const photos = await getPhotos(photographer.id);
 
+  const fullName = `${photographer.firstName || ''} ${photographer.lastName}`.trim();
+  const years = decodeHtmlEntities(photographer.years);
+
   return (
-    <div className={styles.container}>
-      <Link href="/photographs" className={styles.backLink}>
-        ← Back to Browse
-      </Link>
+    <div>
+      <div className={styles.goldHeader}>
+        <div className={styles.headerInner}>
+          <h1 className={styles.headerTitle}>{fullName}</h1>
+          {years && <p className={styles.headerSub}>{years}</p>}
+        </div>
+      </div>
 
-      <header className={styles.header}>
-        <h1 className={styles.name}>{photographer.firstName} {photographer.lastName}</h1>
-        {photographer.years && <p className={styles.years}>{decodeHtmlEntities(photographer.years)}</p>}
-        {photographer.country && <p className={styles.country}>{photographer.country}</p>}
-      </header>
+      <div className={styles.content}>
+        <div className={styles.photographerRow}>
+          <Link href="/photographs" className={styles.backLink}>Back to Artists</Link>
+        </div>
 
-      <main>
-        <h2 className={styles.sectionHeading}>Photographs ({photos.length})</h2>
         <div className={styles.photoGrid}>
           {photos.map(photo => (
             <Link
               key={photo.id}
-              href={`/photographs/photo/${photo.id}?from=${encodeURIComponent(`photographer/${slug}`)}`}
+              href={`/photographs/photographer/${slug}/${photo.id}`}
               className={styles.photoCard}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -125,16 +129,12 @@ export default async function PhotographerPage({ params }: PageProps) {
                 alt={photo.title}
                 className={styles.photoImage}
               />
-              <h3 className={styles.photoTitle}>{photo.title}</h3>
-              {photo.medium && <p className={styles.photoMeta}>{photo.medium}</p>}
+              <h3 className={styles.photoTitle}>{decodeHtmlEntities(photo.title)}</h3>
               {photo.date && <p className={styles.photoMeta}>{photo.date}</p>}
-              {photo.width && photo.height && (
-                <p className={styles.photoMeta}>{photo.width}&quot; × {photo.height}&quot;</p>
-              )}
             </Link>
           ))}
         </div>
-      </main>
+      </div>
     </div>
   );
 }

@@ -15,10 +15,12 @@ export default async function Home() {
       <section className={styles.aboutSection}>
         <div className={styles.aboutGrid}>
           <div className={styles.aboutLabel}>
-            <div className={styles.goldRule} />
-            <h2 className={styles.sectionHeading}>
-              About Us
-            </h2>
+            <div className={styles.aboutLabelInner}>
+              <div className={styles.goldRule} />
+              <h2 className={styles.sectionHeading}>
+                About Us
+              </h2>
+            </div>
           </div>
           <div className={styles.aboutContent}>
             <p className={styles.bodyText}>

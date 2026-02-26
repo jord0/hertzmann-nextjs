@@ -12,6 +12,7 @@ export default function HeroCarousel({ photos }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const isPaused = useRef(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const startInterval = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -44,8 +45,14 @@ export default function HeroCarousel({ photos }: Props) {
         className={styles.wrapper}
         onMouseEnter={() => { isPaused.current = true; }}
         onMouseLeave={() => { isPaused.current = false; }}
-        onTouchStart={() => { isPaused.current = true; }}
-        onTouchEnd={() => { isPaused.current = false; }}
+        onTouchStart={e => { isPaused.current = true; touchStartX.current = e.touches[0].clientX; }}
+        onTouchEnd={e => {
+          isPaused.current = false;
+          if (touchStartX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX.current;
+          if (Math.abs(dx) > 50) goTo(currentIndex + (dx < 0 ? 1 : -1));
+          touchStartX.current = null;
+        }}
       >
         {photos.map((photo, i) => {
           const src = `https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`;

@@ -5,7 +5,15 @@ import { PhotoDetail } from '@/app/photographs/_components/PhotoDetail';
 import type { PhotoData } from '@/app/photographs/_components/PhotoDetail';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string; id: string }>;
+}
+
+function buildSlug(firstName: string, lastName: string) {
+  return `${firstName || ''}-${lastName}`
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '')
+    .replace(/^-+|-+$/g, '');
 }
 
 async function getPhoto(id: number): Promise<PhotoData | null> {
@@ -19,6 +27,11 @@ async function getPhoto(id: number): Promise<PhotoData | null> {
     [id]
   ) as PhotoData[];
   return results[0] ?? null;
+}
+
+async function getPhotographer(slug: string) {
+  const all = await query('SELECT id, firstName, lastName FROM photographers WHERE enabled = 1') as any[];
+  return all.find((p: any) => buildSlug(p.firstName, p.lastName) === slug) ?? null;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -37,19 +50,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function PhotoDetailPage({ params }: PageProps) {
-  const { id } = await params;
+export default async function PhotographerPhotoPage({ params }: PageProps) {
+  const { slug, id } = await params;
   const photoId = Number(id);
   if (isNaN(photoId)) notFound();
 
-  const photo = await getPhoto(photoId);
-  if (!photo) notFound();
+  const [photo, photographer] = await Promise.all([
+    getPhoto(photoId),
+    getPhotographer(slug),
+  ]);
 
+  if (!photo || !photographer) notFound();
+
+  const photos = await query(
+    'SELECT id FROM photos WHERE photographer = ? AND enabled = 1 ORDER BY title',
+    [photographer.id]
+  ) as { id: number }[];
+
+  const idx = photos.findIndex(p => p.id === photoId);
   const nav = {
-    backHref: '/photographs',
-    backLabel: 'All Photographs',
-    prevHref: null,
-    nextHref: null,
+    backHref: `/photographs/photographer/${slug}`,
+    backLabel: `${photographer.firstName} ${photographer.lastName}`,
+    prevHref: idx > 0 ? `/photographs/photographer/${slug}/${photos[idx - 1].id}` : null,
+    nextHref: idx < photos.length - 1 ? `/photographs/photographer/${slug}/${photos[idx + 1].id}` : null,
   };
 
   return <PhotoDetail photo={photo} nav={nav} />;

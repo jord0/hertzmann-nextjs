@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import type { Metadata } from "next";
 import Script from 'next/script';
+import NavBar from './components/NavBar';
+import { Inter, Cormorant } from "next/font/google";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
@@ -20,10 +22,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
 };
-
-import { Inter, Cormorant } from "next/font/google";
-import "./globals.css";
-import styles from "./layout.module.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,7 +44,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${cormorant.variable}`}>
-        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Y87Y5056K0"
           strategy="afterInteractive"
@@ -59,32 +56,8 @@ export default function RootLayout({
             gtag('config', 'G-Y87Y5056K0');
           `}
         </Script>
-
-        <nav className={styles.nav}>
-          <div className={styles.container}>
-            <Link href="/" className={styles.logo}>
-              Hertzmann
-            </Link>
-            <div className={styles.links}>
-              <Link href="/" className={styles.navLink}>Home</Link>
-              <Link href="/photographs" className={styles.navLink}>Photographs</Link>
-              <Link href="/catalogs" className={styles.navLink}>Catalogs</Link>
-              <a
-                href="https://edwardwestonbibliography.blog/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.navLink}
-              >
-                Edward Weston Blog
-              </a>
-              <Link href="/contact" className={styles.navLink}>Contact</Link>
-              <Link href="/about" className={styles.navLink}>About Us</Link>
-            </div>
-          </div>
-        </nav>
-        <main className={styles.main}>
-          {children}
-        </main>
+        <NavBar />
+        <main>{children}</main>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import type { Metadata } from "next";
+import { decodeHtmlEntities } from '@/lib/htmlDecode';
 import styles from './page.module.css';
 
 interface Photo {
@@ -74,7 +75,7 @@ export default async function SubjectPage({ params }: PageProps) {
             .replace(/[^\w-]/g, '')
             .replace(/^-+|-+$/g, '');
 
-          const detailHref = `/photographs/photo/${photo.id}?from=${encodeURIComponent(`subject/${decodedKeyword}`)}`;
+          const detailHref = `/photographs/subject/${encodeURIComponent(decodedKeyword)}/${photo.id}`;
 
           return (
             <div key={photo.id} className={styles.photoCard}>
@@ -88,7 +89,7 @@ export default async function SubjectPage({ params }: PageProps) {
               </Link>
               <div>
                 <Link href={detailHref} className={styles.photoTitleLink}>
-                  <h3 className={styles.photoTitle}>{photo.title}</h3>
+                  <h3 className={styles.photoTitle}>{decodeHtmlEntities(photo.title)}</h3>
                 </Link>
                 <Link
                   href={`/photographs/photographer/${photographerSlug}`}

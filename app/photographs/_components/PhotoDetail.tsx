@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { decodeHtmlEntities } from '@/lib/htmlDecode';
+import { PhotoLightbox } from './PhotoLightbox';
 import styles from './PhotoDetail.module.css';
 
 export interface PhotoData {
@@ -58,11 +59,9 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
       <div className={styles.layout}>
 
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <PhotoLightbox
             src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
             alt={photo.title}
-            className={styles.photoImg}
           />
         </div>
 
@@ -88,7 +87,7 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
             {photo.medium && (
               <>
                 <dt className={styles.dt}>Medium</dt>
-                <dd className={styles.dd}>{photo.medium}</dd>
+                <dd className={styles.dd}>{decodeHtmlEntities(photo.medium)}</dd>
               </>
             )}
             {photo.date && (
@@ -120,14 +119,14 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
           {photo.description && (
             <div className={styles.descBlock}>
               <p className={styles.sectionLabel}>Description</p>
-              <p className={styles.descText}>{photo.description}</p>
+              <p className={styles.descText}>{decodeHtmlEntities(photo.description)}</p>
             </div>
           )}
 
           {photo.provenance && (
             <div className={styles.descBlock}>
               <p className={styles.sectionLabel}>Provenance</p>
-              <p className={styles.provText}>{photo.provenance}</p>
+              <p className={styles.provText}>{decodeHtmlEntities(photo.provenance)}</p>
             </div>
           )}
 

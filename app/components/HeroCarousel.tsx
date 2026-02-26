@@ -1,8 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import type { CarouselPhoto } from '@/lib/carousel-data';
+import { decodeHtmlEntities } from '@/lib/htmlDecode';
 import styles from './HeroCarousel.module.css';
+
+function buildSlug(firstName: string, lastName: string) {
+  return `${firstName || ''}-${lastName}`
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '')
+    .replace(/^-+|-+$/g, '');
+}
 
 interface Props {
   photos: CarouselPhoto[];
@@ -61,12 +71,14 @@ export default function HeroCarousel({ photos }: Props) {
               key={photo.id}
               className={i === currentIndex ? `${styles.slide} ${styles.slideActive}` : styles.slide}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={photo.title}
-                className={styles.slideImg}
-              />
+              <Link href={`/photographs/photographer/${buildSlug(photo.firstName, photo.lastName)}/${photo.id}`} className={styles.slideLink}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={photo.title}
+                  className={styles.slideImg}
+                />
+              </Link>
             </div>
           );
         })}
@@ -105,10 +117,12 @@ export default function HeroCarousel({ photos }: Props) {
       {/* Caption bar */}
       <div className={styles.caption}>
         <h4 className={styles.captionName}>
-          {current.firstName} {current.lastName}
+          <Link href={`/photographs/photographer/${buildSlug(current.firstName, current.lastName)}`} className={styles.captionLink}>
+            {current.firstName} {current.lastName}
+          </Link>
         </h4>
-        {current.title && <> &middot; <em>{current.title}</em></>}
-        {current.medium && <> &middot; {current.medium}</>}
+        {current.title && <> &middot; <em>{decodeHtmlEntities(current.title)}</em></>}
+        {current.medium && <> &middot; {decodeHtmlEntities(current.medium)}</>}
         {current.date && <> &middot; {current.date}</>}
       </div>
     </div>

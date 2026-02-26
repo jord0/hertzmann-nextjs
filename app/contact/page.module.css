@@ -1,46 +1,194 @@
-.container {
-  max-width: 800px;
+.goldHeader {
+  background-color: var(--color-gold);
+  padding: 3.5rem 0 3rem;
+}
+
+.headerInner {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 0 2.5rem;
 }
 
-.heading {
-  font-size: 2.75rem;
+.headerTitle {
+  font-family: var(--font-cormorant);
+  font-size: 3.5rem;
   font-weight: var(--font-weight-semibold);
+  color: var(--color-dark);
+  margin: 0 0 0.5rem;
   line-height: 1.1;
-  margin: 0 0 2rem;
 }
 
-.body {
-  font-size: 1.05rem;
+.headerSub {
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0;
 }
 
-.intro {
-  margin-bottom: 2rem;
-  line-height: 1.8;
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.list {
-  margin-bottom: 2rem;
-  margin-left: 2rem;
+.formBox {
+  width: 100%;
+  max-width: 560px;
+  border: 1px solid var(--color-border-warm);
+  padding: 2.5rem;
 }
 
-.listItem {
-  margin-bottom: 0.5rem;
-  line-height: 1.8;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.contactBox {
-  margin-top: 3rem;
-  padding: 2rem;
-  background-color: var(--color-bg-warm);
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.contactRow {
-  margin: 0.5rem 0;
-  line-height: 1.8;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.contactLink {
-  color: #0066cc;
+.label {
+  font-size: 0.72rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-foreground);
+}
+
+.required {
+  color: var(--color-gold);
+}
+
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--color-border-warm);
+  padding: 0.4rem 0;
+  font-size: 0.95rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  color: var(--color-foreground);
+  background: transparent;
+  outline: none;
+  transition: border-bottom-color 0.15s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-bottom-color: var(--color-foreground);
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid var(--color-border-warm);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  color: var(--color-foreground);
+  background: transparent;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+
+.textarea:focus {
+  border-color: var(--color-foreground);
+}
+
+.textarea::placeholder,
+.input::placeholder {
+  color: var(--color-muted);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: var(--color-foreground);
+  color: white;
+  font-size: 0.75rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  margin-top: 0.5rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: var(--color-dark);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.formNote {
+  font-size: 0.78rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  color: var(--color-muted);
+  text-align: center;
+  margin: 0;
+}
+
+.errorText {
+  font-size: 0.85rem;
+  color: #c0392b;
+  margin: 0;
+}
+
+.successBox {
+  width: 100%;
+  max-width: 560px;
+  border: 1px solid var(--color-border-warm);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.successText {
+  font-size: 1rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  color: var(--color-foreground);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.directContact {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  color: var(--color-muted);
+}
+
+.directEmail {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: var(--color-foreground);
 }

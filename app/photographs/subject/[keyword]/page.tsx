@@ -55,57 +55,36 @@ export default async function SubjectPage({ params }: PageProps) {
   const photos = await getPhotosByKeyword(decodedKeyword);
 
   return (
-    <div className={styles.container}>
-      <Link href="/photographs" className={styles.backLink}>
-        ← Back to Browse
-      </Link>
+    <div>
+      <div className={styles.goldHeader}>
+        <div className={styles.headerInner}>
+          <h1 className={styles.headerTitle}>{decodedKeyword}</h1>
+          <p className={styles.headerSub}>{photos.length} photograph{photos.length !== 1 ? 's' : ''}</p>
+        </div>
+      </div>
 
-      <header className={styles.header}>
-        <h1 className={styles.keyword}>{decodedKeyword}</h1>
-        <p className={styles.photoCount}>
-          {photos.length} photograph{photos.length !== 1 ? 's' : ''}
-        </p>
-      </header>
+      <div className={styles.content}>
+        <div className={styles.topRow}>
+          <Link href="/photographs?view=subjects" className={styles.backLink}>Back to Subjects</Link>
+        </div>
 
-      <div className={styles.photoGrid}>
-        {photos.map((photo) => {
-          const photographerSlug = `${photo.firstName || ''}-${photo.lastName}`
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^\w-]/g, '')
-            .replace(/^-+|-+$/g, '');
-
-          const detailHref = `/photographs/subject/${encodeURIComponent(decodedKeyword)}/${photo.id}`;
-
-          return (
-            <div key={photo.id} className={styles.photoCard}>
-              <Link href={detailHref} className={styles.photoImageLink}>
+        <div className={styles.photoGrid}>
+          {photos.map((photo) => {
+            const detailHref = `/photographs/subject/${encodeURIComponent(decodedKeyword)}/${photo.id}`;
+            return (
+              <Link key={photo.id} href={detailHref} className={styles.photoCard}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
                   alt={photo.title}
                   className={styles.photoImage}
                 />
-              </Link>
-              <div>
-                <Link href={detailHref} className={styles.photoTitleLink}>
-                  <h3 className={styles.photoTitle}>{decodeHtmlEntities(photo.title)}</h3>
-                </Link>
-                <Link
-                  href={`/photographs/photographer/${photographerSlug}`}
-                  className={styles.photographerLink}
-                >
-                  {photo.firstName} {photo.lastName}
-                </Link>
-                {photo.medium && <p className={styles.photoMeta}>{photo.medium}</p>}
+                <h3 className={styles.photoTitle}>{decodeHtmlEntities(photo.title)}</h3>
                 {photo.date && <p className={styles.photoMeta}>{photo.date}</p>}
-                {photo.width && photo.height && (
-                  <p className={styles.photoMeta}>{photo.width}&quot; × {photo.height}&quot;</p>
-                )}
-              </div>
-            </div>
-          );
-        })}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

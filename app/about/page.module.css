@@ -5,6 +5,7 @@
 }
 
 .heading {
+  font-family: var(--font-cormorant);
   font-size: 2.75rem;
   font-weight: var(--font-weight-semibold);
   line-height: 1.1;

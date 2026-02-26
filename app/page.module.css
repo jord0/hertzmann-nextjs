@@ -60,9 +60,9 @@
   font-weight: var(--font-weight-medium);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-decoration: none;
-  border-bottom: 2px solid var(--color-gold);
-  padding-bottom: 2px;
+  padding-bottom: 3px;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
 }
 
 /* ---- 50 Years section ---- */

@@ -37,7 +37,7 @@
   text-decoration: none;
   font-size: 1rem;
   font-family: var(--font-inter);
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-light);
   border-bottom: 2px solid transparent;
   padding-bottom: 2px;
   transition: border-bottom-color 0.15s;

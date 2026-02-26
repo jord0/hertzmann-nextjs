@@ -34,3 +34,14 @@ p {
 a {
   color: inherit;
 }
+
+main a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-warm);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s;
+}
+
+main a:hover {
+  text-decoration-color: var(--color-gold);
+}

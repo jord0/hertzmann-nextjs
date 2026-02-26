@@ -23,4 +23,9 @@ export const tokens = {
     padding: '5rem 2.5rem',
     maxWidth: '1100px',
   },
+  goldRule: {
+    width: '48px',
+    height: '3px',
+    marginBottom: '0.35rem',
+  },
 } as const;

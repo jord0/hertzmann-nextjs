@@ -1,0 +1,94 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+.slideImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.chevron {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  border: none;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 1;
+}
+
+.chevronLeft {
+  left: 1rem;
+}
+
+.chevronRight {
+  right: 1rem;
+}
+
+.dotsBar {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dotActive {
+  background-color: var(--color-gold);
+}
+
+.caption {
+  padding: 24px 1.5rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  letter-spacing: 0.03em;
+  text-align: center;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+}
+
+.captionName {
+  display: inline;
+  margin: 0;
+  color: var(--color-foreground);
+  font-family: var(--font-cormorant);
+  font-weight: var(--font-weight-normal);
+  font-size: 1rem;
+}

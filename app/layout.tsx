@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 import { Inter, Cormorant } from "next/font/google";
 import "./globals.css";
-import { tokens } from "@/lib/design-tokens";
+import styles from "./layout.module.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,10 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${cormorant.variable}`}
-        style={{ fontFamily: tokens.font.sans, fontWeight: tokens.fontWeight.light, color: tokens.color.foreground }}
-      >
+      <body className={`${inter.variable} ${cormorant.variable}`}>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Y87Y5056K0"
@@ -63,88 +60,32 @@ export default function RootLayout({
           `}
         </Script>
 
-        <style>{`
-          .nav-link {
-            border-bottom: 2px solid transparent;
-            padding-bottom: 2px;
-            transition: border-bottom-color 0.15s;
-          }
-          .nav-link:hover {
-            border-bottom-color: ${tokens.color.gold};
-          }
-        `}</style>
-
-        <nav style={navStyles.nav}>
-          <div style={navStyles.container}>
-            <Link href="/" style={navStyles.logo}>
+        <nav className={styles.nav}>
+          <div className={styles.container}>
+            <Link href="/" className={styles.logo}>
               Hertzmann
             </Link>
-            <div style={navStyles.links}>
-              <Link href="/" className="nav-link" style={navStyles.link}>Home</Link>
-              <Link href="/photographs" className="nav-link" style={navStyles.link}>Photographs</Link>
-              <Link href="/catalogs" className="nav-link" style={navStyles.link}>Catalogs</Link>
+            <div className={styles.links}>
+              <Link href="/" className={styles.navLink}>Home</Link>
+              <Link href="/photographs" className={styles.navLink}>Photographs</Link>
+              <Link href="/catalogs" className={styles.navLink}>Catalogs</Link>
               <a
                 href="https://edwardwestonbibliography.blog/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nav-link"
-                style={navStyles.link}
+                className={styles.navLink}
               >
                 Edward Weston Blog
               </a>
-              <Link href="/contact" className="nav-link" style={navStyles.link}>Contact</Link>
-              <Link href="/about" className="nav-link" style={navStyles.link}>About Us</Link>
+              <Link href="/contact" className={styles.navLink}>Contact</Link>
+              <Link href="/about" className={styles.navLink}>About Us</Link>
             </div>
           </div>
         </nav>
-        <main style={navStyles.main}>
+        <main className={styles.main}>
           {children}
         </main>
       </body>
     </html>
   );
 }
-
-const navStyles = {
-  nav: {
-    backgroundColor: tokens.color.bg,
-    borderBottom: `1px solid ${tokens.color.borderWarm}`,
-    position: 'sticky' as const,
-    top: 0,
-    zIndex: 1000,
-  },
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '1rem 2.5rem',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  logo: {
-    fontFamily: tokens.font.serif,
-    fontStyle: 'italic' as const,
-    color: tokens.color.gold,
-    fontSize: '1.5rem',
-    fontWeight: tokens.fontWeight.semibold,
-    textDecoration: 'none',
-    letterSpacing: '0.01em',
-  },
-  links: {
-    display: 'flex',
-    gap: '2rem',
-    alignItems: 'center',
-  },
-  link: {
-    color: tokens.color.foreground,
-    textDecoration: 'none',
-    fontSize: '0.75rem',
-    fontFamily: tokens.font.sans,
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.08em',
-    fontWeight: tokens.fontWeight.medium,
-  },
-  main: {
-    minHeight: 'calc(100vh - 61px)',
-  },
-};

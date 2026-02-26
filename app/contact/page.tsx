@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -7,29 +8,32 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem 2rem' }}>
-      <h1 style={{ marginBottom: '2rem' }}>Contact Us</h1>
-      
-      <div style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
-        <p style={{ marginBottom: '2rem' }}>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Contact Us</h1>
+
+      <div className={styles.body}>
+        <p className={styles.intro}>
           We welcome inquiries about our collection. Please feel free to contact us regarding:
         </p>
-        
-        <ul style={{ marginBottom: '2rem', marginLeft: '2rem' }}>
-          <li style={{ marginBottom: '0.5rem' }}>Purchasing photographs</li>
-          <li style={{ marginBottom: '0.5rem' }}>Selling your collection</li>
-          <li style={{ marginBottom: '0.5rem' }}>Research inquiries</li>
-          <li style={{ marginBottom: '0.5rem' }}>Appraisals</li>
+
+        <ul className={styles.list}>
+          <li className={styles.listItem}>Purchasing photographs</li>
+          <li className={styles.listItem}>Selling your collection</li>
+          <li className={styles.listItem}>Research inquiries</li>
+          <li className={styles.listItem}>Appraisals</li>
         </ul>
-        
-        <div style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-          <p style={{ margin: '0.5rem 0' }}>
-            <strong>Email:</strong> <a href="mailto:hertzmann@hertzmann.com" style={{ color: '#0066cc' }}>hertzmann@hertzmann.com</a>
+
+        <div className={styles.contactBox}>
+          <p className={styles.contactRow}>
+            <strong>Email:</strong>{' '}
+            <a href="mailto:hertzmann@hertzmann.com" className={styles.contactLink}>
+              hertzmann@hertzmann.com
+            </a>
           </p>
-          <p style={{ margin: '0.5rem 0' }}>
+          <p className={styles.contactRow}>
             <strong>Phone:</strong> [Add your phone number]
           </p>
-          <p style={{ margin: '0.5rem 0' }}>
+          <p className={styles.contactRow}>
             <strong>Hours:</strong> By appointment
           </p>
         </div>

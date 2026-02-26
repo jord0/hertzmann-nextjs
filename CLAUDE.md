@@ -116,31 +116,39 @@ All links to the detail page must include the appropriate `from` param. The para
 
 ### Styling
 
-All styling uses inline React style objects. Tailwind is installed but not used for component styling — only for the global CSS reset via `@import "tailwindcss"` in `globals.css`. Do not introduce Tailwind utility classes on components; keep inline styles for consistency.
+All styling uses **CSS Modules** (`.module.css`) colocated with each component or page. Tailwind is installed but not used for component styling — only for the global CSS reset via `@import "tailwindcss"` in `globals.css`. Do not introduce Tailwind utility classes on components.
 
-For responsive layouts, use a `<style>` tag with a media query inside the component (see `app/photographs/photo/[id]/page.tsx` for the pattern).
+**Rules:**
+- CSS Modules for all static styles — class names in camelCase (`styles.heroSection`)
+- Conditional classes: `className={active ? styles.tabActive : styles.tab}`
+- Inline `style={{}}` only for truly runtime-dynamic values (e.g. a dot color driven by a `hasEnabledPhotos` boolean)
+- No `<style>` tags in components — use `@media` queries inside the `.module.css` file instead
 
 ### Design tokens
 
-All design values live in `lib/design-tokens.ts`. Import and use `tokens` — never hardcode hex colors or repeat raw values inline.
+Design token values are exposed as **CSS custom properties** in `app/globals.css` (`:root` block) and as a TypeScript object in `lib/design-tokens.ts`. The two must stay in sync.
 
-```ts
-import { tokens } from '@/lib/design-tokens';
+**CSS custom properties** (use in `.module.css` files):
+```css
+var(--color-gold)        /* #F0B23C — accent, rules, highlights */
+var(--color-dark)        /* #1a1a1a — CTA section background only */
+var(--color-foreground)  /* #2a2a2a — primary text */
+var(--color-muted)       /* #666666 — secondary text */
+var(--color-bg)          /* #ffffff */
+var(--color-bg-warm)     /* #faf8f4 — caption bars, warm backgrounds */
+var(--color-border-warm) /* #e8e0d0 */
+var(--font-weight-light)    /* 300 */
+var(--font-weight-medium)   /* 500 */
+var(--font-weight-semibold) /* 600 */
+var(--font-inter)        /* set by next/font on <body> */
+var(--font-cormorant)    /* set by next/font on <body> */
 ```
 
-**Key tokens:**
-- `tokens.color.gold` — `#F0B23C` (accent, rules, highlights)
-- `tokens.color.foreground` — `#2a2a2a` (primary text)
-- `tokens.color.muted` — `#666666` (secondary text)
-- `tokens.color.dark` — `#1a1a1a` (CTA section background only — not for text)
-- `tokens.color.bg` — `#ffffff`
-- `tokens.color.bgWarm` — `#faf8f4` (caption bars, warm backgrounds)
-- `tokens.color.borderWarm` — `#e8e0d0`
-- `tokens.font.serif` — `'var(--font-cormorant)'` (Cormorant, headings)
-- `tokens.font.sans` — `'var(--font-inter)'` (Inter, body/nav)
-- `tokens.fontWeight.light` — `300` (body text default)
-- `tokens.fontWeight.medium` — `500` (labels, nav links)
-- `tokens.fontWeight.semibold` — `600` (headings)
+**TypeScript tokens** (use in `.tsx` files for runtime-dynamic values only):
+```ts
+import { tokens } from '@/lib/design-tokens';
+// e.g. style={{ color: p.hasEnabledPhotos ? '#6b9e6b' : tokens.color.gold }}
+```
 
 **Typography scale:**
 - Display / section headings: Cormorant 600, 2.75rem+
@@ -149,10 +157,10 @@ import { tokens } from '@/lib/design-tokens';
 - Caps labels / nav: Inter 500, 0.75–0.8rem, `0.08–0.12em` letter-spacing, uppercase
 
 **Section anatomy:**
-- Content sections: `padding: tokens.section.padding` (`'5rem 2.5rem'`), `maxWidth: tokens.section.maxWidth` (`'1100px'`), `margin: '0 auto'`
-- Full-bleed colored bands: no maxWidth, `width: '100%'`
+- Content sections: `padding: 5rem 2.5rem`, `max-width: 1100px`, `margin: 0 auto`
+- Full-bleed colored bands: no max-width, `width: 100%`
 
-**Design reference:** `_prototype/theme.css` is the designer's source of truth. `lib/design-tokens.ts` is the developer's port of it. Do not edit `_prototype/` files — they are reference only.
+**Design reference:** `_prototype/theme.css` is the designer's source of truth. `lib/design-tokens.ts` and `app/globals.css` `:root` vars are the developer's port of it. Do not edit `_prototype/` files — they are reference only.
 
 ### `useSearchParams` requires Suspense
 

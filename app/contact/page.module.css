@@ -1,0 +1,46 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.heading {
+  font-size: 2.75rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+  margin: 0 0 2rem;
+}
+
+.body {
+  font-size: 1.05rem;
+}
+
+.intro {
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+
+.list {
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+}
+
+.listItem {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
+
+.contactBox {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--color-bg-warm);
+}
+
+.contactRow {
+  margin: 0.5rem 0;
+  line-height: 1.8;
+}
+
+.contactLink {
+  color: #0066cc;
+}

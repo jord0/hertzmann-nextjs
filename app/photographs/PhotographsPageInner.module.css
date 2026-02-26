@@ -1,0 +1,234 @@
+.goldHeader {
+  background-color: var(--color-gold);
+  padding: 3.5rem 0 3rem;
+}
+
+.headerInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.headerTitle {
+  font-family: var(--font-cormorant);
+  font-size: 3.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark);
+  margin: 0 0 0.5rem;
+  line-height: 1.1;
+}
+
+.headerSub {
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+}
+
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2.5rem 5rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid var(--color-border-warm);
+  margin-bottom: 2rem;
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.tabActive {
+  border-bottom-color: var(--color-foreground);
+  color: var(--color-foreground);
+}
+
+.searchWrap {
+  margin-bottom: 1.5rem;
+  max-width: 360px;
+}
+
+.searchInner {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.45rem 1.75rem 0.45rem 2rem;
+  font-size: 0.85rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  border: 1px solid var(--color-border-warm);
+  outline: none;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  color: var(--color-foreground);
+}
+
+.searchClear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+}
+
+.searchCount {
+  margin: 0.3rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+}
+
+.alphabetNav {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.alphabetLabel {
+  font-size: 0.75rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.alphabetLetters {
+  display: flex;
+  gap: 0.1rem;
+  flex-wrap: wrap;
+}
+
+.alphabetLink {
+  display: inline-block;
+  width: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+  font-family: var(--font-cormorant);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-foreground);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.15s;
+}
+
+.alphabetLink:hover {
+  border-bottom-color: var(--color-gold);
+}
+
+.alphabetInactive {
+  display: inline-block;
+  width: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+  font-family: var(--font-cormorant);
+  color: var(--color-border-warm);
+}
+
+.emptyState {
+  padding: 3rem 0;
+  color: var(--color-muted);
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+}
+
+.clearBtn {
+  color: var(--color-gold);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.letterSection {
+  margin-bottom: 2.5rem;
+}
+
+.letterHeading {
+  font-family: var(--font-cormorant);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-foreground);
+  border-bottom: 1px solid var(--color-border-warm);
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.nameGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.6rem 1rem;
+}
+
+.nameLink {
+  text-decoration: none;
+  color: var(--color-foreground);
+  font-size: 1.25rem;
+  font-family: var(--font-cormorant);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.2;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.bullet {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  line-height: 1;
+  margin-top: 0.3em;
+}
+
+@media (max-width: 900px) {
+  .nameGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .nameGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

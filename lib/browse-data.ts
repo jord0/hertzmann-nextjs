@@ -6,6 +6,7 @@ export interface BrowsePhotographer {
   firstName: string;
   lastName: string;
   slug: string;
+  hasEnabledPhotos: boolean;
 }
 
 function makeSlug(firstName: string, lastName: string): string {
@@ -18,12 +19,17 @@ function makeSlug(firstName: string, lastName: string): string {
 
 async function fetchBrowseData(): Promise<{ photographers: BrowsePhotographer[]; keywords: string[] }> {
   const photographers = (await query(
-    'SELECT id, firstName, lastName FROM photographers WHERE enabled = 1 ORDER BY lastName, firstName'
-  )) as { id: number; firstName: string; lastName: string }[];
+    `SELECT id, firstName, lastName,
+       EXISTS(SELECT 1 FROM photos WHERE photographer = p.id AND enabled = 1) AS hasEnabledPhotos
+     FROM photographers p
+     WHERE enabled = 1
+     ORDER BY lastName, firstName`
+  )) as { id: number; firstName: string; lastName: string; hasEnabledPhotos: number }[];
 
   const photographersWithSlugs: BrowsePhotographer[] = photographers.map(p => ({
     ...p,
     slug: makeSlug(p.firstName, p.lastName),
+    hasEnabledPhotos: p.hasEnabledPhotos === 1,
   }));
 
   const keywordRows = (await query(`

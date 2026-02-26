@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { query } from '@/lib/db';
 import { decodeHtmlEntities } from '@/lib/htmlDecode';
+import styles from './page.module.css';
 
 interface PhotoDetail {
   id: number;
@@ -144,209 +145,144 @@ export default async function PhotoDetailPage({ params, searchParams }: PageProp
     : null;
 
   return (
-    <>
-      <style>{`
-        .photo-detail-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-          gap: 3rem;
-          align-items: start;
-        }
-        @media (max-width: 768px) {
-          .photo-detail-layout {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-        }
-        .photo-detail-back:hover { opacity: 0.7; }
-        .photo-detail-photographer:hover { text-decoration: underline; }
-        .keyword-tag:hover { background: #333; color: white; }
-        .photo-nav-link:hover { opacity: 0.7; }
-        .inquire-btn:hover { background: #333 !important; }
-      `}</style>
+    <div className={styles.container}>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+      {/* Back navigation */}
+      <Link href={nav.backHref} className={styles.backLink}>
+        ← {nav.backLabel}
+      </Link>
 
-        {/* Back navigation */}
-        <Link
-          href={nav.backHref}
-          className="photo-detail-back"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#555', textDecoration: 'none', marginBottom: '1.5rem', fontSize: '0.95rem' }}
-        >
-          ← {nav.backLabel}
-        </Link>
+      {/* Two-column layout */}
+      <div className={styles.layout}>
 
-        {/* Two-column layout */}
-        <div className="photo-detail-layout">
-
-          {/* Left: Photo */}
-          <div>
-            <img
-              src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
-              alt={photo.title}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
-          </div>
-
-          {/* Right: Metadata */}
-          <div>
-            <h1 style={{ fontSize: '1.4rem', fontWeight: '600', margin: '0 0 0.4rem', lineHeight: 1.3 }}>
-              {photo.title}
-            </h1>
-
-            <Link
-              href={`/photographs/photographer/${photographerSlug}`}
-              className="photo-detail-photographer"
-              style={{ display: 'block', color: '#0066cc', textDecoration: 'none', fontSize: '1.05rem', marginBottom: '0.2rem' }}
-            >
-              {fullName}
-            </Link>
-
-            {photo.years && (
-              <p style={{ color: '#666', fontStyle: 'italic', margin: '0 0 1.5rem', fontSize: '0.9rem' }}>
-                {decodeHtmlEntities(photo.years)}
-              </p>
-            )}
-
-            {/* Core metadata */}
-            <dl style={{ margin: '0 0 1.5rem', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.5rem 1.25rem', alignItems: 'baseline' }}>
-              {photo.medium && (
-                <>
-                  <dt style={dtStyle}>Medium</dt>
-                  <dd style={{ margin: 0, fontSize: '0.95rem' }}>{photo.medium}</dd>
-                </>
-              )}
-              {photo.date && (
-                <>
-                  <dt style={dtStyle}>Date</dt>
-                  <dd style={{ margin: 0, fontSize: '0.95rem' }}>{photo.date}</dd>
-                </>
-              )}
-              {photo.width && photo.height && (
-                <>
-                  <dt style={dtStyle}>Size</dt>
-                  <dd style={{ margin: 0, fontSize: '0.95rem' }}>{photo.width}" × {photo.height}"</dd>
-                </>
-              )}
-              {photo.inventoryNumber && (
-                <>
-                  <dt style={dtStyle}>Inventory</dt>
-                  <dd style={{ margin: 0, fontSize: '0.95rem' }}>{photo.inventoryNumber}</dd>
-                </>
-              )}
-              {formattedPrice && (
-                <>
-                  <dt style={dtStyle}>Price</dt>
-                  <dd style={{ margin: 0, fontSize: '1rem', fontWeight: '600' }}>{formattedPrice}</dd>
-                </>
-              )}
-            </dl>
-
-            {/* Description */}
-            {photo.description && (
-              <div style={{ marginBottom: '1.25rem' }}>
-                <p style={{ color: '#888', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 0.4rem' }}>Description</p>
-                <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: 1.6, color: '#333' }}>{photo.description}</p>
-              </div>
-            )}
-
-            {/* Provenance */}
-            {photo.provenance && (
-              <div style={{ marginBottom: '1.25rem' }}>
-                <p style={{ color: '#888', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 0.4rem' }}>Provenance</p>
-                <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: 1.6, color: '#555' }}>{photo.provenance}</p>
-              </div>
-            )}
-
-            {/* Keywords */}
-            {keywordList.length > 0 && (
-              <div style={{ marginBottom: '1.5rem' }}>
-                <p style={{ color: '#888', fontSize: '0.75rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 0.5rem' }}>Subjects</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                  {keywordList.map(kw => (
-                    <Link
-                      key={kw}
-                      href={`/photographs/subject/${encodeURIComponent(kw)}`}
-                      className="keyword-tag"
-                      style={{
-                        display: 'inline-block',
-                        padding: '0.25rem 0.65rem',
-                        border: '1px solid #ccc',
-                        borderRadius: '999px',
-                        fontSize: '0.8rem',
-                        color: '#444',
-                        textDecoration: 'none',
-                        transition: 'background 0.15s, color 0.15s',
-                      }}
-                    >
-                      {kw}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Inquire CTA */}
-            <Link
-              href={`/contact?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
-              className="inquire-btn"
-              style={{
-                display: 'inline-block',
-                marginTop: '0.5rem',
-                padding: '0.75rem 1.5rem',
-                backgroundColor: '#1a1a1a',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '4px',
-                fontSize: '0.9rem',
-                transition: 'background 0.15s',
-              }}
-            >
-              Inquire About This Photo
-            </Link>
-          </div>
+        {/* Left: Photo */}
+        <div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
+            alt={photo.title}
+            className={styles.photoImg}
+          />
         </div>
 
-        {/* Prev / Next navigation */}
-        {(nav.prev !== null || nav.next !== null) && (
-          <nav style={{
-            marginTop: '3rem',
-            paddingTop: '1.5rem',
-            borderTop: '1px solid #ddd',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            {nav.prev !== null ? (
-              <Link
-                href={`/photographs/photo/${nav.prev}${fromParam}`}
-                className="photo-nav-link"
-                style={{ color: '#333', textDecoration: 'none', fontSize: '0.95rem' }}
-              >
-                ← Previous
-              </Link>
-            ) : <span />}
-            {nav.next !== null ? (
-              <Link
-                href={`/photographs/photo/${nav.next}${fromParam}`}
-                className="photo-nav-link"
-                style={{ color: '#333', textDecoration: 'none', fontSize: '0.95rem' }}
-              >
-                Next →
-              </Link>
-            ) : <span />}
-          </nav>
-        )}
+        {/* Right: Metadata */}
+        <div>
+          <h1 className={styles.title}>
+            {photo.title}
+          </h1>
+
+          <Link
+            href={`/photographs/photographer/${photographerSlug}`}
+            className={styles.photographerLink}
+          >
+            {fullName}
+          </Link>
+
+          {photo.years && (
+            <p className={styles.years}>
+              {decodeHtmlEntities(photo.years)}
+            </p>
+          )}
+
+          {/* Core metadata */}
+          <dl className={styles.dl}>
+            {photo.medium && (
+              <>
+                <dt className={styles.dt}>Medium</dt>
+                <dd className={styles.dd}>{photo.medium}</dd>
+              </>
+            )}
+            {photo.date && (
+              <>
+                <dt className={styles.dt}>Date</dt>
+                <dd className={styles.dd}>{photo.date}</dd>
+              </>
+            )}
+            {photo.width && photo.height && (
+              <>
+                <dt className={styles.dt}>Size</dt>
+                <dd className={styles.dd}>{photo.width}&quot; × {photo.height}&quot;</dd>
+              </>
+            )}
+            {photo.inventoryNumber && (
+              <>
+                <dt className={styles.dt}>Inventory</dt>
+                <dd className={styles.dd}>{photo.inventoryNumber}</dd>
+              </>
+            )}
+            {formattedPrice && (
+              <>
+                <dt className={styles.dt}>Price</dt>
+                <dd className={styles.ddPrice}>{formattedPrice}</dd>
+              </>
+            )}
+          </dl>
+
+          {/* Description */}
+          {photo.description && (
+            <div className={styles.descBlock}>
+              <p className={styles.sectionLabel}>Description</p>
+              <p className={styles.descText}>{photo.description}</p>
+            </div>
+          )}
+
+          {/* Provenance */}
+          {photo.provenance && (
+            <div className={styles.descBlock}>
+              <p className={styles.sectionLabel}>Provenance</p>
+              <p className={styles.provText}>{photo.provenance}</p>
+            </div>
+          )}
+
+          {/* Keywords */}
+          {keywordList.length > 0 && (
+            <div className={styles.keywordsWrap}>
+              <p className={styles.sectionLabel}>Subjects</p>
+              <div className={styles.keywordTags}>
+                {keywordList.map(kw => (
+                  <Link
+                    key={kw}
+                    href={`/photographs/subject/${encodeURIComponent(kw)}`}
+                    className={styles.keywordTag}
+                  >
+                    {kw}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Inquire CTA */}
+          <Link
+            href={`/contact?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
+            className={styles.inquireBtn}
+          >
+            Inquire About This Photo
+          </Link>
+        </div>
       </div>
-    </>
+
+      {/* Prev / Next navigation */}
+      {(nav.prev !== null || nav.next !== null) && (
+        <nav className={styles.navBar}>
+          {nav.prev !== null ? (
+            <Link
+              href={`/photographs/photo/${nav.prev}${fromParam}`}
+              className={styles.navLink}
+            >
+              ← Previous
+            </Link>
+          ) : <span />}
+          {nav.next !== null ? (
+            <Link
+              href={`/photographs/photo/${nav.next}${fromParam}`}
+              className={styles.navLink}
+            >
+              Next →
+            </Link>
+          ) : <span />}
+        </nav>
+      )}
+    </div>
   );
 }
-
-const dtStyle: React.CSSProperties = {
-  color: '#888',
-  fontSize: '0.75rem',
-  fontWeight: '600',
-  textTransform: 'uppercase',
-  letterSpacing: '0.07em',
-  whiteSpace: 'nowrap',
-};

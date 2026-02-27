@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
-import { uploadPhotoToHE } from '@/lib/sftp';
+import { uploadPhoto } from '@/lib/r2';
 
 export async function POST(request: NextRequest) {
   // Verify session
@@ -24,10 +24,10 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   try {
-    await uploadPhotoToHE(photographerId, photoId, buffer);
+    await uploadPhoto(photographerId, photoId, buffer);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error('SFTP upload failed:', err);
+    console.error('R2 upload failed:', err);
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }

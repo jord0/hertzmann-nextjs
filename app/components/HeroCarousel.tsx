@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import type { CarouselPhoto } from '@/lib/carousel-data';
 import { decodeHtmlEntities } from '@/lib/htmlDecode';
+import { photoImageUrl } from '@/lib/photo-url';
 import styles from './HeroCarousel.module.css';
 
 function buildSlug(firstName: string, lastName: string) {
@@ -65,7 +66,7 @@ export default function HeroCarousel({ photos }: Props) {
         }}
       >
         {photos.map((photo, i) => {
-          const src = `https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`;
+          const src = photoImageUrl(photo.photographer, photo.id);
           return (
             <div
               key={photo.id}

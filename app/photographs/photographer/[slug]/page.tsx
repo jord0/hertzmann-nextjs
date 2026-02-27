@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { decodeHtmlEntities } from '@/lib/htmlDecode';
+import { photoImageUrl } from '@/lib/photo-url';
 import styles from './page.module.css';
 
 interface Photo {
@@ -125,7 +126,7 @@ export default async function PhotographerPage({ params }: PageProps) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`https://hertzmann.net/pages/photos/${photographer.id}_${photo.id}.jpg`}
+                src={photoImageUrl(photographer.id, photo.id)}
                 alt={photo.title}
                 className={styles.photoImage}
               />

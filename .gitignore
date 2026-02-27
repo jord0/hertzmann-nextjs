@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# wrangler
+.wrangler/
+
+# images (served from R2 in production, local dev only)
+/public/photos/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

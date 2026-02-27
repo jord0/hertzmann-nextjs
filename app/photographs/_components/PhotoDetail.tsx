@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { decodeHtmlEntities } from '@/lib/htmlDecode';
+import { photoImageUrl } from '@/lib/photo-url';
 import { PhotoLightbox } from './PhotoLightbox';
 import styles from './PhotoDetail.module.css';
 
@@ -60,7 +61,7 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
 
         <div>
           <PhotoLightbox
-            src={`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`}
+            src={photoImageUrl(photo.photographer, photo.id)}
             alt={photo.title}
           />
         </div>

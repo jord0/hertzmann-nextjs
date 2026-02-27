@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { query } from '@/lib/db';
 import { PhotoDetail } from '@/app/photographs/_components/PhotoDetail';
 import type { PhotoData } from '@/app/photographs/_components/PhotoDetail';
+import { photoImageUrl } from '@/lib/photo-url';
 
 interface PageProps {
   params: Promise<{ slug: string; id: string }>;
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: photo.title,
       description: `${photo.title} by ${fullName}`,
-      images: [`https://hertzmann.net/pages/photos/${photo.photographer}_${photo.id}.jpg`],
+      images: [photoImageUrl(photo.photographer, photo.id)],
     },
   };
 }

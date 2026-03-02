@@ -1,4 +1,5 @@
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
   return (
     <div style={{
       minHeight: '100vh',
@@ -41,6 +42,12 @@ export default function LoginPage() {
               }}
             />
           </div>
+
+          {error && (
+            <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: '#c00' }}>
+              Incorrect password.
+            </p>
+          )}
 
           <button
             type="submit"

@@ -39,6 +39,12 @@
   .chevron {
     display: none;
   }
+  .wrapper {
+    margin-top: 1.25rem;
+  }
+  .caption {
+    padding: 12px 1rem;
+  }
 }
 
 .chevron {

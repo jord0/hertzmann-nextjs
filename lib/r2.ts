@@ -21,8 +21,8 @@ export async function uploadPhoto(
   photoId: number,
   imageBuffer: Buffer
 ): Promise<void> {
-  const bucket = process.env.R2_BUCKET_NAME;
-  if (!bucket) throw new Error('R2_BUCKET_NAME is not configured');
+  const bucket = process.env.R2_PHOTO_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_PHOTO_BUCKET_NAME is not configured');
 
   await getClient().send(new PutObjectCommand({
     Bucket: bucket,
@@ -36,8 +36,8 @@ export async function deletePhoto(
   photographerId: number,
   photoId: number
 ): Promise<void> {
-  const bucket = process.env.R2_BUCKET_NAME;
-  if (!bucket) throw new Error('R2_BUCKET_NAME is not configured');
+  const bucket = process.env.R2_PHOTO_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_PHOTO_BUCKET_NAME is not configured');
 
   await getClient().send(new DeleteObjectCommand({
     Bucket: bucket,

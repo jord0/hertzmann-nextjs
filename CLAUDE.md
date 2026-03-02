@@ -100,7 +100,7 @@ Images are uploaded to Cloudflare R2 via the admin panel (`/api/admin/upload`).
 CF_ACCOUNT_ID=                # Cloudflare account ID
 R2_ACCESS_KEY_ID=             # R2 API token access key (photos bucket)
 R2_SECRET_ACCESS_KEY=         # R2 API token secret (photos bucket)
-R2_BUCKET_NAME=               # R2 bucket name for photos
+R2_PHOTO_BUCKET_NAME=         # R2 bucket name for photos
 NEXT_PUBLIC_PHOTOS_BASE_URL=  # Public bucket URL, e.g. https://pub-xxxx.r2.dev (no trailing slash)
 ```
 

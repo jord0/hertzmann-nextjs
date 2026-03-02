@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from 'next/script';
-import NavBar from './components/NavBar';
+import SiteNav from './components/SiteNav';
 import { Inter, Cormorant } from "next/font/google";
 import "./globals.css";
 
@@ -56,7 +56,7 @@ export default function RootLayout({
             gtag('config', 'G-Y87Y5056K0');
           `}
         </Script>
-        <NavBar />
+        <SiteNav />
         <main>{children}</main>
       </body>
     </html>

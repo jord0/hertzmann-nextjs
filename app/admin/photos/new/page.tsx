@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
 import { query } from '@/lib/db';
 import { uploadPhotoToHE } from '@/lib/sftp';
+import KeywordPicker from '../KeywordPicker';
 
 interface PhotographerOption {
   id: number;
@@ -74,6 +75,20 @@ export default async function NewPhotoPage() {
     'SELECT id, firstName, lastName FROM photographers WHERE enabled = 1 ORDER BY lastName, firstName'
   )) as PhotographerOption[];
 
+  const keywordRows = await query(`
+    SELECT DISTINCT TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(keywords, '|', n), '|', -1)) as keyword
+    FROM photos
+    CROSS JOIN (
+      SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
+      UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10
+    ) numbers
+    WHERE CHAR_LENGTH(keywords) - CHAR_LENGTH(REPLACE(keywords, '|', '')) >= n - 1
+    AND keywords IS NOT NULL AND keywords != ''
+    AND TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(keywords, '|', n), '|', -1)) != ''
+    ORDER BY keyword
+  `) as { keyword: string }[];
+  const allKeywords = keywordRows.map(r => r.keyword);
+
   return (
     <div>
       <h1 style={{ marginTop: 0 }}>Add Photo</h1>
@@ -102,11 +117,7 @@ export default async function NewPhotoPage() {
         <TextareaField label="Description" name="description" />
         <TextareaField label="Provenance" name="provenance" />
 
-        <Field
-          label="Keywords"
-          name="keywords"
-          placeholder="comma-separated, e.g. landscape, forest, black and white"
-        />
+        <KeywordPicker allKeywords={allKeywords} />
 
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="image" style={labelStyle}>Image (JPEG)</label>

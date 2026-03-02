@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(loginUrl, { status: 303 });
   }
 
-  const response = NextResponse.redirect(new URL('/admin', request.url), { status: 303 });
+  const response = NextResponse.redirect(new URL('/admin/photographers', request.url), { status: 303 });
   const session = await getIronSession<SessionData>(request, response, sessionOptions);
   session.isLoggedIn = true;
   await session.save();

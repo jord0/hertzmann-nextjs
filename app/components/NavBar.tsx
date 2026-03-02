@@ -28,15 +28,18 @@ export default function NavBar() {
         <Link href="/" className={styles.logo}>Hertzmann</Link>
 
         <div className={styles.links}>
-          {links.map(({ href, label, external }) =>
-            external ? (
+          {links.map(({ href, label, external }) => {
+            const active = !external && (href === '/' ? pathname === '/' : pathname.startsWith(href));
+            return external ? (
               <a key={href} href={href} target="_blank" rel="noopener noreferrer" className={styles.navLink}>
                 {label}
               </a>
             ) : (
-              <Link key={href} href={href} className={styles.navLink}>{label}</Link>
-            )
-          )}
+              <Link key={href} href={href} className={active ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink}>
+                {label}
+              </Link>
+            );
+          })}
         </div>
 
         <button

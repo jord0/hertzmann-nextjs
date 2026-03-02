@@ -47,6 +47,10 @@
   border-bottom-color: var(--color-gold);
 }
 
+.navLinkActive {
+  border-bottom: 2px solid var(--color-gold);
+}
+
 .hamburger {
   display: none;
   background: none;

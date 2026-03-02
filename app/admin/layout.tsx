@@ -24,6 +24,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <Link href="/admin/photos/new" style={{ color: '#ccc', textDecoration: 'none', fontSize: '0.9rem' }}>
           Add Photo
         </Link>
+        <Link href="/admin/catalogs" style={{ color: '#ccc', textDecoration: 'none', fontSize: '0.9rem' }}>
+          Catalogs
+        </Link>
         <div style={{ marginLeft: 'auto' }}>
           <form action="/api/admin/logout" method="POST">
             <button

@@ -44,3 +44,28 @@ export async function deletePhoto(
     Key: `photos/${photographerId}_${photoId}.jpg`,
   }));
 }
+
+export async function uploadCatalogPdf(
+  catalogId: number,
+  pdfBuffer: Buffer
+): Promise<void> {
+  const bucket = process.env.R2_CATALOG_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_CATALOG_BUCKET_NAME is not configured');
+
+  await getClient().send(new PutObjectCommand({
+    Bucket: bucket,
+    Key: `${catalogId}.pdf`,
+    Body: pdfBuffer,
+    ContentType: 'application/pdf',
+  }));
+}
+
+export async function deleteCatalogPdf(catalogId: number): Promise<void> {
+  const bucket = process.env.R2_CATALOG_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_CATALOG_BUCKET_NAME is not configured');
+
+  await getClient().send(new DeleteObjectCommand({
+    Bucket: bucket,
+    Key: `${catalogId}.pdf`,
+  }));
+}

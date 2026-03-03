@@ -1,7 +1,9 @@
 import { redirect, notFound } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
+import Link from 'next/link';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
+import { photoImageUrl } from '@/lib/photo-url';
 import KeywordPicker from '../../photos/KeywordPicker';
 
 interface Photographer {
@@ -93,6 +95,11 @@ export default async function EditPhotographerPage({ params }: { params: Promise
   const p = rows[0];
   const oldSlug = makeSlug(p.firstName, p.lastName);
 
+  const photos = (await query(
+    'SELECT id, title, enabled FROM photos WHERE photographer = ? ORDER BY title',
+    [p.id]
+  )) as { id: number; title: string; enabled: number }[];
+
   const keywordRows = await query(`
     SELECT DISTINCT TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(keywords, '|', n), '|', -1)) as keyword
     FROM photos
@@ -133,6 +140,53 @@ export default async function EditPhotographerPage({ params }: { params: Promise
           <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
         </div>
       </form>
+
+      {/* Photo thumbnails */}
+      {photos.length > 0 && (
+        <>
+          <hr style={{ margin: '2.5rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
+          <h2 style={{ margin: '0 0 1rem', fontSize: '1.25rem' }}>
+            Photos <span style={{ fontWeight: 400, color: '#888', fontSize: '1rem' }}>({photos.length})</span>
+          </h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            {photos.map(photo => (
+              <Link
+                key={photo.id}
+                href={`/admin/photos/${photo.id}`}
+                style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}
+              >
+                <div style={{ width: '110px' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photoImageUrl(p.id, photo.id)}
+                    alt={photo.title || `Photo ${photo.id}`}
+                    style={{
+                      width: '110px',
+                      height: '90px',
+                      objectFit: 'contain',
+                      backgroundColor: '#f5f5f5',
+                      border: '1px solid #e0e0e0',
+                      display: 'block',
+                      opacity: photo.enabled ? 1 : 0.4,
+                    }}
+                  />
+                  <p style={{
+                    margin: '0.3rem 0 0',
+                    fontSize: '0.72rem',
+                    color: '#555',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '110px',
+                  }}>
+                    {photo.title || <em>Untitled</em>}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* Add Photo */}
       <hr style={{ margin: '2.5rem 0', border: 'none', borderTop: '1px solid #ddd' }} />

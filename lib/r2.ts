@@ -54,7 +54,7 @@ export async function uploadCatalogPdf(
 
   await getClient().send(new PutObjectCommand({
     Bucket: bucket,
-    Key: `${catalogId}.pdf`,
+    Key: `catalogs/${catalogId}.pdf`,
     Body: pdfBuffer,
     ContentType: 'application/pdf',
   }));
@@ -66,6 +66,6 @@ export async function deleteCatalogPdf(catalogId: number): Promise<void> {
 
   await getClient().send(new DeleteObjectCommand({
     Bucket: bucket,
-    Key: `${catalogId}.pdf`,
+    Key: `catalogs/${catalogId}.pdf`,
   }));
 }

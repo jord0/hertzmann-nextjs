@@ -39,7 +39,7 @@ export default function CatalogCard({ catalog }: { catalog: Catalog }) {
 
           <h2 className={styles.title}>{catalog.title}</h2>
 
-          <p className={styles.description}>{catalog.description}</p>
+          <div className={styles.description} dangerouslySetInnerHTML={{ __html: catalog.description }} />
 
           <button className={styles.readMore} onClick={() => setModalOpen(true)}>
             Read more
@@ -83,7 +83,7 @@ export default function CatalogCard({ catalog }: { catalog: Catalog }) {
             </div>
 
             <h2 className={styles.modalTitle}>{catalog.title}</h2>
-            <p className={styles.modalDescription}>{catalog.description}</p>
+            <div className={styles.modalDescription} dangerouslySetInnerHTML={{ __html: catalog.description }} />
 
             <a
               href={pdfUrl}

@@ -166,7 +166,16 @@
   line-height: 1.8;
   color: var(--color-foreground);
   margin: 0 0 2rem;
-  white-space: pre-wrap;
+}
+
+.description p,
+.modalDescription p {
+  margin: 0 0 0.75em;
+}
+
+.description p:last-child,
+.modalDescription p:last-child {
+  margin-bottom: 0;
 }
 
 .modalDownload {

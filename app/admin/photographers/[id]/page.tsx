@@ -155,14 +155,14 @@ export default async function EditPhotographerPage({ params }: { params: Promise
                 href={`/admin/photos/${photo.id}`}
                 style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}
               >
-                <div style={{ width: '110px' }}>
+                <div style={{ width: '220px' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photoImageUrl(p.id, photo.id)}
                     alt={photo.title || `Photo ${photo.id}`}
                     style={{
-                      width: '110px',
-                      height: '90px',
+                      width: '220px',
+                      height: '180px',
                       objectFit: 'contain',
                       backgroundColor: '#f5f5f5',
                       border: '1px solid #e0e0e0',
@@ -177,7 +177,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
-                    maxWidth: '110px',
+                    maxWidth: '220px',
                   }}>
                     {photo.title || <em>Untitled</em>}
                   </p>

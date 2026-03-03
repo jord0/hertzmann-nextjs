@@ -124,68 +124,71 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
           </button>
         </div>
 
-        {/* Search */}
-        <div className={styles.searchWrap}>
-          <div className={styles.searchInner}>
-            <span className={styles.searchIcon}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={search}
-              onChange={e => isPhotographers ? setPhotographerSearch(e.target.value) : setSubjectSearch(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Escape' && search) { e.preventDefault(); clearSearch(); } }}
-              placeholder={isPhotographers ? 'Search artists...' : 'Search subjects...'}
-              className={styles.searchInput}
-            />
-            {search && (
-              <button
-                onClick={clearSearch}
-                aria-label="Clear search"
-                className={styles.searchClear}
-              >
-                ✕
-              </button>
+        {/* Sticky search + alphabet nav */}
+        <div className={styles.stickyControls}>
+          {/* Search */}
+          <div className={styles.searchWrap}>
+            <div className={styles.searchInner}>
+              <span className={styles.searchIcon}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={search}
+                onChange={e => isPhotographers ? setPhotographerSearch(e.target.value) : setSubjectSearch(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Escape' && search) { e.preventDefault(); clearSearch(); } }}
+                placeholder={isPhotographers ? 'Search artists...' : 'Search subjects...'}
+                className={styles.searchInput}
+              />
+              {search && (
+                <button
+                  onClick={clearSearch}
+                  aria-label="Clear search"
+                  className={styles.searchClear}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            {search.trim() && (
+              <p aria-live="polite" className={styles.searchCount}>
+                {filteredCount} of {totalCount} {noun}
+              </p>
             )}
           </div>
-          {search.trim() && (
-            <p aria-live="polite" className={styles.searchCount}>
-              {filteredCount} of {totalCount} {noun}
-            </p>
+
+          {/* Alphabet jump nav */}
+          {!search.trim() && (
+            <div className={styles.alphabetNav}>
+              <span className={styles.alphabetLabel}>Jump to</span>
+              <div className={styles.alphabetLetters}>
+                {ALPHABET.map(letter => {
+                  const active = activeLetters.has(letter);
+                  return active ? (
+                    <a
+                      key={letter}
+                      href={`#letter-${letter}`}
+                      className={styles.alphabetLink}
+                    >
+                      {letter}
+                    </a>
+                  ) : (
+                    <span
+                      key={letter}
+                      className={styles.alphabetInactive}
+                    >
+                      {letter}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
           )}
         </div>
-
-        {/* Alphabet jump nav */}
-        {!search.trim() && (
-          <div className={styles.alphabetNav}>
-            <span className={styles.alphabetLabel}>Jump to</span>
-            <div className={styles.alphabetLetters}>
-              {ALPHABET.map(letter => {
-                const active = activeLetters.has(letter);
-                return active ? (
-                  <a
-                    key={letter}
-                    href={`#letter-${letter}`}
-                    className={styles.alphabetLink}
-                  >
-                    {letter}
-                  </a>
-                ) : (
-                  <span
-                    key={letter}
-                    className={styles.alphabetInactive}
-                  >
-                    {letter}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        )}
 
         {/* Name list */}
         {letters.length === 0 ? (

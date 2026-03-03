@@ -59,6 +59,26 @@
   color: var(--color-foreground);
 }
 
+.stickyControls {
+  position: sticky;
+  top: 61px;
+  z-index: 100;
+  background-color: var(--color-bg);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border-warm);
+  /* extend full width to cover list items scrolling beneath */
+  margin-left: -2.5rem;
+  margin-right: -2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 0.5rem;
+}
+
+.stickyControls .alphabetNav {
+  margin-bottom: 0;
+}
+
 .searchWrap {
   margin-bottom: 1.5rem;
   max-width: 360px;
@@ -184,7 +204,7 @@
 
 .letterSection {
   margin-bottom: 2.5rem;
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 11rem;
 }
 
 .letterHeading {

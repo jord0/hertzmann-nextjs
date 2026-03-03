@@ -119,7 +119,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Edit Photographer</h1>
+      <h1 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '2rem' }}>Edit Photographer</h1>
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         <form action={updateAction} style={{ width: '480px', flexShrink: 0 }}>
@@ -145,7 +145,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
         {/* Photo thumbnails */}
         {photos.length > 0 && (
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ margin: '0 0 1rem', fontSize: '1.25rem' }}>
+            <h2 style={{ margin: '0 0 1rem', fontSize: '1.5rem' }}>
               Photos <span style={{ fontWeight: 400, color: '#888', fontSize: '1rem' }}>({photos.length})</span>
             </h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
@@ -191,7 +191,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
 
       {/* Add Photo */}
       <hr style={{ margin: '3rem 0 2.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
-      <h2 style={{ margin: '0 0 1.5rem', fontSize: '1.25rem' }}>Add Photo</h2>
+      <h2 style={{ margin: '0 0 1.5rem', fontSize: '1.5rem' }}>Add Photo</h2>
 
       <form action={createPhotoAction} encType="multipart/form-data" style={{ maxWidth: '600px' }}>
         <Field label="Title" name="title" />

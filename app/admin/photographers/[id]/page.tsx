@@ -121,75 +121,76 @@ export default async function EditPhotographerPage({ params }: { params: Promise
     <div>
       <h1 style={{ marginTop: 0 }}>Edit Photographer</h1>
 
-      <form action={updateAction} style={{ maxWidth: '480px' }}>
-        <Field label="First Name" name="firstName" defaultValue={p.firstName} required />
-        <Field label="Last Name" name="lastName" defaultValue={p.lastName} required />
-        <Field label="Years Active" name="years" defaultValue={p.years || ''} />
-        <Field label="Country" name="country" defaultValue={p.country || ''} />
-        <TextareaField label="CV / Bio" name="cv" defaultValue={p.cv || ''} />
+      <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
+        <form action={updateAction} style={{ width: '480px', flexShrink: 0 }}>
+          <Field label="First Name" name="firstName" defaultValue={p.firstName} required />
+          <Field label="Last Name" name="lastName" defaultValue={p.lastName} required />
+          <Field label="Years Active" name="years" defaultValue={p.years || ''} />
+          <Field label="Country" name="country" defaultValue={p.country || ''} />
+          <TextareaField label="CV / Bio" name="cv" defaultValue={p.cv || ''} />
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input type="checkbox" name="enabled" defaultChecked={!!p.enabled} />
-            <span>Enabled (visible on site)</span>
-          </label>
-        </div>
-
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Save</button>
-          <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
-        </div>
-      </form>
-
-      {/* Photo thumbnails */}
-      {photos.length > 0 && (
-        <>
-          <hr style={{ margin: '2.5rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
-          <h2 style={{ margin: '0 0 1rem', fontSize: '1.25rem' }}>
-            Photos <span style={{ fontWeight: 400, color: '#888', fontSize: '1rem' }}>({photos.length})</span>
-          </h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {photos.map(photo => (
-              <Link
-                key={photo.id}
-                href={`/admin/photos/${photo.id}`}
-                style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}
-              >
-                <div style={{ width: '220px' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photoImageUrl(p.id, photo.id)}
-                    alt={photo.title || `Photo ${photo.id}`}
-                    style={{
-                      width: '220px',
-                      height: '180px',
-                      objectFit: 'contain',
-                      backgroundColor: '#f5f5f5',
-                      border: '1px solid #e0e0e0',
-                      display: 'block',
-                      opacity: photo.enabled ? 1 : 0.4,
-                    }}
-                  />
-                  <p style={{
-                    margin: '0.3rem 0 0',
-                    fontSize: '0.72rem',
-                    color: '#555',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    maxWidth: '220px',
-                  }}>
-                    {photo.title || <em>Untitled</em>}
-                  </p>
-                </div>
-              </Link>
-            ))}
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+              <input type="checkbox" name="enabled" defaultChecked={!!p.enabled} />
+              <span>Enabled (visible on site)</span>
+            </label>
           </div>
-        </>
-      )}
+
+          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+            <button type="submit" style={submitStyle}>Save</button>
+            <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
+          </div>
+        </form>
+
+        {/* Photo thumbnails */}
+        {photos.length > 0 && (
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h2 style={{ margin: '0 0 1rem', fontSize: '1.25rem' }}>
+              Photos <span style={{ fontWeight: 400, color: '#888', fontSize: '1rem' }}>({photos.length})</span>
+            </h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              {photos.map(photo => (
+                <Link
+                  key={photo.id}
+                  href={`/admin/photos/${photo.id}`}
+                  style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}
+                >
+                  <div style={{ width: '220px' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photoImageUrl(p.id, photo.id)}
+                      alt={photo.title || `Photo ${photo.id}`}
+                      style={{
+                        width: '220px',
+                        height: '180px',
+                        objectFit: 'contain',
+                        backgroundColor: '#f5f5f5',
+                        border: '1px solid #e0e0e0',
+                        display: 'block',
+                        opacity: photo.enabled ? 1 : 0.4,
+                      }}
+                    />
+                    <p style={{
+                      margin: '0.3rem 0 0',
+                      fontSize: '0.72rem',
+                      color: '#555',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '220px',
+                    }}>
+                      {photo.title || <em>Untitled</em>}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Add Photo */}
-      <hr style={{ margin: '2.5rem 0', border: 'none', borderTop: '1px solid #ddd' }} />
+      <hr style={{ margin: '3rem 0 2.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
       <h2 style={{ margin: '0 0 1.5rem', fontSize: '1.25rem' }}>Add Photo</h2>
 
       <form action={createPhotoAction} encType="multipart/form-data" style={{ maxWidth: '600px' }}>

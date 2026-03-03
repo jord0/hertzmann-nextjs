@@ -11,13 +11,13 @@ async function createPhotographer(formData: FormData) {
   const cv = (formData.get('cv') as string).trim();
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
-  await query(
+  const result = (await query(
     'INSERT INTO photographers (firstName, lastName, years, country, cv, enabled) VALUES (?, ?, ?, ?, ?, ?)',
     [firstName, lastName, years, country, cv, enabled]
-  );
+  )) as { insertId: number };
 
   revalidateTag('browse-data', 'default');
-  redirect('/admin/photographers');
+  redirect(`/admin/photographers/${result.insertId}`);
 }
 
 export default function NewPhotographerPage() {

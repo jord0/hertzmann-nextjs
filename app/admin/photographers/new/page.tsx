@@ -8,11 +8,12 @@ async function createPhotographer(formData: FormData) {
   const lastName = (formData.get('lastName') as string).trim();
   const years = (formData.get('years') as string).trim();
   const country = (formData.get('country') as string).trim();
+  const cv = (formData.get('cv') as string).trim();
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
   await query(
-    'INSERT INTO photographers (firstName, lastName, years, country, enabled) VALUES (?, ?, ?, ?, ?)',
-    [firstName, lastName, years, country, enabled]
+    'INSERT INTO photographers (firstName, lastName, years, country, cv, enabled) VALUES (?, ?, ?, ?, ?, ?)',
+    [firstName, lastName, years, country, cv, enabled]
   );
 
   revalidateTag('browse-data', 'default');
@@ -29,6 +30,7 @@ export default function NewPhotographerPage() {
         <Field label="Last Name" name="lastName" required />
         <Field label="Years Active" name="years" placeholder="e.g. 1920&ndash;1980" />
         <Field label="Country" name="country" />
+        <TextareaField label="CV / Bio" name="cv" />
 
         <div style={{ marginBottom: '1rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
@@ -42,6 +44,22 @@ export default function NewPhotographerPage() {
           <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
         </div>
       </form>
+    </div>
+  );
+}
+
+function TextareaField({ label, name }: { label: string; name: string }) {
+  return (
+    <div style={{ marginBottom: '1rem' }}>
+      <label htmlFor={name} style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.9rem', fontWeight: 500 }}>
+        {label}
+      </label>
+      <textarea
+        id={name}
+        name={name}
+        rows={5}
+        style={{ width: '100%', padding: '0.6rem 0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', resize: 'vertical' }}
+      />
     </div>
   );
 }

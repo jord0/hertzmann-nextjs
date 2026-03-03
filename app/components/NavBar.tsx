@@ -54,15 +54,16 @@ export default function NavBar() {
 
       {isOpen && (
         <div className={styles.mobileMenu}>
-          {links.map(({ href, label, external }) =>
-            external ? (
+          {links.map(({ href, label, external }) => {
+            const active = !external && (href === '/' ? pathname === '/' : pathname.startsWith(href));
+            return external ? (
               <a key={href} href={href} target="_blank" rel="noopener noreferrer" className={styles.mobileLink}>
                 {label}
               </a>
             ) : (
-              <Link key={href} href={href} className={styles.mobileLink}>{label}</Link>
-            )
-          )}
+              <Link key={href} href={href} className={active ? `${styles.mobileLink} ${styles.mobileLinkActive}` : styles.mobileLink}>{label}</Link>
+            );
+          })}
         </div>
       )}
     </nav>

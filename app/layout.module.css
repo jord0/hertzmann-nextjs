@@ -84,6 +84,13 @@
   border-bottom: none;
 }
 
+.mobileLinkActive {
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 @media (max-width: 768px) {
   .links {
     display: none;

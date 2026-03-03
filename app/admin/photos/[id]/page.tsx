@@ -1,7 +1,7 @@
 import { redirect, notFound } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
 import { query } from '@/lib/db';
-import { uploadPhotoToHE } from '@/lib/sftp';
+import { uploadPhoto } from '@/lib/r2';
 import KeywordPicker from '../KeywordPicker';
 
 interface Photo {
@@ -70,7 +70,7 @@ async function updatePhoto(photoId: number, formData: FormData) {
   const imageFile = formData.get('image') as File | null;
   if (imageFile && imageFile.size > 0) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await uploadPhotoToHE(photographer, photoId, buffer);
+    await uploadPhoto(photographer, photoId, buffer);
   }
 
   // Get photographer info for revalidation

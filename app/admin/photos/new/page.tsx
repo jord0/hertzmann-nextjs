@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
 import { query } from '@/lib/db';
-import { uploadPhotoToHE } from '@/lib/sftp';
+import { uploadPhoto } from '@/lib/r2';
 import KeywordPicker from '../KeywordPicker';
 
 interface PhotographerOption {
@@ -51,7 +51,7 @@ async function createPhoto(formData: FormData) {
   const imageFile = formData.get('image') as File | null;
   if (imageFile && imageFile.size > 0) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await uploadPhotoToHE(photographerId, photoId, buffer);
+    await uploadPhoto(photographerId, photoId, buffer);
   }
 
   // Get photographer info for revalidation

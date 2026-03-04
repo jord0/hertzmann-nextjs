@@ -47,7 +47,7 @@ async function updatePhoto(photoId: number, formData: FormData) {
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = (formData.get('price') as string).trim();
+  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
@@ -60,10 +60,10 @@ async function updatePhoto(photoId: number, formData: FormData) {
 
   await query(
     `UPDATE photos SET
-      photographer=?, title=?, medium=?, date=?, width=?, height=?,
+      photographer=?, artist=?, title=?, medium=?, date=?, width=?, height=?,
       price=?, description=?, provenance=?, inventoryNumber=?, keywords=?, enabled=?
      WHERE id=?`,
-    [photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, photoId]
+    [photographer, photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, photoId]
   );
 
   // Upload new image if provided
@@ -121,7 +121,7 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
     <div>
       <h1 style={{ marginTop: 0 }}>Edit Photo #{photo.id}</h1>
 
-      <form action={action} encType="multipart/form-data" style={{ maxWidth: '600px' }}>
+      <form action={action} style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
           <select id="photographer" name="photographer" required style={selectStyle}>
@@ -138,8 +138,8 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
         <Field label="Date" name="date" defaultValue={photo.date} />
         <Field label="Width" name="width" defaultValue={photo.width} />
         <Field label="Height" name="height" defaultValue={photo.height} />
-        <Field label="Price" name="price" defaultValue={photo.price} />
-        <Field label="Inventory Number" name="inventoryNumber" defaultValue={photo.inventoryNumber} />
+        <Field label="Price" name="price" defaultValue={photo.price} type="number" max={8388607} />
+        <Field label="Inventory Number" name="inventoryNumber" defaultValue={photo.inventoryNumber} maxLength={10} />
 
         <TextareaField label="Description" name="description" defaultValue={photo.description} />
         <TextareaField label="Provenance" name="provenance" defaultValue={photo.provenance} />
@@ -176,8 +176,8 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
   );
 }
 
-function Field({ label, name, defaultValue, required, placeholder }: {
-  label: string; name: string; defaultValue?: string; required?: boolean; placeholder?: string;
+function Field({ label, name, defaultValue, required, placeholder, type = 'text', max, maxLength }: {
+  label: string; name: string; defaultValue?: string | number; required?: boolean; placeholder?: string; type?: string; max?: number; maxLength?: number;
 }) {
   return (
     <div style={{ marginBottom: '1rem' }}>
@@ -185,10 +185,12 @@ function Field({ label, name, defaultValue, required, placeholder }: {
       <input
         id={name}
         name={name}
-        type="text"
+        type={type}
         required={required}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        max={max}
+        maxLength={maxLength}
         style={inputStyle}
       />
     </div>

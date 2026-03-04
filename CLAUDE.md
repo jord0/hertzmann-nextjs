@@ -38,19 +38,21 @@ This means:
 | `lastName` | varchar | |
 | `years` | varchar | may contain HTML entities (`&ndash;`) |
 | `country` | varchar | |
+| `cv` | text | biography / CV text |
 | `enabled` | tinyint | 1 = visible on site |
 
 **`photos` table**
 | column | type | notes |
 |---|---|---|
 | `id` | int PK | |
-| `photographerId` | int FK | references `photographers.id` |
+| `photographer` | int FK | references `photographers.id` |
+| `artist` | int | redundant FK, always set equal to `photographer` (legacy field) |
 | `title` | varchar | |
 | `medium` | varchar | |
 | `date` | varchar | |
 | `width` | varchar | |
 | `height` | varchar | |
-| `price` | varchar | |
+| `price` | numeric | use `null` when empty, not empty string |
 | `description` | text | |
 | `provenance` | text | |
 | `inventoryNumber` | varchar | |

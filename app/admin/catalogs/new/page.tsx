@@ -32,7 +32,7 @@ export default function NewCatalogPage() {
     <div>
       <h1 style={{ marginTop: 0 }}>Add Catalog</h1>
 
-      <form action={createCatalog} encType="multipart/form-data" style={{ maxWidth: '480px' }}>
+      <form action={createCatalog} style={{ maxWidth: '480px' }}>
         <Field label="Title" name="title" required />
         <Field label="Date" name="date" placeholder="e.g. 2024" />
         <Field label="Price" name="price" type="number" placeholder="0 for contact-for-price" />

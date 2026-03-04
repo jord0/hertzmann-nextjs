@@ -2,11 +2,12 @@ import mysql from 'mysql2/promise';
 
 export async function query(sql: string, params: any[] = []) {
   const connection = await mysql.createConnection({
-    host: 'yamanote.proxy.rlwy.net',
-    port: 54621,
-    user: 'root',
-    password: 'mxaVjtngYNIRqgnkgstCGvMUOBmIcETx',
-    database: 'railway'
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '3306', 10),
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: { rejectUnauthorized: false },
   });
 
   try {

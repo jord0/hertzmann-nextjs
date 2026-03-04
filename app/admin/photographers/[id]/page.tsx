@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
 import { photoImageUrl } from '@/lib/photo-url';
-import KeywordPicker from '../../photos/KeywordPicker';
+import AddPhotoSection from './AddPhotoSection';
 
 interface Photographer {
   id: number;
@@ -55,7 +55,7 @@ async function createPhoto(photographerId: number, slug: string, formData: FormD
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = (formData.get('price') as string).trim();
+  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
@@ -68,9 +68,9 @@ async function createPhoto(photographerId: number, slug: string, formData: FormD
 
   const result = (await query(
     `INSERT INTO photos
-      (photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
+      (photographer, artist, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled, illustrated, exhibitions, notes)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', '', '')`,
+    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
   )) as { insertId: number };
 
   const photoId = result.insertId;
@@ -122,25 +122,33 @@ export default async function EditPhotographerPage({ params }: { params: Promise
       <h1 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '2rem' }}>Edit Photographer</h1>
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
-        <form action={updateAction} style={{ width: '480px', flexShrink: 0 }}>
-          <Field label="First Name" name="firstName" defaultValue={p.firstName} required />
-          <Field label="Last Name" name="lastName" defaultValue={p.lastName} required />
-          <Field label="Years Active" name="years" defaultValue={p.years || ''} />
-          <Field label="Country" name="country" defaultValue={p.country || ''} />
-          <TextareaField label="CV / Bio" name="cv" defaultValue={p.cv || ''} />
+        <div style={{ width: '480px', flexShrink: 0 }}>
+          <form action={updateAction}>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <Field label="First Name" name="firstName" defaultValue={p.firstName} required noMargin />
+              <Field label="Last Name" name="lastName" defaultValue={p.lastName} required noMargin />
+            </div>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <Field label="Years Active" name="years" defaultValue={p.years || ''} noMargin />
+              <Field label="Country" name="country" defaultValue={p.country || ''} noMargin />
+            </div>
+            <TextareaField label="CV / Bio" name="cv" defaultValue={p.cv || ''} />
 
-          <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-              <input type="checkbox" name="enabled" defaultChecked={!!p.enabled} />
-              <span>Enabled (visible on site)</span>
-            </label>
-          </div>
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input type="checkbox" name="enabled" defaultChecked={!!p.enabled} />
+                <span>Enabled (visible on site)</span>
+              </label>
+            </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-            <button type="submit" style={submitStyle}>Save</button>
-            <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
-          </div>
-        </form>
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+              <button type="submit" style={submitStyle}>Save</button>
+              <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
+            </div>
+          </form>
+
+          <AddPhotoSection action={createPhotoAction} allKeywords={allKeywords} />
+        </div>
 
         {/* Photo thumbnails */}
         {photos.length > 0 && (
@@ -188,47 +196,6 @@ export default async function EditPhotographerPage({ params }: { params: Promise
           </div>
         )}
       </div>
-
-      {/* Add Photo */}
-      <hr style={{ margin: '3rem 0 2.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
-      <h2 style={{ margin: '0 0 1.5rem', fontSize: '1.5rem' }}>Add Photo</h2>
-
-      <form action={createPhotoAction} encType="multipart/form-data" style={{ maxWidth: '600px' }}>
-        <Field label="Title" name="title" />
-        <Field label="Medium" name="medium" />
-        <Field label="Date" name="date" placeholder="e.g. 1952" />
-        <Field label="Width" name="width" placeholder="in inches" />
-        <Field label="Height" name="height" placeholder="in inches" />
-        <Field label="Price" name="price" />
-        <Field label="Inventory Number" name="inventoryNumber" />
-
-        <TextareaField label="Description" name="description" />
-        <TextareaField label="Provenance" name="provenance" />
-
-        <KeywordPicker allKeywords={allKeywords} />
-
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="photo-image" style={labelStyle}>Image (JPEG)</label>
-          <input
-            id="photo-image"
-            name="image"
-            type="file"
-            accept="image/jpeg"
-            style={{ display: 'block', marginTop: '0.3rem' }}
-          />
-        </div>
-
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input type="checkbox" name="enabled" defaultChecked />
-            <span>Enabled (visible on site)</span>
-          </label>
-        </div>
-
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Add Photo</button>
-        </div>
-      </form>
     </div>
   );
 }
@@ -251,16 +218,19 @@ function TextareaField({ label, name, defaultValue }: { label: string; name: str
 }
 
 function Field({
-  label, name, defaultValue, required, placeholder,
+  label, name, defaultValue, required, placeholder, type = 'text', max, noMargin,
 }: {
   label: string;
   name: string;
   defaultValue?: string;
   required?: boolean;
   placeholder?: string;
+  type?: string;
+  max?: number;
+  noMargin?: boolean;
 }) {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: noMargin ? 0 : '1rem', flex: noMargin ? 1 : undefined }}>
       <label
         htmlFor={name}
         style={labelStyle}
@@ -270,10 +240,11 @@ function Field({
       <input
         id={name}
         name={name}
-        type="text"
+        type={type}
         required={required}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        max={max}
         style={inputStyle}
       />
     </div>

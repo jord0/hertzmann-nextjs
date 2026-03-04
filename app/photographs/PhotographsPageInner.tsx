@@ -190,6 +190,18 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
           )}
         </div>
 
+        {/* Dot legend — By Artist tab only */}
+        {isPhotographers && (
+          <div className={styles.legend}>
+            <span className={styles.legendItem}>
+              <span style={{ color: tokens.color.gold }}>●</span> Available
+            </span>
+            <span className={styles.legendItem}>
+              <span style={{ color: tokens.color.muted }}>●</span> Inquire with Gallery
+            </span>
+          </div>
+        )}
+
         {/* Name list */}
         {letters.length === 0 ? (
           <div className={styles.emptyState}>
@@ -215,7 +227,7 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
                           className={styles.nameLink}
                         >
                           {/* Dynamic: dot color depends on hasEnabledPhotos */}
-                          <span className={styles.bullet} style={{ color: p.hasEnabledPhotos ? tokens.color.muted : tokens.color.gold }}>●</span>
+                          <span className={styles.bullet} style={{ color: p.hasEnabledPhotos ? tokens.color.gold : tokens.color.muted }}>●</span>
                           <span><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
                         </Link>
                       ))

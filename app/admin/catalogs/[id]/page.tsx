@@ -58,7 +58,7 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
     <div>
       <h1 style={{ marginTop: 0 }}>Edit Catalog #{c.id}</h1>
 
-      <form action={updateAction} encType="multipart/form-data" style={{ maxWidth: '480px' }}>
+      <form action={updateAction} style={{ maxWidth: '480px' }}>
         <Field label="Title" name="title" defaultValue={c.title} required />
         <Field label="Date" name="date" defaultValue={c.date} placeholder="e.g. 2024" />
         <Field label="Price" name="price" type="number" defaultValue={String(c.price)} />

@@ -26,7 +26,7 @@ async function createPhoto(formData: FormData) {
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = (formData.get('price') as string).trim();
+  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
@@ -40,9 +40,9 @@ async function createPhoto(formData: FormData) {
 
   const result = (await query(
     `INSERT INTO photos
-      (photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
+      (photographer, artist, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled, illustrated, exhibitions, notes)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', '', '')`,
+    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
   )) as { insertId: number };
 
   const photoId = result.insertId;
@@ -93,7 +93,7 @@ export default async function NewPhotoPage() {
     <div>
       <h1 style={{ marginTop: 0 }}>Add Photo</h1>
 
-      <form action={createPhoto} encType="multipart/form-data" style={{ maxWidth: '600px' }}>
+      <form action={createPhoto} style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="photographerId" style={labelStyle}>Photographer *</label>
           <select id="photographerId" name="photographerId" required style={selectStyle}>
@@ -111,8 +111,8 @@ export default async function NewPhotoPage() {
         <Field label="Date" name="date" placeholder="e.g. 1952" />
         <Field label="Width" name="width" placeholder="in inches" />
         <Field label="Height" name="height" placeholder="in inches" />
-        <Field label="Price" name="price" />
-        <Field label="Inventory Number" name="inventoryNumber" />
+        <Field label="Price" name="price" type="number" max={8388607} />
+        <Field label="Inventory Number" name="inventoryNumber" maxLength={10} />
 
         <TextareaField label="Description" name="description" />
         <TextareaField label="Provenance" name="provenance" />
@@ -146,8 +146,8 @@ export default async function NewPhotoPage() {
   );
 }
 
-function Field({ label, name, required, placeholder }: {
-  label: string; name: string; required?: boolean; placeholder?: string;
+function Field({ label, name, required, placeholder, type = 'text', max, maxLength }: {
+  label: string; name: string; required?: boolean; placeholder?: string; type?: string; max?: number; maxLength?: number;
 }) {
   return (
     <div style={{ marginBottom: '1rem' }}>
@@ -155,9 +155,11 @@ function Field({ label, name, required, placeholder }: {
       <input
         id={name}
         name={name}
-        type="text"
+        type={type}
         required={required}
         placeholder={placeholder}
+        max={max}
+        maxLength={maxLength}
         style={inputStyle}
       />
     </div>

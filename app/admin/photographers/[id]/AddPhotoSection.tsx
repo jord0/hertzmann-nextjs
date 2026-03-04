@@ -5,7 +5,7 @@ import KeywordPicker from '../../photos/KeywordPicker';
 import PhotoUploadControls from './PhotoUploadControls';
 
 interface Props {
-  action: (formData: FormData) => Promise<never>;
+  action: (formData: FormData) => Promise<void>;
   allKeywords: string[];
 }
 

@@ -20,7 +20,7 @@ Data flows in two distinct modes:
 
 **Browse page (`/photographs`):** Server Component. Calls `getBrowseData()` from `lib/browse-data.ts`, which uses `unstable_cache` (tag: `browse-data`) to cache the photographer list and keyword list. The cache is invalidated by admin actions via `revalidateTag('browse-data')`. `data.json` and `scripts/generate-data.ts` are retired.
 
-**At request time:** Individual photographer, subject, and photo detail pages query the Railway MySQL database directly via `lib/db.ts`. Each call opens a new connection, runs the query, and closes it (no pooling).
+**At request time:** Individual photographer, subject, and photo detail pages query the Aiven MySQL database directly via `lib/db.ts`. Each call opens a new connection, runs the query, and closes it (no pooling). Connection uses SSL (`rejectUnauthorized: false`). Credentials are read from env vars: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`.
 
 This means:
 - `/photographs` (browse page) — async Server Component, cached DB query via `unstable_cache`
@@ -85,6 +85,12 @@ Located at `/admin/*`. Protected by `middleware.ts` using `iron-session`.
 ```
 ADMIN_PASSWORD_HASH=   # bcrypt hash, generate with: node -e "require('bcryptjs').hash('yourpassword',10).then(console.log)"
 ADMIN_SESSION_SECRET=  # 32+ char random string
+
+DB_HOST=               # Aiven MySQL host
+DB_PORT=               # Aiven MySQL port
+DB_USER=               # Aiven MySQL user
+DB_PASSWORD=           # Aiven MySQL password
+DB_NAME=               # Aiven MySQL database name (defaultdb)
 ```
 
 ### Image upload (Cloudflare R2)
@@ -214,4 +220,4 @@ Slugs are not stored in the database — they are generated on the fly from `fir
 
 ### Deployment
 
-Deployed on Vercel, connected to `github.com/jord0/hertzmann-nextjs`. Pushing to `main` triggers a production deployment. The build does **not** require a DB connection — browse data is fetched and cached at runtime. The Railway DB must be reachable from Vercel's runtime environment (not build environment) for the site to function.
+Deployed on Vercel, connected to `github.com/jord0/hertzmann-nextjs`. Pushing to `main` triggers a production deployment. The build does **not** require a DB connection — browse data is fetched and cached at runtime. The Aiven DB must be reachable from Vercel's runtime environment (not build environment) for the site to function. DB env vars (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`) must be set in Vercel project settings.

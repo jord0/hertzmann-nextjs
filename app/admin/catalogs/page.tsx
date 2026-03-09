@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { query } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 interface CatalogRow {
   id: number;
   title: string;

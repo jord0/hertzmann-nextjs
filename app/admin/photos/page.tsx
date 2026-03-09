@@ -1,4 +1,6 @@
 import Link from 'next/link';
+
+export const dynamic = 'force-dynamic';
 import { query } from '@/lib/db';
 import AdminPhotosClient, { type PhotoRow } from './AdminPhotosClient';
 

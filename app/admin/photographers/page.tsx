@@ -1,4 +1,6 @@
 import { query } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 import AdminPhotographersClient, { type PhotographerRow } from './AdminPhotographersClient';
 
 export default async function PhotographersPage() {

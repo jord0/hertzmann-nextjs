@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { redirect, notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';

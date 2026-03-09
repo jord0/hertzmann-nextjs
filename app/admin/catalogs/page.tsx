@@ -8,11 +8,17 @@ interface CatalogRow {
   price: number;
   level: number;
   enabled: number;
+  updatedAt: Date | null;
+}
+
+function formatTs(ts: Date | null): string {
+  if (!ts) return '—';
+  return ts.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 export default async function AdminCatalogsPage() {
   const rows = await query(
-    'SELECT id, title, date, price, level, enabled FROM catalogs ORDER BY level ASC'
+    'SELECT id, title, date, price, level, enabled, updatedAt FROM catalogs ORDER BY level ASC'
   ) as CatalogRow[];
 
   return (
@@ -42,6 +48,7 @@ export default async function AdminCatalogsPage() {
             <th style={thStyle}>Date</th>
             <th style={thStyle}>Price</th>
             <th style={thStyle}>Level</th>
+            <th style={thStyle}>Last Edited</th>
             <th style={thStyle}>Status</th>
             <th style={thStyle}></th>
           </tr>
@@ -53,6 +60,7 @@ export default async function AdminCatalogsPage() {
               <td style={{ ...tdStyle, color: '#666' }}>{c.date}</td>
               <td style={{ ...tdStyle, color: '#666' }}>{c.price > 0 ? `$${c.price}` : '—'}</td>
               <td style={{ ...tdStyle, color: '#666' }}>{c.level}</td>
+              <td style={{ ...tdStyle, color: '#888', fontSize: '0.8rem' }}>{formatTs(c.updatedAt)}</td>
               <td style={tdStyle}>
                 <span style={{
                   display: 'inline-block',

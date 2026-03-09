@@ -61,7 +61,7 @@ This means:
 
 ### Admin panel
 
-Located at `/admin/*`. Protected by `middleware.ts` using `iron-session`.
+Located at `/admin/*`. Protected by `proxy.ts` using `iron-session` (Next.js 16 renamed `middleware.ts` → `proxy.ts`, exported function `middleware` → `proxy`).
 
 **Authentication:**
 - Session managed by `iron-session` (`lib/session.ts`)

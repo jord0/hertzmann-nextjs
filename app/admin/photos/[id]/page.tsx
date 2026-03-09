@@ -1,5 +1,9 @@
 import { redirect, notFound } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
 import KeywordPicker from '../KeywordPicker';
@@ -18,6 +22,12 @@ interface Photo {
   inventoryNumber: string;
   keywords: string;
   enabled: number;
+  updatedAt: Date | null;
+}
+
+function formatTs(ts: Date | null): string {
+  if (!ts) return '';
+  return ts.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
 interface PhotographerOption {
@@ -41,13 +51,17 @@ function pipesToComma(keywords: string): string {
 
 async function updatePhoto(photoId: number, formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const photographer = parseInt(formData.get('photographer') as string, 10);
   const title = (formData.get('title') as string).trim();
   const medium = (formData.get('medium') as string).trim();
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
+  const priceStr = (formData.get('price') as string).trim();
+  const price = priceStr === '' ? null : (parseInt(priceStr, 10) || 0);
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
@@ -119,14 +133,17 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Edit Photo #{photo.id}</h1>
+      <h1 style={{ marginTop: 0, marginBottom: photo.updatedAt ? '0.4rem' : undefined }}>Edit Photo #{photo.id}</h1>
+      {photo.updatedAt && (
+        <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(photo.updatedAt)}</p>
+      )}
 
       <form action={action} style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
-          <select id="photographer" name="photographer" required style={selectStyle}>
+          <select id="photographer" name="photographer" required defaultValue={photo.photographer} style={selectStyle}>
             {photographers.map(p => (
-              <option key={p.id} value={p.id} selected={p.id === photo.photographer}>
+              <option key={p.id} value={p.id}>
                 {p.firstName} {p.lastName}
               </option>
             ))}

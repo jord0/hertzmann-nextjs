@@ -1,5 +1,9 @@
 import { redirect, notFound } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadCatalogPdf, deleteCatalogPdf } from '@/lib/r2';
 
@@ -11,10 +15,18 @@ interface Catalog {
   description: string;
   level: number;
   enabled: number;
+  updatedAt: Date | null;
+}
+
+function formatTs(ts: Date | null): string {
+  if (!ts) return '';
+  return ts.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
 async function updateCatalog(id: number, formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
   const title = (formData.get('title') as string).trim();
   const date = (formData.get('date') as string).trim();
   const price = parseInt(formData.get('price') as string || '0', 10) || 0;
@@ -39,6 +51,8 @@ async function updateCatalog(id: number, formData: FormData) {
 
 async function deleteCatalog(id: number) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
   await query('DELETE FROM catalogs WHERE id=?', [id]);
   try { await deleteCatalogPdf(id); } catch { /* PDF may not exist */ }
   revalidatePath('/catalogs');
@@ -56,7 +70,10 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Edit Catalog #{c.id}</h1>
+      <h1 style={{ marginTop: 0, marginBottom: c.updatedAt ? '0.4rem' : undefined }}>Edit Catalog #{c.id}</h1>
+      {c.updatedAt && (
+        <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(c.updatedAt)}</p>
+      )}
 
       <form action={updateAction} style={{ maxWidth: '480px' }}>
         <Field label="Title" name="title" defaultValue={c.title} required />

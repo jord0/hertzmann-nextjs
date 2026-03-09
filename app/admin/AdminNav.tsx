@@ -14,6 +14,9 @@ export default function AdminNav() {
 
   return (
     <nav style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
       backgroundColor: '#1a1a1a',
       color: 'white',
       padding: '0 1.5rem',
@@ -23,7 +26,7 @@ export default function AdminNav() {
       height: '52px',
     }}>
       <Link
-        href="/admin"
+        href="/admin/photographers"
         style={{ color: 'white', textDecoration: 'none', fontWeight: 600, marginRight: '1rem' }}
       >
         Admin

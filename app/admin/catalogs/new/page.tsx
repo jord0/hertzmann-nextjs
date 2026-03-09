@@ -1,10 +1,16 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadCatalogPdf } from '@/lib/r2';
 
 async function createCatalog(formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
   const title = (formData.get('title') as string).trim();
   const date = (formData.get('date') as string).trim();
   const price = parseInt(formData.get('price') as string || '0', 10) || 0;

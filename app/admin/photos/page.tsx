@@ -3,13 +3,18 @@ import { query } from '@/lib/db';
 import AdminPhotosClient, { type PhotoRow } from './AdminPhotosClient';
 
 export default async function AdminPhotosPage() {
-  const photos = await query(`
+  const rows = await query(`
     SELECT ph.id, ph.title, ph.enabled, ph.photographer AS photographerId,
-           p.firstName, p.lastName
+           p.firstName, p.lastName, ph.updatedAt
     FROM photos ph
     JOIN photographers p ON p.id = ph.photographer
     ORDER BY p.lastName, p.firstName, ph.title
-  `) as PhotoRow[];
+  `) as (Omit<PhotoRow, 'updatedAt'> & { updatedAt: Date | null })[];
+
+  const photos: PhotoRow[] = rows.map(r => ({
+    ...r,
+    updatedAt: r.updatedAt?.toISOString() ?? null,
+  }));
 
   return (
     <div>

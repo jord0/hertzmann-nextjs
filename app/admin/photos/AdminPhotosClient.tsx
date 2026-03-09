@@ -10,6 +10,12 @@ export interface PhotoRow {
   photographerId: number;
   firstName: string;
   lastName: string;
+  updatedAt: string | null;
+}
+
+function formatTs(iso: string | null): string {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -146,6 +152,7 @@ export default function AdminPhotosClient({ photos }: { photos: PhotoRow[] }) {
                       <td style={{ padding: '0.65rem 1rem' }}>
                         {photo.title || <em style={{ color: '#aaa' }}>Untitled</em>}
                       </td>
+                      <td style={{ padding: '0.65rem 1rem', color: '#888', fontSize: '0.8rem', width: '170px' }}>{formatTs(photo.updatedAt)}</td>
                       <td style={{ padding: '0.65rem 1rem', width: '100px' }}>
                         <span style={{
                           display: 'inline-block',

@@ -9,9 +9,18 @@ export interface PhotographerRow {
   lastName: string;
   enabled: number;
   photoCount: number;
+  updatedAt: string | null;
+}
+
+function formatTs(iso: string | null): string {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+// Height of AdminNav — sticky header sits flush below it
+const NAV_HEIGHT = 52;
 
 export default function AdminPhotographersClient({ photographers }: { photographers: PhotographerRow[] }) {
   const [search, setSearch] = useState('');
@@ -43,85 +52,135 @@ export default function AdminPhotographersClient({ photographers }: { photograph
 
   return (
     <div>
-      {/* Search */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
-        <input
-          type="text"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Search photographers..."
-          style={{
-            flex: 1,
-            maxWidth: '400px',
-            padding: '0.5rem 0.75rem',
-            fontSize: '0.9rem',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-          }}
-        />
-        {search && (
-          <button
-            onClick={() => setSearch('')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: '0.85rem' }}
+      {/* Sticky header — pulls to main edges via negative margin, restores padding inside */}
+      <div style={{
+        position: 'sticky',
+        top: NAV_HEIGHT,
+        zIndex: 10,
+        background: '#f9f9f9',
+        marginLeft: '-2rem',
+        marginRight: '-2rem',
+        marginTop: '-2rem',
+        paddingLeft: '2rem',
+        paddingRight: '2rem',
+        paddingTop: '1.5rem',
+      }}>
+        {/* Title + CTA */}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.25rem' }}>
+          <h1 style={{ margin: 0, fontSize: '2rem' }}>Photographers</h1>
+          <Link
+            href="/admin/photographers/new"
+            style={{
+              marginLeft: 'auto',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#333',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              fontSize: '0.9rem',
+            }}
           >
-            ✕ Clear
-          </button>
+            + Add Photographer
+          </Link>
+        </div>
+
+        {/* Search */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search photographers..."
+            style={{
+              flex: 1,
+              maxWidth: '400px',
+              padding: '0.5rem 0.75rem',
+              fontSize: '0.9rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          />
+          {search && (
+            <button
+              onClick={() => setSearch('')}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: '0.85rem' }}
+            >
+              ✕ Clear
+            </button>
+          )}
+          {q && (
+            <span style={{ fontSize: '0.85rem', color: '#888' }}>
+              {filtered.length} of {photographers.length} photographers
+            </span>
+          )}
+        </div>
+
+        {/* Alphabet nav */}
+        {!q && (
+          <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+            {ALPHABET.map(letter => {
+              const active = activeLetters.has(letter);
+              return active ? (
+                <a
+                  key={letter}
+                  href={`#letter-${letter}`}
+                  style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0066cc', textDecoration: 'none', padding: '0.2rem 0.3rem', lineHeight: 1 }}
+                >
+                  {letter}
+                </a>
+              ) : (
+                <span
+                  key={letter}
+                  style={{ fontSize: '0.8rem', color: '#ccc', padding: '0.2rem 0.3rem', lineHeight: 1 }}
+                >
+                  {letter}
+                </span>
+              );
+            })}
+          </div>
         )}
-        {q && (
-          <span style={{ fontSize: '0.85rem', color: '#888' }}>
-            {filtered.length} of {photographers.length} photographers
-          </span>
+
+        {/* Column headers — grid widths match colgroup below */}
+        {letters.length > 0 && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 95px 170px 110px 60px',
+            backgroundColor: '#f0f0f0',
+            border: '1px solid #ddd',
+            borderBottom: 'none',
+            borderRadius: '6px 6px 0 0',
+          }}>
+            <span style={thStyle}>Name</span>
+            <span style={thStyle}>Photos</span>
+            <span style={thStyle}>Last Edited</span>
+            <span style={thStyle}>Status</span>
+            <span style={thStyle}></span>
+          </div>
         )}
       </div>
 
-      {/* Alphabet jump nav */}
-      {!q && (
-        <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-          {ALPHABET.map(letter => {
-            const active = activeLetters.has(letter);
-            return active ? (
-              <a
-                key={letter}
-                href={`#letter-${letter}`}
-                style={{
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  color: '#0066cc',
-                  textDecoration: 'none',
-                  padding: '0.2rem 0.3rem',
-                  lineHeight: 1,
-                }}
-              >
-                {letter}
-              </a>
-            ) : (
-              <span
-                key={letter}
-                style={{ fontSize: '0.8rem', color: '#ccc', padding: '0.2rem 0.3rem', lineHeight: 1 }}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Results */}
+      {/* Table */}
       {letters.length === 0 ? (
         <p style={{ color: '#888', fontSize: '0.9rem' }}>No results for &ldquo;{search}&rdquo;.</p>
       ) : (
-        letters.map(letter => (
-          <div key={letter} id={!q ? `letter-${letter}` : undefined} style={{ marginBottom: '2rem' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' }}>
-              {letter}
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: 'white', borderRadius: '6px', overflow: 'hidden', border: '1px solid #ddd' }}>
-              <tbody>
-                {groups[letter].map((p, i) => (
-                  <tr key={p.id} style={{ borderTop: i > 0 ? '1px solid #eee' : 'none' }}>
+        <table style={{ width: '100%', tableLayout: 'fixed', borderCollapse: 'collapse', backgroundColor: 'white', borderRadius: '0 0 6px 6px', border: '1px solid #ddd' }}>
+          <colgroup>
+            <col />
+            <col style={{ width: '95px' }} />
+            <col style={{ width: '170px' }} />
+            <col style={{ width: '110px' }} />
+            <col style={{ width: '60px' }} />
+          </colgroup>
+          <tbody>
+            {letters.map(letter => (
+              <>
+                {!q && <tr key={`anchor-${letter}`} id={`letter-${letter}`}><td colSpan={5} style={{ padding: 0, height: 0, border: 'none' }} /></tr>}
+                {groups[letter].map(p => (
+                  <tr key={p.id} style={{ borderTop: '1px solid #eee' }}>
                     <td style={{ padding: '0.65rem 1rem' }}>{p.firstName} {p.lastName}</td>
-                    <td style={{ padding: '0.65rem 1rem', color: '#666', width: '80px' }}>{p.photoCount} photos</td>
-                    <td style={{ padding: '0.65rem 1rem', width: '100px' }}>
+                    <td style={{ padding: '0.65rem 1rem', color: '#666' }}>{p.photoCount}</td>
+                    <td style={{ padding: '0.65rem 1rem', color: '#888', fontSize: '0.8rem' }}>{formatTs(p.updatedAt)}</td>
+                    <td style={{ padding: '0.65rem 1rem' }}>
                       <span style={{
                         display: 'inline-block',
                         padding: '0.2rem 0.5rem',
@@ -133,7 +192,7 @@ export default function AdminPhotographersClient({ photographers }: { photograph
                         {p.enabled ? 'Enabled' : 'Disabled'}
                       </span>
                     </td>
-                    <td style={{ padding: '0.65rem 1rem', textAlign: 'right', width: '60px' }}>
+                    <td style={{ padding: '0.65rem 1rem', textAlign: 'right' }}>
                       <Link
                         href={`/admin/photographers/${p.id}`}
                         style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}
@@ -143,11 +202,18 @@ export default function AdminPhotographersClient({ photographers }: { photograph
                     </td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        ))
+              </>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
 }
+
+const thStyle: React.CSSProperties = {
+  padding: '0.75rem 1rem',
+  fontWeight: 600,
+  fontSize: '0.85rem',
+  color: '#555',
+};

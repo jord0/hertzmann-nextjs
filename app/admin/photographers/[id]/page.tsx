@@ -1,5 +1,9 @@
 import { redirect, notFound } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import Link from 'next/link';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
@@ -14,6 +18,12 @@ interface Photographer {
   country: string;
   cv: string;
   enabled: number;
+  updatedAt: Date | null;
+}
+
+function formatTs(ts: Date | null): string {
+  if (!ts) return '';
+  return ts.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
 function makeSlug(firstName: string, lastName: string): string {
@@ -26,6 +36,9 @@ function makeSlug(firstName: string, lastName: string): string {
 
 async function updatePhotographer(id: number, oldSlug: string, formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const firstName = (formData.get('firstName') as string).trim();
   const lastName = (formData.get('lastName') as string).trim();
   const years = (formData.get('years') as string).trim();
@@ -50,12 +63,16 @@ async function updatePhotographer(id: number, oldSlug: string, formData: FormDat
 
 async function createPhoto(photographerId: number, slug: string, formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const title = (formData.get('title') as string).trim();
   const medium = (formData.get('medium') as string).trim();
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
+  const priceStr = (formData.get('price') as string).trim();
+  const price = priceStr === '' ? null : (parseInt(priceStr, 10) || 0);
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
@@ -119,7 +136,10 @@ export default async function EditPhotographerPage({ params }: { params: Promise
 
   return (
     <div>
-      <h1 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '2rem' }}>Edit Photographer</h1>
+      <h1 style={{ marginTop: 0, marginBottom: p.updatedAt ? '0.4rem' : '1.5rem', fontSize: '2rem' }}>Edit Photographer</h1>
+      {p.updatedAt && (
+        <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(p.updatedAt)}</p>
+      )}
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         <div style={{ width: '480px', flexShrink: 0 }}>

@@ -1,9 +1,16 @@
 import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 
 async function createPhotographer(formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const firstName = (formData.get('firstName') as string).trim();
   const lastName = (formData.get('lastName') as string).trim();
   const years = (formData.get('years') as string).trim();

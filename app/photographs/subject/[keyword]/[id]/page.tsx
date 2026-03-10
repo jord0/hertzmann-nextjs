@@ -4,6 +4,7 @@ import { query } from '@/lib/db';
 import { PhotoDetail } from '@/app/photographs/_components/PhotoDetail';
 import type { PhotoData } from '@/app/photographs/_components/PhotoDetail';
 import { photoImageUrl } from '@/lib/photo-url';
+import { decodeHtmlEntities } from '@/lib/htmlDecode';
 
 interface PageProps {
   params: Promise<{ keyword: string; id: string }>;
@@ -12,7 +13,7 @@ interface PageProps {
 async function getPhoto(id: number): Promise<PhotoData | null> {
   const results = await query(
     `SELECT p.id, p.photographer, p.title, p.medium, p.date, p.height, p.width,
-            p.price, p.description, p.provenance, p.inventoryNumber, p.keywords,
+            p.price, p.description, p.provenance, p.inventoryNumber, p.exhibitions, p.keywords,
             ph.firstName, ph.lastName, ph.years, ph.country
      FROM photos p
      JOIN photographers ph ON p.photographer = ph.id
@@ -28,11 +29,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!photo) return { title: 'Photo Not Found' };
   const fullName = `${photo.firstName} ${photo.lastName}`.trim();
   return {
-    title: photo.title,
-    description: `${photo.title} by ${fullName}${photo.date ? `, ${photo.date}` : ''}. Vintage photography from the Hertzmann collection.`,
+    title: decodeHtmlEntities(photo.title),
+    description: `${decodeHtmlEntities(photo.title)} by ${fullName}${photo.date ? `, ${photo.date}` : ''}. Vintage photography from the Hertzmann collection.`,
     openGraph: {
-      title: photo.title,
-      description: `${photo.title} by ${fullName}`,
+      title: decodeHtmlEntities(photo.title),
+      description: `${decodeHtmlEntities(photo.title)} by ${fullName}`,
       images: [photoImageUrl(photo.photographer, photo.id)],
     },
   };

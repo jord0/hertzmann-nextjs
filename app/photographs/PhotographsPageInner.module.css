@@ -320,6 +320,11 @@
   min-width: 0;
 }
 
+.nameLink:hover {
+  opacity: 0.55;
+  transition: opacity 0.15s;
+}
+
 @media (max-width: 900px) {
   .nameGrid {
     grid-template-columns: repeat(3, 1fr);

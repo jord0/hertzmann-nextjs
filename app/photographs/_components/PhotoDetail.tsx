@@ -19,6 +19,7 @@ export interface PhotoData {
   description: string | null;
   provenance: string | null;
   inventoryNumber: string | null;
+  exhibitions: string | null;
   keywords: string | null;
 }
 
@@ -41,10 +42,6 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
   const photographerSlug = buildSlug(photo.firstName, photo.lastName);
   const fullName = `${photo.firstName} ${photo.lastName}`.trim();
 
-  const keywordList = photo.keywords
-    ? photo.keywords.split('|').map(k => k.trim()).filter(Boolean)
-    : [];
-
   const hasPrice = photo.price && photo.price > 0;
   const formattedPrice = hasPrice
     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(photo.price)
@@ -57,16 +54,19 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
         ← {nav.backLabel}
       </Link>
 
-      <div className={styles.layout}>
+      {/* Image — centered, full container width */}
+      <div className={styles.imageWrap}>
+        <PhotoLightbox
+          src={photoImageUrl(photo.photographer, photo.id)}
+          alt={photo.title}
+        />
+      </div>
 
-        <div>
-          <PhotoLightbox
-            src={photoImageUrl(photo.photographer, photo.id)}
-            alt={photo.title}
-          />
-        </div>
+      {/* Two-column metadata */}
+      <div className={styles.metaSection}>
 
-        <div>
+        {/* Left: title, artist, narrative fields */}
+        <div className={styles.metaLeft}>
           <h1 className={styles.title}>
             {decodeHtmlEntities(photo.title)}
           </h1>
@@ -79,43 +79,8 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
           </Link>
 
           {photo.years && (
-            <p className={styles.years}>
-              {decodeHtmlEntities(photo.years)}
-            </p>
+            <p className={styles.years}>{decodeHtmlEntities(photo.years)}</p>
           )}
-
-          <dl className={styles.dl}>
-            {photo.medium && (
-              <>
-                <dt className={styles.dt}>Medium</dt>
-                <dd className={styles.dd}>{decodeHtmlEntities(photo.medium)}</dd>
-              </>
-            )}
-            {photo.date && (
-              <>
-                <dt className={styles.dt}>Date</dt>
-                <dd className={styles.dd}>{photo.date}</dd>
-              </>
-            )}
-            {photo.width && photo.height && (
-              <>
-                <dt className={styles.dt}>Size</dt>
-                <dd className={styles.dd}>{photo.width}&quot; × {photo.height}&quot;</dd>
-              </>
-            )}
-            {photo.inventoryNumber && (
-              <>
-                <dt className={styles.dt}>Inventory</dt>
-                <dd className={styles.dd}>{photo.inventoryNumber}</dd>
-              </>
-            )}
-            {formattedPrice && (
-              <>
-                <dt className={styles.dt}>Price</dt>
-                <dd className={styles.ddPrice}>{formattedPrice}</dd>
-              </>
-            )}
-          </dl>
 
           {photo.description && (
             <div className={styles.descBlock}>
@@ -131,29 +96,57 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
             </div>
           )}
 
-          {keywordList.length > 0 && (
-            <div className={styles.keywordsWrap}>
-              <p className={styles.sectionLabel}>Subjects</p>
-              <div className={styles.keywordTags}>
-                {keywordList.map(kw => (
-                  <Link
-                    key={kw}
-                    href={`/photographs/subject/${encodeURIComponent(kw)}`}
-                    className={styles.keywordTag}
-                  >
-                    {kw}
-                  </Link>
-                ))}
-              </div>
+          {photo.exhibitions && (
+            <div className={styles.descBlock}>
+              <p className={styles.sectionLabel}>Exhibitions</p>
+              <p className={styles.provText}>{decodeHtmlEntities(photo.exhibitions)}</p>
             </div>
           )}
+        </div>
 
-          <Link
-            href={`/contact?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
-            className={styles.inquireBtn}
-          >
-            Inquire About This Photo
-          </Link>
+        {/* Right: technical metadata + inquire */}
+        <div className={styles.metaRight}>
+          <dl className={styles.dl}>
+            {photo.medium && (
+              <>
+                <dt className={styles.dt}>Medium</dt>
+                <dd className={styles.dd}>{decodeHtmlEntities(photo.medium)}</dd>
+              </>
+            )}
+            {photo.date && (
+              <>
+                <dt className={styles.dt}>Date</dt>
+                <dd className={styles.dd}>{photo.date}</dd>
+              </>
+            )}
+            {photo.width && photo.height && (
+              <>
+                <dt className={styles.dt}>Image Size</dt>
+                <dd className={styles.dd}>{photo.width}&quot; × {photo.height}&quot;</dd>
+              </>
+            )}
+            {photo.inventoryNumber && (
+              <>
+                <dt className={styles.dt}>Inventory Number</dt>
+                <dd className={styles.dd}>{photo.inventoryNumber}</dd>
+              </>
+            )}
+            {formattedPrice && (
+              <>
+                <dt className={styles.dt}>Price</dt>
+                <dd className={styles.ddPrice}>{formattedPrice}</dd>
+              </>
+            )}
+          </dl>
+
+          <div className={styles.inquireWrap}>
+            <Link
+              href={`/contact?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
+              className={styles.inquireBtn}
+            >
+              Inquire About This Photo
+            </Link>
+          </div>
         </div>
       </div>
 

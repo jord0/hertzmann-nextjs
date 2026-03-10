@@ -259,3 +259,25 @@
     align-items: center;
   }
 }
+
+@media (max-width: 600px) {
+  .aboutSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .fiftySection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .servicesSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .ctaSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

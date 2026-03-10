@@ -124,4 +124,14 @@
   .photoGrid {
     grid-template-columns: 1fr;
   }
+
+  .headerInner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }

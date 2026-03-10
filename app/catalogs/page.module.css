@@ -56,11 +56,19 @@
     grid-template-columns: 1fr;
   }
 
-  .content {
-    padding: 3rem 1.5rem 4rem;
-  }
-
   .headerTitle {
     font-size: 2.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .headerInner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .content {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

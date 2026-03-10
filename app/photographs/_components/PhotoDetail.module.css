@@ -97,6 +97,12 @@
   }
 }
 
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
 /* Left column */
 .title {
   font-family: var(--font-cormorant);

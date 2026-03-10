@@ -192,3 +192,20 @@
   font-size: 1rem;
   color: var(--color-foreground);
 }
+
+@media (max-width: 600px) {
+  .headerInner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .formBox,
+  .successBox {
+    padding: 1.5rem 1rem;
+  }
+}

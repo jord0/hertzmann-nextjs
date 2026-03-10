@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import adminStyles from '@/app/admin/admin.module.css';
 import { query } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -27,18 +28,7 @@ export default async function AdminCatalogsPage() {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1 style={{ margin: 0, fontSize: '2rem' }}>Catalogs</h1>
-        <Link
-          href="/admin/catalogs/new"
-          style={{
-            marginLeft: 'auto',
-            padding: '0.5rem 1rem',
-            backgroundColor: '#333',
-            color: 'white',
-            textDecoration: 'none',
-            borderRadius: '4px',
-            fontSize: '0.9rem',
-          }}
-        >
+        <Link href="/admin/catalogs/new" className={adminStyles.btnPrimarySmall}>
           + Add Catalog
         </Link>
       </div>

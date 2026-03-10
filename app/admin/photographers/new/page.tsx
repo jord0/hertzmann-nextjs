@@ -1,3 +1,4 @@
+import styles from '@/app/admin/admin.module.css';
 import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
@@ -47,8 +48,8 @@ export default function NewPhotographerPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Save</button>
-          <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
+          <button type="submit" className={styles.btnPrimary}>Save</button>
+          <a href="/admin/photographers" className={styles.btnSecondary}>Cancel</a>
         </div>
       </form>
     </div>
@@ -106,25 +107,3 @@ function Field({
   );
 }
 
-const submitStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#333',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};
-
-const cancelStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: 'white',
-  color: '#333',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-};

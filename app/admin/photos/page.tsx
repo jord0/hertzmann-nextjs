@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import adminStyles from '@/app/admin/admin.module.css';
 
 export const dynamic = 'force-dynamic';
 import { query } from '@/lib/db';
@@ -22,18 +23,7 @@ export default async function AdminPhotosPage() {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1 style={{ margin: 0, fontSize: '2rem' }}>Photos</h1>
-        <Link
-          href="/admin/photos/new"
-          style={{
-            marginLeft: 'auto',
-            padding: '0.5rem 1rem',
-            backgroundColor: '#333',
-            color: 'white',
-            textDecoration: 'none',
-            borderRadius: '4px',
-            fontSize: '0.9rem',
-          }}
-        >
+        <Link href="/admin/photos/new" className={adminStyles.btnPrimarySmall}>
           + Add Photo
         </Link>
       </div>

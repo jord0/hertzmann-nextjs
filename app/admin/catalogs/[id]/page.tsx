@@ -8,6 +8,7 @@ import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadCatalogPdf, deleteCatalogPdf } from '@/lib/r2';
+import adminStyles from '@/app/admin/admin.module.css';
 
 interface Catalog {
   id: number;
@@ -106,8 +107,8 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Save</button>
-          <a href="/admin/catalogs" style={cancelStyle}>Cancel</a>
+          <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+          <a href="/admin/catalogs" className={adminStyles.btnSecondary}>Cancel</a>
         </div>
       </form>
 
@@ -119,7 +120,7 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
           Permanently removes this catalog record and its PDF from R2. This cannot be undone.
         </p>
         <form action={deleteAction}>
-          <button type="submit" style={deleteStyle}>Delete Catalog</button>
+          <button type="submit" className={adminStyles.btnDanger}>Delete Catalog</button>
         </form>
       </div>
     </div>
@@ -178,35 +179,3 @@ const inputStyle: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-const submitStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#333',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};
-
-const cancelStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: 'white',
-  color: '#333',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-};
-
-const deleteStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#c00',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};

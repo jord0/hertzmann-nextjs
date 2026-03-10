@@ -11,6 +11,7 @@ import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
 import { photoImageUrl } from '@/lib/photo-url';
 import AddPhotoSection from './AddPhotoSection';
+import adminStyles from '@/app/admin/admin.module.css';
 
 interface Photographer {
   id: number;
@@ -164,8 +165,8 @@ export default async function EditPhotographerPage({ params }: { params: Promise
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-              <button type="submit" style={submitStyle}>Save</button>
-              <a href="/admin/photographers" style={cancelStyle}>Cancel</a>
+              <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+              <a href="/admin/photographers" className={adminStyles.btnSecondary}>Cancel</a>
             </div>
           </form>
 
@@ -286,25 +287,3 @@ const inputStyle: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-const submitStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#333',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};
-
-const cancelStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: 'white',
-  color: '#333',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-};

@@ -7,7 +7,9 @@ import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
+import adminStyles from '@/app/admin/admin.module.css';
 import { uploadPhoto } from '@/lib/r2';
+import { photoImageUrl } from '@/lib/photo-url';
 import KeywordPicker from '../KeywordPicker';
 
 interface Photo {
@@ -135,60 +137,91 @@ export default async function EditPhotoPage({ params }: { params: Promise<{ id: 
 
   return (
     <div>
-      <h1 style={{ marginTop: 0, marginBottom: photo.updatedAt ? '0.4rem' : undefined }}>Edit Photo #{photo.id}</h1>
+      <h1 style={{ marginTop: 0, marginBottom: photo.updatedAt ? '0.4rem' : '1.5rem', fontSize: '2rem' }}>Edit Photo #{photo.id}</h1>
       {photo.updatedAt && (
         <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(photo.updatedAt)}</p>
       )}
 
-      <form action={action} style={{ maxWidth: '600px' }}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
-          <select id="photographer" name="photographer" required defaultValue={photo.photographer} style={selectStyle}>
-            {photographers.map(p => (
-              <option key={p.id} value={p.id}>
-                {p.firstName} {p.lastName}
-              </option>
-            ))}
-          </select>
-        </div>
+      <form action={action}>
+        <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
+          <div style={{ width: '480px', flexShrink: 0 }}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
+              <select id="photographer" name="photographer" required defaultValue={photo.photographer} style={selectStyle}>
+                {photographers.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.firstName} {p.lastName}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <Field label="Title" name="title" defaultValue={photo.title} required />
-        <Field label="Medium" name="medium" defaultValue={photo.medium} />
-        <Field label="Date" name="date" defaultValue={photo.date} />
-        <Field label="Width" name="width" defaultValue={photo.width} />
-        <Field label="Height" name="height" defaultValue={photo.height} />
-        <Field label="Price" name="price" defaultValue={photo.price} type="number" max={8388607} />
-        <Field label="Inventory Number" name="inventoryNumber" defaultValue={photo.inventoryNumber} maxLength={10} />
+            <Field label="Title" name="title" defaultValue={photo.title} required />
+            <Field label="Medium" name="medium" defaultValue={photo.medium} />
+            <Field label="Date" name="date" defaultValue={photo.date} />
+            <Field label="Width" name="width" defaultValue={photo.width} />
+            <Field label="Height" name="height" defaultValue={photo.height} />
+            <Field label="Price" name="price" defaultValue={photo.price} type="number" max={8388607} />
+            <Field label="Inventory Number" name="inventoryNumber" defaultValue={photo.inventoryNumber} maxLength={10} />
 
-        <TextareaField label="Description" name="description" defaultValue={photo.description} />
-        <TextareaField label="Provenance" name="provenance" defaultValue={photo.provenance} />
+            <TextareaField label="Description" name="description" defaultValue={photo.description} />
+            <TextareaField label="Provenance" name="provenance" defaultValue={photo.provenance} />
 
-        <KeywordPicker allKeywords={allKeywords} selected={selectedKeywords} />
+            <KeywordPicker allKeywords={allKeywords} selected={selectedKeywords} />
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="image" style={labelStyle}>Replace Image (JPEG, optional)</label>
-          <input
-            id="image"
-            name="image"
-            type="file"
-            accept="image/jpeg"
-            style={{ display: 'block', marginTop: '0.3rem' }}
-          />
-          <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>
-            Current: {photo.photographer}_{photo.id}.jpg — leave blank to keep existing image
-          </p>
-        </div>
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                <input type="checkbox" name="enabled" defaultChecked={!!photo.enabled} />
+                <span>Enabled (visible on site)</span>
+              </label>
+            </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input type="checkbox" name="enabled" defaultChecked={!!photo.enabled} />
-            <span>Enabled (visible on site)</span>
-          </label>
-        </div>
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+              <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+              <a href="/admin" className={adminStyles.btnSecondary}>Cancel</a>
+            </div>
+          </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Save</button>
-          <a href="/admin" style={cancelStyle}>Cancel</a>
+          {/* Photo preview + replace image */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h2 style={{ margin: '0 0 1rem', fontSize: '1.5rem' }}>Preview</h2>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photoImageUrl(photo.photographer, photo.id)}
+              alt={photo.title || `Photo ${photo.id}`}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '500px',
+                width: 'auto',
+                height: 'auto',
+                objectFit: 'contain',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #e0e0e0',
+                display: 'block',
+                opacity: photo.enabled ? 1 : 0.4,
+              }}
+            />
+            {!photo.enabled && (
+              <p style={{ margin: '0.5rem 0 0', fontSize: '0.8rem', color: '#888' }}>Disabled — not visible on site</p>
+            )}
+            <div style={{ marginTop: '1.5rem' }}>
+              <div className={adminStyles.fileInputWrap}>
+                <label htmlFor="image" className={adminStyles.fileInputLabel}>
+                  ↑ Replace Image
+                </label>
+                <input
+                  id="image"
+                  name="image"
+                  type="file"
+                  accept="image/jpeg"
+                  className={adminStyles.fileInput}
+                />
+              </div>
+              <p className={adminStyles.fileNameHint}>
+                JPEG only — leave blank to keep existing image
+              </p>
+            </div>
+          </div>
         </div>
       </form>
     </div>
@@ -249,25 +282,3 @@ const selectStyle: React.CSSProperties = {
   backgroundColor: 'white',
 };
 
-const submitStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#333',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};
-
-const cancelStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: 'white',
-  color: '#333',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
-};

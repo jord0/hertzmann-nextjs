@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import adminStyles from '@/app/admin/admin.module.css';
 
 export interface PhotographerRow {
   id: number;
@@ -68,18 +69,7 @@ export default function AdminPhotographersClient({ photographers }: { photograph
         {/* Title + CTA */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.25rem' }}>
           <h1 style={{ margin: 0, fontSize: '2rem' }}>Photographers</h1>
-          <Link
-            href="/admin/photographers/new"
-            style={{
-              marginLeft: 'auto',
-              padding: '0.5rem 1rem',
-              backgroundColor: '#333',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9rem',
-            }}
-          >
+          <Link href="/admin/photographers/new" className={adminStyles.btnPrimarySmall}>
             + Add Photographer
           </Link>
         </div>

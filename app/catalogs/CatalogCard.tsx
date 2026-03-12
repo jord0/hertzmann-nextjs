@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { catalogPdfUrl } from '@/lib/catalog-url';
+import { catalogPdfUrl, catalogImageUrl } from '@/lib/catalog-url';
+import { decodeHtmlEntities } from '@/lib/htmlDecode';
 import styles from './CatalogCard.module.css';
 
 interface Catalog {
@@ -13,9 +14,21 @@ interface Catalog {
   level: number;
 }
 
+const PREVIEW_LENGTH = 180;
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 export default function CatalogCard({ catalog }: { catalog: Catalog }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const pdfUrl = catalogPdfUrl(catalog.id);
+  const imgUrl = catalogImageUrl(catalog.id);
+
+  const plainText = decodeHtmlEntities(stripHtml(catalog.description));
+  const isTruncated = plainText.length > PREVIEW_LENGTH;
+  const previewText = isTruncated ? plainText.slice(0, PREVIEW_LENGTH).trimEnd() + '…' : plainText;
 
   useEffect(() => {
     if (modalOpen) {
@@ -28,25 +41,32 @@ export default function CatalogCard({ catalog }: { catalog: Catalog }) {
 
   return (
     <>
-      <div className={styles.card}>
-        <div className={styles.cardBody}>
+      <div className={styles.row}>
+        {!imgError && (
+          <div className={styles.rowImage}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imgUrl}
+              alt={catalog.title}
+              onError={() => setImgError(true)}
+            />
+          </div>
+        )}
+
+        <div className={styles.rowBody}>
           <div className={styles.meta}>
             <span className={styles.date}>{catalog.date}</span>
             {catalog.price > 0 && (
               <span className={styles.price}>${catalog.price}</span>
             )}
           </div>
-
           <h2 className={styles.title}>{catalog.title}</h2>
-
-          <div className={styles.description} dangerouslySetInnerHTML={{ __html: catalog.description }} />
-
-          <button className={styles.readMore} onClick={() => setModalOpen(true)}>
-            Read more
-          </button>
-        </div>
-
-        <div className={styles.cardFooter}>
+          <p className={styles.descriptionText}>
+            {previewText}
+            {isTruncated && (
+              <button className={styles.readMore} onClick={() => setModalOpen(true)}> Read more</button>
+            )}
+          </p>
           <a
             href={pdfUrl}
             target="_blank"

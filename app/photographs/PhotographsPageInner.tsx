@@ -201,15 +201,21 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
                     <div className={styles.nameGrid}>
                       {isPhotographers
                         ? (photographerGroups[letter] ?? []).map(p => (
-                            <Link
-                              key={p.id}
-                              href={`/photographs/photographer/${p.slug}`}
-                              className={styles.nameLink}
-                            >
-                              {/* Dynamic: dot color depends on hasEnabledPhotos */}
-                              <span className={styles.bullet} style={{ color: p.hasEnabledPhotos ? tokens.color.gold : tokens.color.muted }}>●</span>
-                              <span><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
-                            </Link>
+                            p.hasEnabledPhotos ? (
+                              <Link
+                                key={p.id}
+                                href={`/photographs/photographer/${p.slug}`}
+                                className={styles.nameLink}
+                              >
+                                <span className={styles.bullet} style={{ color: tokens.color.gold }}>●</span>
+                                <span><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
+                              </Link>
+                            ) : (
+                              <span key={p.id} className={styles.nameLinkDisabled}>
+                                <span className={styles.bullet} style={{ color: tokens.color.muted }}>●</span>
+                                <span><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
+                              </span>
+                            )
                           ))
                         : (keywordGroups[letter] ?? []).map(k => (
                             <Link

@@ -325,6 +325,20 @@
   transition: opacity 0.15s;
 }
 
+.nameLinkDisabled {
+  color: var(--color-muted);
+  font-size: 1.25rem;
+  font-family: var(--font-cormorant);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.2;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: break-word;
+  cursor: default;
+}
+
 @media (max-width: 900px) {
   .nameGrid {
     grid-template-columns: repeat(3, 1fr);

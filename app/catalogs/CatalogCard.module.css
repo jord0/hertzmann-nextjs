@@ -1,24 +1,43 @@
-/* ── Card ── */
+/* ── Row ── */
 
-.card {
+.row {
   display: flex;
-  flex-direction: column;
-  border: 1px solid var(--color-border-warm);
-  background-color: var(--color-bg);
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.75rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--color-border-warm);
 }
 
-.cardBody {
+.rowImage {
+  flex-shrink: 0;
+  width: clamp(120px, 25vw, 280px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--color-bg-warm);
+}
+
+.rowImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rowBody {
   flex: 1;
-  padding: 1.75rem 1.75rem 1.25rem;
   display: flex;
   flex-direction: column;
 }
+
+
+/* ── Content ── */
 
 .meta {
   display: flex;
   align-items: baseline;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .date {
@@ -40,66 +59,60 @@
 
 .title {
   font-family: var(--font-cormorant);
-  font-size: 1.45rem;
+  font-size: 1.9rem;
   font-weight: var(--font-weight-semibold);
   color: var(--color-foreground);
   line-height: 1.25;
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
 }
 
-.description {
+.descriptionText {
   font-family: var(--font-inter);
   font-weight: var(--font-weight-light);
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 1.1rem;
+  line-height: 1.8;
   color: var(--color-foreground);
-  margin: 0 0 1rem;
-  /* clamp to 3 lines */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin: 0 0 0.75rem;
 }
 
 .readMore {
+  display: inline;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-medium);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-gold);
-  text-decoration: none;
-  align-self: flex-start;
-  transition: opacity 0.15s;
+  color: var(--color-muted);
+  transition: color 0.15s;
 }
 
 .readMore:hover {
-  opacity: 0.7;
-}
-
-.cardFooter {
-  padding: 1rem 1.75rem;
-  border-top: 1px solid var(--color-border-warm);
-  background-color: var(--color-bg-warm);
+  color: var(--color-foreground);
 }
 
 .downloadLink {
+  display: inline-block;
+  align-self: flex-start;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-medium);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-foreground);
+  color: var(--color-dark);
+  background-color: var(--color-gold);
   text-decoration: none;
-  transition: color 0.15s;
+  white-space: nowrap;
+  padding: 0.55rem 1rem;
+  margin-top: 0.75rem;
+  transition: opacity 0.15s;
 }
 
 .downloadLink:hover {
-  color: var(--color-gold);
+  opacity: 0.85;
 }
 
 /* ── Modal ── */
@@ -168,12 +181,10 @@
   margin: 0 0 2rem;
 }
 
-.description p,
 .modalDescription p {
   margin: 0 0 0.75em;
 }
 
-.description p:last-child,
 .modalDescription p:last-child {
   margin-bottom: 0;
 }
@@ -195,3 +206,6 @@
 .modalDownload:hover {
   color: var(--color-gold);
 }
+
+/* ── Responsive ── */
+

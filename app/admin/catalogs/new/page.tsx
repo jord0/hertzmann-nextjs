@@ -5,7 +5,7 @@ import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
-import { uploadCatalogPdf } from '@/lib/r2';
+import { uploadCatalogPdf, uploadCatalogThumbnail } from '@/lib/r2';
 import adminStyles from '@/app/admin/admin.module.css';
 
 async function createCatalog(formData: FormData) {
@@ -28,6 +28,12 @@ async function createCatalog(formData: FormData) {
   if (pdfFile && pdfFile.size > 0) {
     const buffer = Buffer.from(await pdfFile.arrayBuffer());
     await uploadCatalogPdf(result.insertId, buffer);
+  }
+
+  const thumbnailFile = formData.get('thumbnail') as File | null;
+  if (thumbnailFile && thumbnailFile.size > 0) {
+    const buffer = Buffer.from(await thumbnailFile.arrayBuffer());
+    await uploadCatalogThumbnail(result.insertId, buffer);
   }
 
   revalidatePath('/catalogs');
@@ -55,6 +61,20 @@ export default function NewCatalogPage() {
             accept="application/pdf"
             style={{ display: 'block', marginTop: '0.3rem' }}
           />
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="thumbnail" style={labelStyle}>Cover Thumbnail (JPEG)</label>
+          <input
+            id="thumbnail"
+            name="thumbnail"
+            type="file"
+            accept="image/jpeg"
+            style={{ display: 'block', marginTop: '0.3rem' }}
+          />
+          <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>
+            Displayed on the Catalogs page. Can be added or replaced later.
+          </p>
         </div>
 
         <div style={{ marginBottom: '1rem' }}>

@@ -69,3 +69,28 @@ export async function deleteCatalogPdf(catalogId: number): Promise<void> {
     Key: `catalogs/${catalogId}.pdf`,
   }));
 }
+
+export async function uploadCatalogThumbnail(
+  catalogId: number,
+  imageBuffer: Buffer
+): Promise<void> {
+  const bucket = process.env.R2_CATALOG_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_CATALOG_BUCKET_NAME is not configured');
+
+  await getClient().send(new PutObjectCommand({
+    Bucket: bucket,
+    Key: `${catalogId}.jpg`,
+    Body: imageBuffer,
+    ContentType: 'image/jpeg',
+  }));
+}
+
+export async function deleteCatalogThumbnail(catalogId: number): Promise<void> {
+  const bucket = process.env.R2_CATALOG_BUCKET_NAME;
+  if (!bucket) throw new Error('R2_CATALOG_BUCKET_NAME is not configured');
+
+  await getClient().send(new DeleteObjectCommand({
+    Bucket: bucket,
+    Key: `${catalogId}.jpg`,
+  }));
+}

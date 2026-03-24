@@ -7,7 +7,7 @@ import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
-import { uploadCatalogPdf, deleteCatalogPdf } from '@/lib/r2';
+import { uploadCatalogPdf, deleteCatalogPdf, uploadCatalogThumbnail, deleteCatalogThumbnail } from '@/lib/r2';
 import adminStyles from '@/app/admin/admin.module.css';
 
 interface Catalog {
@@ -48,6 +48,12 @@ async function updateCatalog(id: number, formData: FormData) {
     await uploadCatalogPdf(id, buffer);
   }
 
+  const thumbnailFile = formData.get('thumbnail') as File | null;
+  if (thumbnailFile && thumbnailFile.size > 0) {
+    const buffer = Buffer.from(await thumbnailFile.arrayBuffer());
+    await uploadCatalogThumbnail(id, buffer);
+  }
+
   revalidatePath('/catalogs');
   redirect('/admin/catalogs');
 }
@@ -58,6 +64,7 @@ async function deleteCatalog(id: number) {
   if (!session.isLoggedIn) redirect('/admin/login');
   await query('DELETE FROM catalogs WHERE id=?', [id]);
   try { await deleteCatalogPdf(id); } catch { /* PDF may not exist */ }
+  try { await deleteCatalogThumbnail(id); } catch { /* thumbnail may not exist */ }
   revalidatePath('/catalogs');
   redirect('/admin/catalogs');
 }
@@ -100,6 +107,20 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="thumbnail" style={labelStyle}>Replace Cover Thumbnail (optional, JPEG)</label>
+          <input
+            id="thumbnail"
+            name="thumbnail"
+            type="file"
+            accept="image/jpeg"
+            style={{ display: 'block', marginTop: '0.3rem' }}
+          />
+          <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>
+            Stored as {c.id}.jpg — leave blank to keep existing. Also removed from R2 if catalog is deleted.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
             <input type="checkbox" name="enabled" defaultChecked={!!c.enabled} />
             <span>Enabled (visible on site)</span>
@@ -117,7 +138,7 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
       <div style={{ maxWidth: '480px' }}>
         <h2 style={{ fontSize: '1rem', marginTop: 0, color: '#c00' }}>Delete Catalog</h2>
         <p style={{ fontSize: '0.9rem', color: '#666', marginTop: 0 }}>
-          Permanently removes this catalog record and its PDF from R2. This cannot be undone.
+          Permanently removes this catalog record, its PDF, and its cover thumbnail from R2. This cannot be undone.
         </p>
         <form action={deleteAction}>
           <button type="submit" className={adminStyles.btnDanger}>Delete Catalog</button>

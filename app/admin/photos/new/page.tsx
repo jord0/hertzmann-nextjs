@@ -1,8 +1,13 @@
 import { redirect } from 'next/navigation';
 import { revalidateTag, revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import type { SessionData } from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
 import KeywordPicker from '../KeywordPicker';
+import adminStyles from '@/app/admin/admin.module.css';
 
 interface PhotographerOption {
   id: number;
@@ -20,20 +25,25 @@ function makeSlug(firstName: string, lastName: string): string {
 
 async function createPhoto(formData: FormData) {
   'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const photographerId = parseInt(formData.get('photographerId') as string, 10);
   const title = (formData.get('title') as string).trim();
   const medium = (formData.get('medium') as string).trim();
   const date = (formData.get('date') as string).trim();
   const width = (formData.get('width') as string).trim();
   const height = (formData.get('height') as string).trim();
-  const price = parseInt((formData.get('price') as string).trim(), 10) || 0;
+  const priceStr = (formData.get('price') as string).trim();
+  const price = priceStr === '' ? null : (parseInt(priceStr, 10) || 0);
   const description = (formData.get('description') as string).trim();
   const provenance = (formData.get('provenance') as string).trim();
   const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
   const keywordsRaw = (formData.get('keywords') as string).trim();
+  const illustrated = (formData.get('illustrated') as string).trim();
+  const exhibitions = (formData.get('exhibitions') as string).trim();
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
-  // Convert comma-separated keywords to pipe-delimited format: |kw1|kw2|
   const keywordsFormatted = keywordsRaw
     ? '|' + keywordsRaw.split(',').map(k => k.trim()).filter(Boolean).join('|') + '|'
     : '';
@@ -41,20 +51,18 @@ async function createPhoto(formData: FormData) {
   const result = (await query(
     `INSERT INTO photos
       (photographer, artist, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled, illustrated, exhibitions, notes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', '', '')`,
-    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled]
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '')`,
+    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, illustrated, exhibitions]
   )) as { insertId: number };
 
   const photoId = result.insertId;
 
-  // Upload image if provided
   const imageFile = formData.get('image') as File | null;
   if (imageFile && imageFile.size > 0) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
     await uploadPhoto(photographerId, photoId, buffer);
   }
 
-  // Get photographer info for revalidation
   const photographers = (await query(
     'SELECT firstName, lastName FROM photographers WHERE id = ?',
     [photographerId]
@@ -67,12 +75,15 @@ async function createPhoto(formData: FormData) {
     revalidatePath(`/photographs/photographer/${slug}`);
   }
 
-  redirect('/admin');
+  redirect(`/admin/photos/${photoId}?created=1`);
 }
 
 export default async function NewPhotoPage() {
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
   const photographers = (await query(
-    'SELECT id, firstName, lastName FROM photographers WHERE enabled = 1 ORDER BY lastName, firstName'
+    'SELECT id, firstName, lastName FROM photographers ORDER BY lastName, firstName'
   )) as PhotographerOption[];
 
   const keywordRows = await query(`
@@ -91,7 +102,7 @@ export default async function NewPhotoPage() {
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Add Photo</h1>
+      <h1 style={{ marginTop: 0 }}>Add Photograph and Inventory Information</h1>
 
       <form action={createPhoto} style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
@@ -106,18 +117,25 @@ export default async function NewPhotoPage() {
           </select>
         </div>
 
+        <Field label="Inventory Number" name="inventoryNumber" placeholder="e.g. HI-1234" />
         <Field label="Title" name="title" required />
-        <Field label="Medium" name="medium" />
-        <Field label="Date" name="date" placeholder="e.g. 1952" />
-        <Field label="Width" name="width" placeholder="in inches" />
-        <Field label="Height" name="height" placeholder="in inches" />
-        <Field label="Price" name="price" type="number" max={8388607} />
-        <Field label="Inventory Number" name="inventoryNumber" maxLength={10} />
-
-        <TextareaField label="Description" name="description" />
-        <TextareaField label="Provenance" name="provenance" />
 
         <KeywordPicker allKeywords={allKeywords} />
+
+        <Field label="Medium" name="medium" placeholder="e.g. Gelatin silver print" />
+        <Field label="Date" name="date" placeholder="e.g. 1952" />
+
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Field label="Height (inches)" name="height" placeholder="e.g. 10" noMargin />
+          <Field label="Width (inches)" name="width" placeholder="e.g. 8" noMargin />
+        </div>
+        <div style={{ height: '1rem' }} />
+
+        <Field label="Price" name="price" type="number" placeholder="Leave blank if not for sale" max={8388607} />
+
+        <TextareaField label="Provenance" name="provenance" />
+        <TextareaField label="Illustrated" name="illustrated" placeholder="e.g. Published in..." rows={2} />
+        <TextareaField label="Exhibitions" name="exhibitions" rows={2} />
 
         <div style={{ marginBottom: '1rem' }}>
           <label htmlFor="image" style={labelStyle}>Image (JPEG)</label>
@@ -138,19 +156,19 @@ export default async function NewPhotoPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" style={submitStyle}>Save</button>
-          <a href="/admin" style={cancelStyle}>Cancel</a>
+          <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+          <a href="/admin/photos" className={adminStyles.btnSecondary}>Cancel</a>
         </div>
       </form>
     </div>
   );
 }
 
-function Field({ label, name, required, placeholder, type = 'text', max, maxLength }: {
-  label: string; name: string; required?: boolean; placeholder?: string; type?: string; max?: number; maxLength?: number;
+function Field({ label, name, required, placeholder, type = 'text', max, noMargin }: {
+  label: string; name: string; required?: boolean; placeholder?: string; type?: string; max?: number; noMargin?: boolean;
 }) {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div style={{ marginBottom: noMargin ? 0 : '1rem', flex: noMargin ? 1 : undefined }}>
       <label htmlFor={name} style={labelStyle}>{label}{required && ' *'}</label>
       <input
         id={name}
@@ -159,21 +177,21 @@ function Field({ label, name, required, placeholder, type = 'text', max, maxLeng
         required={required}
         placeholder={placeholder}
         max={max}
-        maxLength={maxLength}
         style={inputStyle}
       />
     </div>
   );
 }
 
-function TextareaField({ label, name }: { label: string; name: string }) {
+function TextareaField({ label, name, placeholder, rows = 4 }: { label: string; name: string; placeholder?: string; rows?: number }) {
   return (
     <div style={{ marginBottom: '1rem' }}>
       <label htmlFor={name} style={labelStyle}>{label}</label>
       <textarea
         id={name}
         name={name}
-        rows={4}
+        rows={rows}
+        placeholder={placeholder}
         style={{ ...inputStyle, resize: 'vertical' }}
       />
     </div>
@@ -196,27 +214,4 @@ const inputStyle: React.CSSProperties = {
 const selectStyle: React.CSSProperties = {
   ...inputStyle,
   backgroundColor: 'white',
-};
-
-const submitStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: '#333',
-  color: 'white',
-  border: 'none',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-};
-
-const cancelStyle: React.CSSProperties = {
-  padding: '0.6rem 1.25rem',
-  backgroundColor: 'white',
-  color: '#333',
-  border: '1px solid #ccc',
-  borderRadius: '4px',
-  cursor: 'pointer',
-  fontSize: '0.95rem',
-  textDecoration: 'none',
-  display: 'inline-flex',
-  alignItems: 'center',
 };

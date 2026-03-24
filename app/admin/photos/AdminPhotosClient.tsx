@@ -149,11 +149,11 @@ export default function AdminPhotosClient({ photos }: { photos: PhotoRow[] }) {
                 <tbody>
                   {group.photos.map((photo, i) => (
                     <tr key={photo.id} style={{ borderTop: i > 0 ? '1px solid #eee' : 'none' }}>
-                      <td style={{ padding: '0.65rem 1rem' }}>
+                      <td style={{ padding: '0.45rem 1rem' }}>
                         {photo.title || <em style={{ color: '#aaa' }}>Untitled</em>}
                       </td>
-                      <td style={{ padding: '0.65rem 1rem', color: '#888', fontSize: '0.8rem', width: '170px' }}>{formatTs(photo.updatedAt)}</td>
-                      <td style={{ padding: '0.65rem 1rem', width: '100px' }}>
+                      <td style={{ padding: '0.45rem 1rem', color: '#888', fontSize: '0.8rem', width: '170px' }}>{formatTs(photo.updatedAt)}</td>
+                      <td style={{ padding: '0.45rem 1rem', width: '100px' }}>
                         <span style={{
                           display: 'inline-block',
                           padding: '0.2rem 0.5rem',
@@ -165,7 +165,7 @@ export default function AdminPhotosClient({ photos }: { photos: PhotoRow[] }) {
                           {photo.enabled ? 'Enabled' : 'Disabled'}
                         </span>
                       </td>
-                      <td style={{ padding: '0.65rem 1rem', textAlign: 'right', width: '60px' }}>
+                      <td style={{ padding: '0.45rem 1rem', textAlign: 'right', width: '60px' }}>
                         <Link
                           href={`/admin/photos/${photo.id}`}
                           style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}

@@ -24,7 +24,7 @@ export default async function AdminPhotosPage() {
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1 style={{ margin: 0, fontSize: '2rem' }}>Photos</h1>
         <Link href="/admin/photos/new" className={adminStyles.btnPrimarySmall}>
-          + Add Photo
+          + Add Photograph and Inventory Information
         </Link>
       </div>
 

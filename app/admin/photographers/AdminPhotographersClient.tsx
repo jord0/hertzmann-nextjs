@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import adminStyles from '@/app/admin/admin.module.css';
 
@@ -163,14 +163,14 @@ export default function AdminPhotographersClient({ photographers }: { photograph
           </colgroup>
           <tbody>
             {letters.map(letter => (
-              <>
-                {!q && <tr key={`anchor-${letter}`} id={`letter-${letter}`}><td colSpan={5} style={{ padding: 0, height: 0, border: 'none' }} /></tr>}
+              <React.Fragment key={letter}>
+                {!q && <tr id={`letter-${letter}`}><td colSpan={5} style={{ padding: 0, height: 0, border: 'none' }} /></tr>}
                 {groups[letter].map(p => (
                   <tr key={p.id} style={{ borderTop: '1px solid #eee' }}>
-                    <td style={{ padding: '0.65rem 1rem' }}>{p.firstName} {p.lastName}</td>
-                    <td style={{ padding: '0.65rem 1rem', color: '#666' }}>{p.photoCount}</td>
-                    <td style={{ padding: '0.65rem 1rem', color: '#888', fontSize: '0.8rem' }}>{formatTs(p.updatedAt)}</td>
-                    <td style={{ padding: '0.65rem 1rem' }}>
+                    <td style={{ padding: '0.45rem 1rem' }}>{p.firstName} {p.lastName}</td>
+                    <td style={{ padding: '0.45rem 1rem', color: '#666' }}>{p.photoCount}</td>
+                    <td style={{ padding: '0.45rem 1rem', color: '#888', fontSize: '0.8rem' }}>{formatTs(p.updatedAt)}</td>
+                    <td style={{ padding: '0.45rem 1rem' }}>
                       <span style={{
                         display: 'inline-block',
                         padding: '0.2rem 0.5rem',
@@ -182,7 +182,7 @@ export default function AdminPhotographersClient({ photographers }: { photograph
                         {p.enabled ? 'Enabled' : 'Disabled'}
                       </span>
                     </td>
-                    <td style={{ padding: '0.65rem 1rem', textAlign: 'right' }}>
+                    <td style={{ padding: '0.45rem 1rem', textAlign: 'right' }}>
                       <Link
                         href={`/admin/photographers/${p.id}`}
                         style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}
@@ -192,7 +192,7 @@ export default function AdminPhotographersClient({ photographers }: { photograph
                     </td>
                   </tr>
                 ))}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

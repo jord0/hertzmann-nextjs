@@ -10,13 +10,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div>
-      <div className={styles.goldHeader}>
-        <div className={styles.headerInner}>
-          <h1 className={styles.headerTitle}>Contact</h1>
-          <p className={styles.headerSub}>Get in touch with us for inquiries, appraisals, or general questions</p>
-        </div>
-      </div>
-
       <div className={styles.content}>
         <div className={styles.formBox}>
           <ContactForm />
@@ -27,6 +20,7 @@ export default function ContactPage() {
           <a href="mailto:hertzmann@hertzmann.com" className={styles.directEmail}>
             hertzmann@hertzmann.com
           </a>
+          <span className={styles.directEmail}>(415) 626-2677</span>
         </p>
       </div>
     </div>

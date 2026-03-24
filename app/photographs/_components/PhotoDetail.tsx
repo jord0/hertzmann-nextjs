@@ -141,7 +141,7 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
 
           <div className={styles.inquireWrap}>
             <Link
-              href={`/contact?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
+              href={`/sell-to-us?photo=${photo.id}&title=${encodeURIComponent(photo.title)}`}
               className={styles.inquireBtn}
             >
               Inquire About This Photo

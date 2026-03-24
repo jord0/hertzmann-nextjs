@@ -114,7 +114,7 @@ export default async function PhotographerPage({ params }: PageProps) {
 
       <div className={styles.content}>
         <div className={styles.photographerRow}>
-          <Link href="/photographs" className={styles.backLink}>Back to Artists</Link>
+          <Link href="/photographs" className={styles.backLink}>← Back to Artists</Link>
         </div>
 
         <div className={styles.photoGrid}>

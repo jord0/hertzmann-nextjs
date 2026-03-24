@@ -83,7 +83,7 @@ export default async function Home() {
             <p className={styles.serviceText}>
               We actively purchase individual photographs and entire collections, offering fair market valuations and discreet, professional transactions. If you have photographs to sell, we welcome the opportunity to discuss your holdings.
             </p>
-            <Link href="/contact" className={styles.ctaLink}>
+            <Link href="/sell-to-us" className={styles.ctaLink}>
               Contact Us →
             </Link>
           </div>
@@ -104,10 +104,24 @@ export default async function Home() {
             <Link href="/photographs" className={styles.ctaBtn}>
               Browse Photographs →
             </Link>
-            <Link href="/contact" className={styles.ctaBtnOutline}>
+            <Link href="/sell-to-us" className={styles.ctaBtnOutline}>
               Get in Touch →
             </Link>
           </div>
+        </div>
+      </section>
+      {/* F. Contact Info */}
+      <section className={styles.contactInfoSection}>
+        <div className={styles.contactInfoInner}>
+          <span className={styles.contactInfoItem}>
+            <a href="tel:4156262677" className={styles.contactInfoLink}>(415) 626-2677</a>
+          </span>
+          <span className={styles.contactInfoDivider} />
+          <span className={styles.contactInfoItem}>
+            <a href="mailto:pmhi@hertzmann.net" className={styles.contactInfoLink}>pmhi@hertzmann.net</a>
+          </span>
+          <span className={styles.contactInfoDivider} />
+          <span className={styles.contactInfoItem}>PO Box 40447, San Francisco, CA 94140</span>
         </div>
       </section>
     </>

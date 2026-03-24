@@ -45,16 +45,16 @@
 }
 
 .backLink {
-  color: var(--color-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-muted);
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-medium);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border-bottom: 2px solid var(--color-gold);
-  padding-bottom: 2px;
-  white-space: nowrap;
   transition: opacity 0.15s;
 }
 

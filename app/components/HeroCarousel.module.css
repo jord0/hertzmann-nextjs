@@ -91,7 +91,7 @@
 
 .caption {
   padding: 16px 1.5rem 4px;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--color-muted);
   letter-spacing: 0.03em;
   text-align: center;
@@ -117,5 +117,5 @@
   color: var(--color-foreground);
   font-family: var(--font-cormorant);
   font-weight: var(--font-weight-normal);
-  font-size: 1rem;
+  font-size: 1.15rem;
 }

@@ -117,7 +117,7 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
         <div className={styles.browseLayout}>
           <div className={styles.browseMain}>
 
-            {/* Sticky: tabs + search on one row */}
+            {/* Sticky: tabs + search + legend */}
             <div className={styles.stickyControls}>
               <div className={styles.tabSearchRow}>
                 <div className={styles.searchWrap}>
@@ -168,19 +168,19 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
                   </button>
                 </div>
               </div>
-            </div>
 
-            {/* Dot legend — By Artist tab only */}
-            {isPhotographers && (
-              <div className={styles.legend}>
-                <span className={styles.legendItem}>
-                  <span style={{ color: tokens.color.gold }}>●</span> Available
-                </span>
-                <span className={styles.legendItem}>
-                  <span style={{ color: tokens.color.muted }}>●</span> Inquire with Gallery
-                </span>
-              </div>
-            )}
+              {/* Dot legend — By Artist tab only */}
+              {isPhotographers && (
+                <div className={styles.legend}>
+                  <span className={`${styles.legendItem} ${styles.legendItemAvailable}`}>
+                    <span style={{ color: tokens.color.gold }}>●</span> Currently Available
+                  </span>
+                  <span className={styles.legendItem}>
+                    <span style={{ color: tokens.color.muted }}>●</span> Inquire
+                  </span>
+                </div>
+              )}
+            </div>
 
             {/* Name list */}
             {letters.length === 0 ? (
@@ -208,7 +208,7 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
                                 className={styles.nameLink}
                               >
                                 <span className={styles.bullet} style={{ color: tokens.color.gold }}>●</span>
-                                <span><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
+                                <span className={styles.nameAvailable}><Highlight text={`${p.firstName} ${p.lastName}`} query={photographerSearch} /></span>
                               </Link>
                             ) : (
                               <span key={p.id} className={styles.nameLinkDisabled}>

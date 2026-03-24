@@ -10,7 +10,7 @@ const links = [
   { href: '/photographs', label: 'Photographs', external: false },
   { href: '/catalogs', label: 'Catalogs', external: false },
   { href: 'https://edwardwestonbibliography.blog/', label: 'Edward Weston Blog', external: true },
-  { href: '/contact', label: 'Contact', external: false },
+  { href: '/sell-to-us', label: 'Sell to Us', external: false },
   { href: '/about', label: 'About Us', external: false },
 ];
 
@@ -25,7 +25,7 @@ export default function NavBar() {
   return (
     <nav className={styles.nav}>
       <div className={styles.container}>
-        <Link href="/" className={styles.logo}>Hertzmann</Link>
+        <Link href="/" className={styles.logo}>Paul M. Hertzmann, Inc.</Link>
 
         <div className={styles.links}>
           {links.map(({ href, label, external }) => {
@@ -48,7 +48,8 @@ export default function NavBar() {
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
         >
-          {isOpen ? '✕' : '☰'}
+          <span className={styles.hamburgerLabel}>Menu</span>
+          <span className={styles.hamburgerIcon}>{isOpen ? '✕' : '☰'}</span>
         </button>
       </div>
 

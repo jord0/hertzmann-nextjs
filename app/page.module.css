@@ -154,6 +154,49 @@
   margin: 0 0 1.5rem;
 }
 
+/* ---- Contact Info section ---- */
+
+.contactInfoSection {
+  background-color: var(--color-bg-warm);
+  border-top: 1px solid var(--color-border-warm);
+  border-bottom: 1px solid var(--color-border-warm);
+  padding: 1.25rem 2.5rem;
+}
+
+.contactInfoInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contactInfoItem {
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.contactInfoLink {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.contactInfoLink:hover {
+  color: var(--color-foreground);
+}
+
+.contactInfoDivider {
+  display: inline-block;
+  width: 1px;
+  height: 0.9rem;
+  background-color: var(--color-border-warm);
+  flex-shrink: 0;
+}
+
 /* ---- CTA section ---- */
 
 .ctaSection {
@@ -265,6 +308,20 @@
   .servicesSection {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .contactInfoSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .contactInfoInner {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contactInfoDivider {
+    display: none;
   }
 
   .ctaSection {

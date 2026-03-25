@@ -57,19 +57,19 @@ async function updatePhoto(photoId: number, formData: FormData) {
   if (!session.isLoggedIn) redirect('/admin/login');
 
   const photographer = parseInt(formData.get('photographer') as string, 10);
-  const title = (formData.get('title') as string).trim();
-  const medium = (formData.get('medium') as string).trim();
-  const date = (formData.get('date') as string).trim();
-  const width = (formData.get('width') as string).trim();
-  const height = (formData.get('height') as string).trim();
-  const priceStr = (formData.get('price') as string).trim();
+  const title = ((formData.get('title') as string) || '').trim();
+  const medium = ((formData.get('medium') as string) || '').trim();
+  const date = ((formData.get('date') as string) || '').trim();
+  const width = ((formData.get('width') as string) || '').trim();
+  const height = ((formData.get('height') as string) || '').trim();
+  const priceStr = ((formData.get('price') as string) || '').trim();
   const price = priceStr === '' ? null : (parseInt(priceStr, 10) || 0);
-  const description = (formData.get('description') as string).trim();
-  const provenance = (formData.get('provenance') as string).trim();
-  const inventoryNumber = (formData.get('inventoryNumber') as string).trim();
-  const keywordsRaw = (formData.get('keywords') as string).trim();
-  const illustrated = (formData.get('illustrated') as string).trim();
-  const exhibitions = (formData.get('exhibitions') as string).trim();
+  const description = ((formData.get('description') as string) || '').trim();
+  const provenance = ((formData.get('provenance') as string) || '').trim();
+  const inventoryNumber = ((formData.get('inventoryNumber') as string) || '').trim();
+  const keywordsRaw = ((formData.get('keywords') as string) || '').trim();
+  const illustrated = ((formData.get('illustrated') as string) || '').trim();
+  const exhibitions = ((formData.get('exhibitions') as string) || '').trim();
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
   const keywordsFormatted = keywordsRaw

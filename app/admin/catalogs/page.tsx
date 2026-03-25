@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import adminStyles from '@/app/admin/admin.module.css';
 import { query } from '@/lib/db';
-import AdminCatalogsClient, { type CatalogRow } from './AdminCatalogsClient';
+import type { CatalogRow } from './AdminCatalogsClient';
+
+const AdminCatalogsClient = dynamic(() => import('./AdminCatalogsClient'), { ssr: false });
 
 export const dynamic = 'force-dynamic';
 

@@ -158,7 +158,7 @@ function Field({ label, name, defaultValue, required, placeholder, type = 'text'
 }) {
   return (
     <div style={{ marginBottom: '1rem' }}>
-      <label htmlFor={name} style={labelStyle}>{label}{required && ' *'}</label>
+      <label htmlFor={name} style={labelStyle}>{label}{required && ' (required)'}</label>
       <input
         id={name}
         name={name}

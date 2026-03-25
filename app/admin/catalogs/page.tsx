@@ -1,28 +1,20 @@
 import Link from 'next/link';
 import adminStyles from '@/app/admin/admin.module.css';
 import { query } from '@/lib/db';
+import AdminCatalogsClient, { type CatalogRow } from './AdminCatalogsClient';
 
 export const dynamic = 'force-dynamic';
-
-interface CatalogRow {
-  id: number;
-  title: string;
-  date: string;
-  price: number;
-  level: number;
-  enabled: number;
-  updatedAt: Date | null;
-}
-
-function formatTs(ts: Date | null): string {
-  if (!ts) return '—';
-  return ts.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
 
 export default async function AdminCatalogsPage() {
   const rows = await query(
     'SELECT id, title, date, price, level, enabled, updatedAt FROM catalogs ORDER BY level ASC'
-  ) as CatalogRow[];
+  ) as (Omit<CatalogRow, 'updatedAt'> & { updatedAt: Date | null })[];
+
+  // Serialize dates before passing to client component
+  const serialized: CatalogRow[] = rows.map(r => ({
+    ...r,
+    updatedAt: r.updatedAt ? r.updatedAt.toISOString() : null,
+  }));
 
   return (
     <div>
@@ -33,61 +25,10 @@ export default async function AdminCatalogsPage() {
         </Link>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: 'white', borderRadius: '6px', overflow: 'hidden', border: '1px solid #ddd' }}>
-        <thead>
-          <tr style={{ backgroundColor: '#f0f0f0', textAlign: 'left' }}>
-            <th style={thStyle}>Title</th>
-            <th style={thStyle}>Date</th>
-            <th style={thStyle}>Price</th>
-            <th style={thStyle}>Level</th>
-            <th style={thStyle}>Last Edited</th>
-            <th style={thStyle}>Status</th>
-            <th style={thStyle}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((c, i) => (
-            <tr key={c.id} style={{ borderTop: i > 0 ? '1px solid #eee' : 'none' }}>
-              <td style={tdStyle}>{c.title}</td>
-              <td style={{ ...tdStyle, color: '#666' }}>{c.date}</td>
-              <td style={{ ...tdStyle, color: '#666' }}>{c.price > 0 ? `$${c.price}` : '—'}</td>
-              <td style={{ ...tdStyle, color: '#666' }}>{c.level}</td>
-              <td style={{ ...tdStyle, color: '#888', fontSize: '0.8rem' }}>{formatTs(c.updatedAt)}</td>
-              <td style={tdStyle}>
-                <span style={{
-                  display: 'inline-block',
-                  padding: '0.2rem 0.5rem',
-                  borderRadius: '3px',
-                  fontSize: '0.8rem',
-                  backgroundColor: c.enabled ? '#dcfce7' : '#f3f4f6',
-                  color: c.enabled ? '#15803d' : '#6b7280',
-                }}>
-                  {c.enabled ? 'Enabled' : 'Disabled'}
-                </span>
-              </td>
-              <td style={{ ...tdStyle, textAlign: 'right' }}>
-                <Link
-                  href={`/admin/catalogs/${c.id}`}
-                  style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}
-                >
-                  Edit
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <p style={{ margin: '0 0 1rem', fontSize: '0.85rem', color: '#666' }}>
+        Click and drag dots to reorder.
+      </p>
+      <AdminCatalogsClient initialRows={serialized} />
     </div>
   );
 }
-
-const thStyle: React.CSSProperties = {
-  padding: '0.75rem 1rem',
-  fontWeight: 600,
-  fontSize: '0.85rem',
-  color: '#555',
-};
-
-const tdStyle: React.CSSProperties = {
-  padding: '0.75rem 1rem',
-};

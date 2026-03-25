@@ -34,7 +34,10 @@ export default function NewPhotographerPage() {
       <h1 style={{ marginTop: 0 }}>Add Photographer</h1>
 
       <form action={createPhotographer} style={{ maxWidth: '480px' }}>
-        <Field label="First Name" name="firstName" required />
+        <p style={{ margin: '0 0 1.25rem', fontSize: '0.85rem', color: '#666' }}>
+          Last Name is required. All other fields are optional.
+        </p>
+        <Field label="First Name" name="firstName" />
         <Field label="Last Name" name="lastName" required />
         <Field label="Years Active" name="years" placeholder="e.g. 1920&ndash;1980" />
         <Field label="Country" name="country" />
@@ -86,7 +89,7 @@ function Field({
         htmlFor={name}
         style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.9rem', fontWeight: 500 }}
       >
-        {label}{required && ' *'}
+        {label}{required && ' (required)'}
       </label>
       <input
         id={name}

@@ -113,7 +113,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         <div style={{ width: '480px', flexShrink: 0 }}>
           <p style={{ margin: '0 0 1.25rem', fontSize: '0.85rem', color: '#666' }}>
-            * Last Name is required. All other fields are optional.
+            Last Name is required. All other fields are optional.
           </p>
 
           <form action={updateAction}>
@@ -236,7 +236,7 @@ function Field({
         htmlFor={name}
         style={labelStyle}
       >
-        {label}{required && ' *'}
+        {label}{required && ' (required)'}
       </label>
       <input
         id={name}

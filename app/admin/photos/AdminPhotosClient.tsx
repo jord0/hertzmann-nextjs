@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import ToggleEnabled from '@/app/admin/_components/ToggleEnabled';
+import { togglePhotoEnabled } from './actions';
 
 export interface PhotoRow {
   id: number;
@@ -142,36 +144,26 @@ export default function AdminPhotosClient({ photos }: { photos: PhotoRow[] }) {
           const letter = (group.lastName?.[0] || '#').toUpperCase();
           return (
             <div key={photographerId} id={!q ? `letter-${letter}` : undefined} style={{ marginBottom: '2rem' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 600, margin: '0 0 0.5rem', color: '#333' }}>
-                {group.firstName} {group.lastName}
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 600, margin: '0 0 0.5rem' }}>
+                <Link href={`/admin/photographers/${photographerId}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
+                  {group.firstName} {group.lastName}
+                </Link>
               </h2>
               <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: 'white', borderRadius: '6px', overflow: 'hidden', border: '1px solid #ddd' }}>
                 <tbody>
                   {group.photos.map((photo, i) => (
                     <tr key={photo.id} style={{ borderTop: i > 0 ? '1px solid #eee' : 'none' }}>
                       <td style={{ padding: '0.45rem 1rem' }}>
-                        {photo.title || <em style={{ color: '#aaa' }}>Untitled</em>}
+                        <Link href={`/admin/photos/${photo.id}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
+                          {photo.title || <em style={{ color: '#aaa' }}>Untitled</em>}
+                        </Link>
                       </td>
                       <td style={{ padding: '0.45rem 1rem', color: '#888', fontSize: '0.8rem', width: '170px' }}>{formatTs(photo.updatedAt)}</td>
                       <td style={{ padding: '0.45rem 1rem', width: '100px' }}>
-                        <span style={{
-                          display: 'inline-block',
-                          padding: '0.2rem 0.5rem',
-                          borderRadius: '3px',
-                          fontSize: '0.8rem',
-                          backgroundColor: photo.enabled ? '#dcfce7' : '#f3f4f6',
-                          color: photo.enabled ? '#15803d' : '#6b7280',
-                        }}>
-                          {photo.enabled ? 'Enabled' : 'Disabled'}
-                        </span>
-                      </td>
-                      <td style={{ padding: '0.45rem 1rem', textAlign: 'right', width: '60px' }}>
-                        <Link
-                          href={`/admin/photos/${photo.id}`}
-                          style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}
-                        >
-                          Edit
-                        </Link>
+                        <ToggleEnabled
+                          enabled={!!photo.enabled}
+                          action={(n) => togglePhotoEnabled(photo.id, n)}
+                        />
                       </td>
                     </tr>
                   ))}

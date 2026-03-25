@@ -76,21 +76,24 @@
 
 .fileInputLabel {
   padding: 0.6rem 1.25rem;
-  background-color: white;
-  color: #333;
-  border: 1px solid #ccc;
+  background-color: #333;
+  color: white;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.95rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  transition: background-color 0.15s, border-color 0.15s;
+  transition: background-color 0.15s;
 }
 
 .fileInputLabel:hover {
-  background-color: #f5f5f5;
-  border-color: #aaa;
+  background-color: #555;
+}
+
+.fileInputLabel:active {
+  background-color: #111;
 }
 
 .fileInput {

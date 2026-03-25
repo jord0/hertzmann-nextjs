@@ -9,8 +9,11 @@ interface Props {
 
 export default function KeywordPicker({ allKeywords, selected = [] }: Props) {
   const [active, setActive] = useState<Set<string>>(new Set(selected));
+  const [extra, setExtra] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const allKnown = [...allKeywords, ...extra];
 
   const toggle = (kw: string) => {
     setActive(prev => {
@@ -22,16 +25,27 @@ export default function KeywordPicker({ allKeywords, selected = [] }: Props) {
     inputRef.current?.focus();
   };
 
-  const filtered = filter.trim()
-    ? allKeywords.filter(kw => kw.toLowerCase().includes(filter.trim().toLowerCase()))
-    : allKeywords;
+  const trimmed = filter.trim();
+  const filtered = trimmed
+    ? allKnown.filter(kw => kw.toLowerCase().includes(trimmed.toLowerCase()))
+    : allKnown;
+
+  const canAdd = trimmed.length > 0 && !allKnown.some(kw => kw.toLowerCase() === trimmed.toLowerCase());
+
+  function addNew() {
+    if (!canAdd) return;
+    setExtra(prev => [...prev, trimmed]);
+    setActive(prev => new Set(prev).add(trimmed));
+    setFilter('');
+    inputRef.current?.focus();
+  }
 
   const selectedSorted = Array.from(active).sort();
 
   return (
     <div style={{ marginBottom: '1rem' }}>
       <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.9rem', fontWeight: 500 }}>
-        Keywords
+        Subject Keywords
       </label>
 
       <input type="hidden" name="keywords" value={selectedSorted.join(',')} />
@@ -82,7 +96,8 @@ export default function KeywordPicker({ allKeywords, selected = [] }: Props) {
           type="text"
           value={filter}
           onChange={e => setFilter(e.target.value)}
-          placeholder={active.size === 0 ? 'Filter keywords...' : ''}
+          onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addNew(); } }}
+          placeholder={active.size === 0 ? 'Filter or add keywords...' : ''}
           style={{
             flex: '1 1 120px',
             minWidth: '120px',
@@ -108,7 +123,27 @@ export default function KeywordPicker({ allKeywords, selected = [] }: Props) {
         overflowY: 'auto',
         backgroundColor: '#fafafa',
       }}>
-        {filtered.length === 0 ? (
+        {canAdd && (
+          <button
+            type="button"
+            onClick={addNew}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '0.2rem 0.5rem',
+              fontSize: '0.8rem',
+              borderRadius: '3px',
+              border: '1px dashed #0066cc',
+              cursor: 'pointer',
+              lineHeight: 1.4,
+              backgroundColor: 'white',
+              color: '#0066cc',
+            }}
+          >
+            + Add &ldquo;{trimmed}&rdquo;
+          </button>
+        )}
+        {filtered.length === 0 && !canAdd ? (
           <span style={{ fontSize: '0.85rem', color: '#aaa' }}>No keywords match.</span>
         ) : (
           filtered.map(kw => {

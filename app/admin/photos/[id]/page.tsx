@@ -200,7 +200,7 @@ export default async function EditPhotoPage({
         <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
           <div style={{ width: '480px', flexShrink: 0 }}>
             <div style={{ marginBottom: '1rem' }}>
-              <label htmlFor="photographer" style={labelStyle}>Photographer *</label>
+              <label htmlFor="photographer" style={labelStyle}>Photographer (required)</label>
               <select id="photographer" name="photographer" required defaultValue={photo.photographer} style={selectStyle}>
                 {photographers.map(p => (
                   <option key={p.id} value={p.id}>
@@ -278,9 +278,7 @@ export default async function EditPhotoPage({
                   className={adminStyles.fileInput}
                 />
               </div>
-              <p className={adminStyles.fileNameHint}>
-                JPEG only — leave blank to keep existing image
-              </p>
+              <p className={adminStyles.fileNameHint}>JPEG only</p>
             </div>
           </div>
         </div>
@@ -298,7 +296,7 @@ function Field({ label, name, defaultValue, required, placeholder, type = 'text'
 }) {
   return (
     <div style={{ marginBottom: noMargin ? 0 : '1rem', flex: noMargin ? 1 : undefined }}>
-      <label htmlFor={name} style={labelStyle}>{label}{required && ' *'}</label>
+      <label htmlFor={name} style={labelStyle}>{label}{required && ' (required)'}</label>
       <input
         id={name}
         name={name}

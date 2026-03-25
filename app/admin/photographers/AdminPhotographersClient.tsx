@@ -3,6 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import adminStyles from '@/app/admin/admin.module.css';
+import ToggleEnabled from '@/app/admin/_components/ToggleEnabled';
+import { togglePhotographerEnabled } from './actions';
 
 export interface PhotographerRow {
   id: number;
@@ -134,7 +136,7 @@ export default function AdminPhotographersClient({ photographers }: { photograph
         {letters.length > 0 && (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 95px 170px 110px 60px',
+            gridTemplateColumns: '1fr 95px 170px 110px',
             backgroundColor: '#f0f0f0',
             border: '1px solid #ddd',
             borderBottom: 'none',
@@ -144,7 +146,6 @@ export default function AdminPhotographersClient({ photographers }: { photograph
             <span style={thStyle}>Photos</span>
             <span style={thStyle}>Last Edited</span>
             <span style={thStyle}>Status</span>
-            <span style={thStyle}></span>
           </div>
         )}
       </div>
@@ -159,36 +160,25 @@ export default function AdminPhotographersClient({ photographers }: { photograph
             <col style={{ width: '95px' }} />
             <col style={{ width: '170px' }} />
             <col style={{ width: '110px' }} />
-            <col style={{ width: '60px' }} />
           </colgroup>
           <tbody>
             {letters.map(letter => (
               <React.Fragment key={letter}>
-                {!q && <tr id={`letter-${letter}`}><td colSpan={5} style={{ padding: 0, height: 0, border: 'none' }} /></tr>}
+                {!q && <tr id={`letter-${letter}`}><td colSpan={4} style={{ padding: 0, height: 0, border: 'none' }} /></tr>}
                 {groups[letter].map(p => (
                   <tr key={p.id} style={{ borderTop: '1px solid #eee' }}>
-                    <td style={{ padding: '0.45rem 1rem' }}>{p.firstName} {p.lastName}</td>
+                    <td style={{ padding: '0.45rem 1rem' }}>
+                      <Link href={`/admin/photographers/${p.id}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
+                        {p.firstName} {p.lastName}
+                      </Link>
+                    </td>
                     <td style={{ padding: '0.45rem 1rem', color: '#666' }}>{p.photoCount}</td>
                     <td style={{ padding: '0.45rem 1rem', color: '#888', fontSize: '0.8rem' }}>{formatTs(p.updatedAt)}</td>
                     <td style={{ padding: '0.45rem 1rem' }}>
-                      <span style={{
-                        display: 'inline-block',
-                        padding: '0.2rem 0.5rem',
-                        borderRadius: '3px',
-                        fontSize: '0.8rem',
-                        backgroundColor: p.enabled ? '#dcfce7' : '#f3f4f6',
-                        color: p.enabled ? '#15803d' : '#6b7280',
-                      }}>
-                        {p.enabled ? 'Enabled' : 'Disabled'}
-                      </span>
-                    </td>
-                    <td style={{ padding: '0.45rem 1rem', textAlign: 'right' }}>
-                      <Link
-                        href={`/admin/photographers/${p.id}`}
-                        style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}
-                      >
-                        Edit
-                      </Link>
+                      <ToggleEnabled
+                        enabled={!!p.enabled}
+                        action={(n) => togglePhotographerEnabled(p.id, n)}
+                      />
                     </td>
                   </tr>
                 ))}

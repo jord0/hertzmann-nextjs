@@ -102,11 +102,11 @@ export default async function NewPhotoPage() {
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Add Photograph and Inventory Information</h1>
+      <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Add Photograph and Inventory Information</h1>
 
       <form action={createPhoto} style={{ maxWidth: '600px' }}>
         <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="photographerId" style={labelStyle}>Photographer *</label>
+          <label htmlFor="photographerId" style={labelStyle}>Photographer (required)</label>
           <select id="photographerId" name="photographerId" required style={selectStyle}>
             <option value="">— select —</option>
             {photographers.map(p => (
@@ -138,14 +138,13 @@ export default async function NewPhotoPage() {
         <TextareaField label="Exhibitions" name="exhibitions" rows={2} />
 
         <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="image" style={labelStyle}>Image (JPEG)</label>
-          <input
-            id="image"
-            name="image"
-            type="file"
-            accept="image/jpeg"
-            style={{ display: 'block', marginTop: '0.3rem' }}
-          />
+          <label style={labelStyle}>Image (JPEG)</label>
+          <div className={adminStyles.fileInputWrap} style={{ marginTop: '0.3rem' }}>
+            <label className={adminStyles.fileInputLabel}>
+              Choose File
+              <input className={adminStyles.fileInput} type="file" name="image" accept="image/jpeg" />
+            </label>
+          </div>
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
@@ -169,7 +168,7 @@ function Field({ label, name, required, placeholder, type = 'text', max, noMargi
 }) {
   return (
     <div style={{ marginBottom: noMargin ? 0 : '1rem', flex: noMargin ? 1 : undefined }}>
-      <label htmlFor={name} style={labelStyle}>{label}{required && ' *'}</label>
+      <label htmlFor={name} style={labelStyle}>{label}{required && ' (required)'}</label>
       <input
         id={name}
         name={name}

@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import adminStyles from '@/app/admin/admin.module.css';
 import { query } from '@/lib/db';
 import type { CatalogRow } from './AdminCatalogsClient';
-
-const AdminCatalogsClient = dynamic(() => import('./AdminCatalogsClient'), { ssr: false });
+import CatalogsClientLoader from './CatalogsClientLoader';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,7 +29,7 @@ export default async function AdminCatalogsPage() {
       <p style={{ margin: '0 0 1rem', fontSize: '0.85rem', color: '#666' }}>
         Click and drag dots to reorder.
       </p>
-      <AdminCatalogsClient initialRows={serialized} />
+      <CatalogsClientLoader initialRows={serialized} />
     </div>
   );
 }

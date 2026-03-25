@@ -35,7 +35,7 @@ async function createPhoto(formData: FormData) {
   const width = ((formData.get('width') as string) || '').trim();
   const height = ((formData.get('height') as string) || '').trim();
   const priceStr = ((formData.get('price') as string) || '').trim();
-  const price = priceStr === '' ? null : (parseInt(priceStr, 10) || 0);
+  const price = priceStr === '' ? 0 : (parseInt(priceStr, 10) || 0);
   const description = ((formData.get('description') as string) || '').trim();
   const provenance = ((formData.get('provenance') as string) || '').trim();
   const inventoryNumber = ((formData.get('inventoryNumber') as string) || '').trim();
@@ -131,7 +131,7 @@ export default async function NewPhotoPage() {
         </div>
         <div style={{ height: '1rem' }} />
 
-        <Field label="Price" name="price" type="number" placeholder="Leave blank if not for sale" max={8388607} />
+        <Field label="Price" name="price" type="number" max={8388607} hint="Enter 0 or leave empty if no price" />
 
         <TextareaField label="Provenance" name="provenance" />
         <TextareaField label="Illustrated" name="illustrated" placeholder="e.g. Published in..." rows={2} />
@@ -163,8 +163,8 @@ export default async function NewPhotoPage() {
   );
 }
 
-function Field({ label, name, required, placeholder, type = 'text', max, noMargin }: {
-  label: string; name: string; required?: boolean; placeholder?: string; type?: string; max?: number; noMargin?: boolean;
+function Field({ label, name, required, placeholder, type = 'text', max, noMargin, hint }: {
+  label: string; name: string; required?: boolean; placeholder?: string; type?: string; max?: number; noMargin?: boolean; hint?: string;
 }) {
   return (
     <div style={{ marginBottom: noMargin ? 0 : '1rem', flex: noMargin ? 1 : undefined }}>
@@ -178,6 +178,7 @@ function Field({ label, name, required, placeholder, type = 'text', max, noMargi
         max={max}
         style={inputStyle}
       />
+      {hint && <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>{hint}</p>}
     </div>
   );
 }

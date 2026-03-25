@@ -397,7 +397,7 @@
   }
 
   .stickyControls {
-    top: 72px;
+    top: 61px;
     padding-top: 0.75rem;
     padding-bottom: 0.25rem;
     margin-bottom: 0.5rem;
@@ -408,7 +408,7 @@
   }
 
   .alphabetRailInner {
-    top: 72px;
+    top: 61px;
     gap: 0;
   }
 

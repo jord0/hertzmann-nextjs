@@ -132,6 +132,7 @@ export default async function PhotographerPage({ params }: PageProps) {
               />
               <h3 className={styles.photoTitle}>{decodeHtmlEntities(photo.title)}</h3>
               {photo.date && <p className={styles.photoMeta}>{photo.date}</p>}
+              <p className={styles.photoDetailCta}>See Details</p>
             </Link>
           ))}
         </div>

@@ -204,7 +204,7 @@ function PhotographsPageInnerContent({ photographers, keywords }: Props) {
                             p.hasEnabledPhotos ? (
                               <Link
                                 key={p.id}
-                                href={`/photographs/photographer/${p.slug}`}
+                                href={p.enabledPhotoCount === 1 ? `/photographs/photographer/${p.slug}/${p.singlePhotoId}` : `/photographs/photographer/${p.slug}`}
                                 className={styles.nameLink}
                               >
                                 <span className={styles.bullet} style={{ color: tokens.color.gold }}>●</span>

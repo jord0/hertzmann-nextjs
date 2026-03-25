@@ -177,20 +177,45 @@
   margin: 0;
 }
 
-.directContact {
-  margin-top: 2.5rem;
-  text-align: center;
-  font-size: 0.95rem;
+.intro {
+  font-size: 1rem;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-light);
+  color: var(--color-foreground);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 0 2.5rem;
+}
+
+.contactBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.contactLabel {
+  margin: 1.5rem 0 0;
+  font-size: 0.72rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--color-muted);
 }
 
-.directEmail {
-  display: block;
-  margin-top: 0.4rem;
-  font-size: 1rem;
+.contactLabel:first-child {
+  margin-top: 0;
+}
+
+.contactValue {
+  font-size: 1.25rem;
+  font-family: var(--font-cormorant);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-foreground);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--color-gold);
+  padding-bottom: 1px;
+  align-self: flex-start;
 }
 
 @media (max-width: 600px) {

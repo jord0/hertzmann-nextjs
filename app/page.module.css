@@ -31,6 +31,13 @@
   margin-bottom: 0.35rem;
 }
 
+.aboutGoldRule {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-gold);
+  margin-bottom: 2rem;
+}
+
 .sectionHeading {
   font-family: var(--font-cormorant);
   font-size: 2.75rem;
@@ -176,7 +183,7 @@
 .contactInfoItem {
   font-family: var(--font-inter);
   font-weight: var(--font-weight-light);
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: var(--color-muted);
 }
 
@@ -216,6 +223,13 @@
   height: 2px;
   background-color: var(--color-gold);
   margin: 0 auto 1.5rem;
+}
+
+.ctaSectionGoldRule {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-gold);
+  margin-bottom: 2rem;
 }
 
 .ctaHeading {

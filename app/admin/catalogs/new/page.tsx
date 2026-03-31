@@ -43,7 +43,7 @@ async function createCatalog(formData: FormData) {
 export default function NewCatalogPage() {
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Add Catalog</h1>
+      <h1 style={{ marginTop: 0 }}>Add Catalogue</h1>
 
       <form action={createCatalog} style={{ maxWidth: '480px' }}>
         <Field label="Title" name="title" required />
@@ -73,7 +73,7 @@ export default function NewCatalogPage() {
             style={{ display: 'block', marginTop: '0.3rem' }}
           />
           <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#888' }}>
-            Displayed on the Catalogs page. Can be added or replaced later.
+            Displayed on the Catalogues page. Can be added or replaced later.
           </p>
         </div>
 

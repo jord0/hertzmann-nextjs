@@ -8,7 +8,7 @@ import styles from '../layout.module.css';
 const links = [
   { href: '/', label: 'Home', external: false },
   { href: '/photographs', label: 'Photographs', external: false },
-  { href: '/catalogs', label: 'Catalogs', external: false },
+  { href: '/catalogs', label: 'Catalogues', external: false },
   { href: 'https://edwardwestonbibliography.blog/', label: 'Edward Weston Blog', external: true },
   { href: '/sell-to-us', label: 'Sell to Us', external: false },
   { href: '/about', label: 'About Us', external: false },

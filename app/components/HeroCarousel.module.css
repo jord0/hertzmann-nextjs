@@ -4,7 +4,7 @@
   height: 60vh;
   overflow: hidden;
   background-color: var(--color-bg);
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 .slide {
@@ -71,8 +71,7 @@
 }
 
 .dotsBar {
-  display: flex;
-  gap: 6px;
+  display: none;
 }
 
 .dot {
@@ -115,7 +114,7 @@
   display: inline;
   margin: 0;
   color: var(--color-foreground);
-  font-family: var(--font-cormorant);
-  font-weight: var(--font-weight-normal);
-  font-size: 1.15rem;
+  font-family: var(--font-inter);
+  font-weight: var(--font-weight-light);
+  font-size: 0.95rem;
 }

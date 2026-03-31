@@ -13,10 +13,10 @@ export default async function Home() {
 
       {/* B. About Us */}
       <section className={styles.aboutSection}>
+        <div className={styles.aboutGoldRule} />
         <div className={styles.aboutGrid}>
           <div className={styles.aboutLabel}>
             <div className={styles.aboutLabelInner}>
-              <div className={styles.goldRule} />
               <h2 className={styles.sectionHeading}>
                 About Us
               </h2>
@@ -58,8 +58,8 @@ export default async function Home() {
 
       {/* D. Services */}
       <section className={styles.servicesSection}>
+        <div className={styles.aboutGoldRule} />
         <div className={styles.servicesMastHead}>
-          <div className={styles.goldRule} />
           <h2 className={styles.sectionHeading}>
             Services
           </h2>
@@ -93,7 +93,7 @@ export default async function Home() {
       {/* E. Discover Our Collection CTA */}
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
-          <div className={styles.ctaGoldRule} />
+          <div className={styles.ctaSectionGoldRule} />
           <h2 className={styles.ctaHeading}>
             Discover Our Collection
           </h2>

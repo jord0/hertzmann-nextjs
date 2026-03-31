@@ -4,8 +4,8 @@ import CatalogCard from './CatalogCard';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Catalogs',
-  description: 'Browse publications and exhibition catalogs from Herzig & Hertzmann vintage photography.',
+  title: 'Catalogues',
+  description: 'Browse publications and exhibition catalogues from Herzig & Hertzmann vintage photography.',
 };
 
 interface Catalog {
@@ -26,14 +26,14 @@ export default async function CatalogsPage() {
     <div>
       <div className={styles.goldHeader}>
         <div className={styles.headerInner}>
-          <h1 className={styles.headerTitle}>Catalogs</h1>
-          <p className={styles.headerSub}>Publications and exhibition catalogs</p>
+          <h1 className={styles.headerTitle}>Catalogues</h1>
+          <p className={styles.headerSub}>Publications and exhibition catalogues</p>
         </div>
       </div>
 
       <div className={styles.content}>
         {catalogs.length === 0 ? (
-          <p className={styles.empty}>No catalogs available.</p>
+          <p className={styles.empty}>No catalogues available.</p>
         ) : (
           <div className={styles.grid}>
             {catalogs.map(catalog => (

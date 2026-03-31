@@ -1,6 +1,5 @@
 .goldHeader {
-  background-color: var(--color-gold);
-  padding: 3.5rem 0 3rem;
+  padding: 3.5rem 0 0;
 }
 
 .headerInner {
@@ -13,7 +12,7 @@
   font-family: var(--font-cormorant);
   font-size: 3.5rem;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-dark);
+  color: var(--color-foreground);
   margin: 0 0 0.5rem;
   line-height: 1.1;
 }
@@ -22,7 +21,7 @@
   font-family: var(--font-inter);
   font-weight: var(--font-weight-light);
   font-size: 0.95rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--color-muted);
   margin: 0;
 }
 

@@ -20,9 +20,9 @@ export default async function AdminCatalogsPage() {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h1 style={{ margin: 0, fontSize: '2rem' }}>Catalogs</h1>
+        <h1 style={{ margin: 0, fontSize: '2rem' }}>Catalogues</h1>
         <Link href="/admin/catalogs/new" className={adminStyles.btnPrimarySmall}>
-          + Add Catalog
+          + Add Catalogue
         </Link>
       </div>
 

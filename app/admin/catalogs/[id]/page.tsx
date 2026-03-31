@@ -80,7 +80,7 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
 
   return (
     <div>
-      <h1 style={{ marginTop: 0, marginBottom: c.updatedAt ? '0.4rem' : undefined }}>Edit Catalog #{c.id}</h1>
+      <h1 style={{ marginTop: 0, marginBottom: c.updatedAt ? '0.4rem' : undefined }}>Edit Catalogue #{c.id}</h1>
       {c.updatedAt && (
         <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(c.updatedAt)}</p>
       )}
@@ -136,12 +136,12 @@ export default async function EditCatalogPage({ params }: { params: Promise<{ id
       <hr style={{ margin: '3rem 0 1.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
 
       <div style={{ maxWidth: '480px' }}>
-        <h2 style={{ fontSize: '1rem', marginTop: 0, color: '#c00' }}>Delete Catalog</h2>
+        <h2 style={{ fontSize: '1rem', marginTop: 0, color: '#c00' }}>Delete Catalogue</h2>
         <p style={{ fontSize: '0.9rem', color: '#666', marginTop: 0 }}>
           Permanently removes this catalog record, its PDF, and its cover thumbnail from R2. This cannot be undone.
         </p>
         <form action={deleteAction}>
-          <button type="submit" className={adminStyles.btnDanger}>Delete Catalog</button>
+          <button type="submit" className={adminStyles.btnDanger}>Delete Catalogue</button>
         </form>
       </div>
     </div>

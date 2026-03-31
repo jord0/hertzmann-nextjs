@@ -18,12 +18,12 @@ async function fetchCarouselPhotos(): Promise<CarouselPhoto[]> {
      JOIN photographers ph ON ph.id = p.photographer
      WHERE p.enabled = 1 AND ph.enabled = 1
      ORDER BY RAND()
-     LIMIT 8`
+     LIMIT 40`
   )) as CarouselPhoto[];
   return rows;
 }
 
 export const getCarouselPhotos = unstable_cache(fetchCarouselPhotos, ['carousel-photos'], {
   tags: ['carousel-photos'],
-  revalidate: 3600,
+  revalidate: 900,
 });

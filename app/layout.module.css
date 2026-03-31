@@ -1,5 +1,5 @@
 .nav {
-  background-color: var(--color-bg);
+  background-color: var(--color-gold);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -8,7 +8,7 @@
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1rem 2.5rem;
+  padding: 1.5rem 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,13 +17,11 @@
 .logo {
   font-family: var(--font-cormorant);
   font-style: normal;
-  color: var(--color-foreground);
+  color: var(--color-dark);
   font-size: 1.5rem;
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   letter-spacing: 0.005em;
-  border-top: 2px solid var(--color-gold);
-  padding-top: 0;
   white-space: nowrap;
 }
 
@@ -34,7 +32,7 @@
 }
 
 .navLink {
-  color: var(--color-foreground);
+  color: var(--color-dark);
   text-decoration: none;
   font-size: 1rem;
   font-family: var(--font-inter);
@@ -45,11 +43,11 @@
 }
 
 .navLink:hover {
-  border-bottom-color: var(--color-gold);
+  border-bottom-color: var(--color-dark);
 }
 
 .navLinkActive {
-  border-bottom: 2px solid var(--color-gold);
+  border-bottom: 2px solid var(--color-dark);
 }
 
 .hamburger {
@@ -58,7 +56,7 @@
   border: none;
   cursor: pointer;
   font-size: 1.7rem;
-  color: var(--color-foreground);
+  color: var(--color-dark);
   padding: 0.25rem 0.25rem 6px;
   line-height: 1;
   align-items: center;
@@ -81,19 +79,19 @@
 .mobileMenu {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border-warm);
+  background-color: var(--color-gold);
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
   padding: 0.5rem 2.5rem 1rem;
 }
 
 .mobileLink {
-  color: var(--color-foreground);
+  color: var(--color-dark);
   text-decoration: none;
   font-size: 1rem;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-normal);
   padding: 0.75rem 0;
-  border-bottom: 1px solid var(--color-border-warm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .mobileLink:last-child {
@@ -102,7 +100,7 @@
 
 .mobileLinkActive {
   text-decoration: underline;
-  text-decoration-color: var(--color-gold);
+  text-decoration-color: var(--color-dark);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
 }

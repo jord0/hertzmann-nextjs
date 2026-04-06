@@ -29,7 +29,7 @@ export default function AdminNav() {
         href="/admin/photographers"
         style={{ color: 'white', textDecoration: 'none', fontWeight: 600, marginRight: '1rem' }}
       >
-        Admin
+        PMHI Admin
       </Link>
 
       {links.map(({ href, label }) => {

@@ -1,5 +1,5 @@
 .nav {
-  background-color: var(--color-gold);
+  background-color: var(--color-bg);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -8,20 +8,22 @@
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1.5rem 2.5rem;
+  padding: 1rem 2.5rem 2rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 
 .logo {
   font-family: var(--font-cormorant);
   font-style: normal;
-  color: var(--color-dark);
-  font-size: 1.5rem;
+  color: var(--color-foreground);
+  font-size: 1.7rem;
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   letter-spacing: 0.005em;
+  border-top: 6px solid var(--color-gold);
+  padding-top: 0;
   white-space: nowrap;
 }
 
@@ -32,22 +34,22 @@
 }
 
 .navLink {
-  color: var(--color-dark);
+  color: var(--color-foreground);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: var(--font-inter);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-normal);
   border-bottom: 2px solid transparent;
   padding-bottom: 2px;
   transition: border-bottom-color 0.15s;
 }
 
 .navLink:hover {
-  border-bottom-color: var(--color-dark);
+  border-bottom-color: var(--color-gold);
 }
 
 .navLinkActive {
-  border-bottom: 2px solid var(--color-dark);
+  border-bottom: 2px solid var(--color-gold);
 }
 
 .hamburger {
@@ -56,7 +58,7 @@
   border: none;
   cursor: pointer;
   font-size: 1.7rem;
-  color: var(--color-dark);
+  color: var(--color-foreground);
   padding: 0.25rem 0.25rem 6px;
   line-height: 1;
   align-items: center;
@@ -79,19 +81,19 @@
 .mobileMenu {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-gold);
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border-warm);
   padding: 0.5rem 2.5rem 1rem;
 }
 
 .mobileLink {
-  color: var(--color-dark);
+  color: var(--color-foreground);
   text-decoration: none;
   font-size: 1rem;
   font-family: var(--font-inter);
   font-weight: var(--font-weight-normal);
   padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid var(--color-border-warm);
 }
 
 .mobileLink:last-child {
@@ -100,22 +102,12 @@
 
 .mobileLinkActive {
   text-decoration: underline;
-  text-decoration-color: var(--color-dark);
+  text-decoration-color: var(--color-gold);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
 }
 
-@media (max-width: 900px) {
-  .logo {
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .logo {
-    font-size: 1.4rem;
-  }
-
+@media (max-width: 1024px) {
   .links {
     display: none;
   }

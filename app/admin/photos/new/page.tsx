@@ -42,6 +42,8 @@ async function createPhoto(formData: FormData) {
   const keywordsRaw = ((formData.get('keywords') as string) || '').trim();
   const illustrated = ((formData.get('illustrated') as string) || '').trim();
   const exhibitions = ((formData.get('exhibitions') as string) || '').trim();
+  const levelStr = ((formData.get('level') as string) || '').trim();
+  const level = levelStr === '' ? 0 : (parseInt(levelStr, 10) || 0);
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
   const keywordsFormatted = keywordsRaw
@@ -50,9 +52,9 @@ async function createPhoto(formData: FormData) {
 
   const result = (await query(
     `INSERT INTO photos
-      (photographer, artist, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled, illustrated, exhibitions, notes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '')`,
-    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, illustrated, exhibitions]
+      (photographer, artist, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywords, enabled, illustrated, exhibitions, level, notes)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '')`,
+    [photographerId, photographerId, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, enabled, illustrated, exhibitions, level]
   )) as { insertId: number };
 
   const photoId = result.insertId;
@@ -136,6 +138,8 @@ export default async function NewPhotoPage() {
         <TextareaField label="Provenance" name="provenance" />
         <TextareaField label="Illustrated" name="illustrated" placeholder="e.g. Published in..." rows={2} />
         <TextareaField label="Exhibitions" name="exhibitions" rows={2} />
+
+        <Field label="Display Order" name="level" type="number" hint="Lower numbers appear first on the artist page" />
 
         <div style={{ marginBottom: '1rem' }}>
           <label style={labelStyle}>Image (JPEG)</label>

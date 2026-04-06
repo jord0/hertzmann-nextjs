@@ -8,10 +8,9 @@ import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import adminStyles from '@/app/admin/admin.module.css';
-import { uploadPhoto, deletePhoto } from '@/lib/r2';
+import { uploadPhoto } from '@/lib/r2';
 import { photoImageUrl } from '@/lib/photo-url';
 import KeywordPicker from '../KeywordPicker';
-import DeletePhotoSection from './DeletePhotoSection';
 
 interface Photo {
   id: number;
@@ -28,6 +27,7 @@ interface Photo {
   keywords: string;
   illustrated: string;
   exhibitions: string;
+  level: number;
   enabled: number;
   updatedAt: Date | null;
 }
@@ -70,6 +70,8 @@ async function updatePhoto(photoId: number, formData: FormData) {
   const keywordsRaw = ((formData.get('keywords') as string) || '').trim();
   const illustrated = ((formData.get('illustrated') as string) || '').trim();
   const exhibitions = ((formData.get('exhibitions') as string) || '').trim();
+  const levelStr = ((formData.get('level') as string) || '').trim();
+  const level = levelStr === '' ? 0 : (parseInt(levelStr, 10) || 0);
   const enabled = formData.get('enabled') === 'on' ? 1 : 0;
 
   const keywordsFormatted = keywordsRaw
@@ -80,9 +82,9 @@ async function updatePhoto(photoId: number, formData: FormData) {
     `UPDATE photos SET
       photographer=?, artist=?, title=?, medium=?, date=?, width=?, height=?,
       price=?, description=?, provenance=?, inventoryNumber=?, keywords=?,
-      illustrated=?, exhibitions=?, enabled=?
+      illustrated=?, exhibitions=?, level=?, enabled=?
      WHERE id=?`,
-    [photographer, photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, illustrated, exhibitions, enabled, photoId]
+    [photographer, photographer, title, medium, date, width, height, price, description, provenance, inventoryNumber, keywordsFormatted, illustrated, exhibitions, level, enabled, photoId]
   );
 
   const imageFile = formData.get('image') as File | null;
@@ -104,39 +106,6 @@ async function updatePhoto(photoId: number, formData: FormData) {
   }
 
   redirect(`/admin/photos/${photoId}?saved=1`);
-}
-
-async function deletePhotoRecord(photoId: number) {
-  'use server';
-  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
-  if (!session.isLoggedIn) redirect('/admin/login');
-
-  const rows = (await query(
-    'SELECT photographer FROM photos WHERE id = ?',
-    [photoId]
-  )) as { photographer: number }[];
-
-  if (rows.length > 0) {
-    try { await deletePhoto(rows[0].photographer, photoId); } catch { /* file may not exist */ }
-  }
-
-  await query('DELETE FROM photos WHERE id = ?', [photoId]);
-
-  if (rows.length > 0) {
-    const photographers = (await query(
-      'SELECT firstName, lastName FROM photographers WHERE id = ?',
-      [rows[0].photographer]
-    )) as { firstName: string; lastName: string }[];
-
-    revalidateTag('browse-data', 'default');
-    revalidateTag('carousel-photos', 'default');
-    if (photographers.length > 0) {
-      const slug = makeSlug(photographers[0].firstName, photographers[0].lastName);
-      revalidatePath(`/photographs/photographer/${slug}`);
-    }
-  }
-
-  redirect('/admin/photos');
 }
 
 export default async function EditPhotoPage({
@@ -173,7 +142,7 @@ export default async function EditPhotoPage({
     .replace(/^\||\|$/g, '').split('|').filter(Boolean);
 
   const action = updatePhoto.bind(null, photo.id);
-  const deleteAction = deletePhotoRecord.bind(null, photo.id);
+  const currentPhotographer = photographers.find(p => p.id === photo.photographer);
 
   return (
     <div>
@@ -191,9 +160,16 @@ export default async function EditPhotoPage({
         </div>
       )}
 
-      <h1 style={{ marginTop: 0, marginBottom: photo.updatedAt ? '0.4rem' : '1.5rem', fontSize: '2rem' }}>Edit Photo #{photo.id}</h1>
+      <h1 style={{ marginTop: 0, marginBottom: photo.updatedAt ? '0.4rem' : '0.5rem', fontSize: '2rem' }}>Edit Photo #{photo.id}</h1>
       {photo.updatedAt && (
-        <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(photo.updatedAt)}</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', color: '#888' }}>Last edited {formatTs(photo.updatedAt)}</p>
+      )}
+      {currentPhotographer && (
+        <p style={{ margin: '0 0 1.5rem', fontSize: '0.9rem' }}>
+          <a href={`/admin/photographers/${currentPhotographer.id}`} style={{ color: '#555', textDecoration: 'underline' }}>
+            Edit photographer: {currentPhotographer.firstName} {currentPhotographer.lastName}
+          </a>
+        </p>
       )}
 
       <form action={action}>
@@ -230,6 +206,8 @@ export default async function EditPhotoPage({
             <TextareaField label="Illustrated" name="illustrated" defaultValue={photo.illustrated} placeholder="e.g. Published in..." rows={2} />
             <TextareaField label="Exhibitions" name="exhibitions" defaultValue={photo.exhibitions} rows={2} />
 
+            <Field label="Display Order" name="level" defaultValue={photo.level ?? 0} type="number" hint="Lower numbers appear first on the artist page" />
+
             <div style={{ marginBottom: '1rem' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
                 <input type="checkbox" name="enabled" defaultChecked={!!photo.enabled} />
@@ -241,6 +219,7 @@ export default async function EditPhotoPage({
               <button type="submit" className={adminStyles.btnPrimary}>Save</button>
               <a href="/admin/photos" className={adminStyles.btnSecondary}>Cancel</a>
             </div>
+
           </div>
 
           {/* Photo preview + replace image */}
@@ -284,9 +263,6 @@ export default async function EditPhotoPage({
         </div>
       </form>
 
-      <hr style={{ margin: '3rem 0 1.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
-
-      <DeletePhotoSection action={deleteAction} />
     </div>
   );
 }

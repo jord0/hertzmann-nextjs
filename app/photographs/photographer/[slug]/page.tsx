@@ -57,7 +57,7 @@ async function getPhotographer(slug: string) {
   }
 
   async function getPhotos(photographerId: number): Promise<Photo[]> {
-    const sql = 'SELECT * FROM photos WHERE photographer = ? AND enabled = 1';
+    const sql = 'SELECT * FROM photos WHERE photographer = ? AND enabled = 1 ORDER BY level ASC, id ASC';
     const results = await query(sql, [photographerId]) as Photo[];
 
     // Return all photos - we can't check HE filesystem from Vercel

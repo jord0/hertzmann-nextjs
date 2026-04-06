@@ -22,13 +22,13 @@ export default function ContactPage() {
           </p>
           <div className={styles.contactBlock}>
             <p className={styles.contactLabel}>Email</p>
-            <a href="mailto:pmhi@hertzmann.net" className={styles.contactValue}>
+            <a href="mailto:pmhi@hertzmann.net" className={styles.contactValue} target="_blank" rel="noopener noreferrer">
               pmhi@hertzmann.net
             </a>
             <p className={styles.contactLabel}>Phone</p>
-            <a href="tel:+14156262677" className={styles.contactValue}>
+            <span className={styles.contactValue}>
               (415) 626-2677
-            </a>
+            </span>
           </div>
         </div>
       </div>

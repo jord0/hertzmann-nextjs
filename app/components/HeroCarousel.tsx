@@ -86,20 +86,8 @@ export default function HeroCarousel({ photos }: Props) {
 
       </div>
 
-      {/* Caption bar */}
-      <div className={styles.caption}>
-        <h4 className={styles.captionName}>
-          <Link href={`/photographs/photographer/${buildSlug(current.firstName, current.lastName)}`} className={styles.captionLink}>
-            {[current.firstName, current.lastName].filter(Boolean).join(' ')}
-          </Link>
-        </h4>
-        {current.title && <> &middot; <em>{decodeHtmlEntities(current.title)}</em></>}
-        {current.medium && <> &middot; {decodeHtmlEntities(current.medium)}</>}
-        {current.date && <> &middot; {current.date}</>}
-      </div>
-
-      {/* Controls bar: chevron · dots · chevron */}
-      <div className={styles.controls}>
+      {/* Caption + controls bar */}
+      <div className={styles.captionRow}>
         <button
           onClick={() => goTo(currentIndex - 1)}
           aria-label="Previous"
@@ -108,15 +96,15 @@ export default function HeroCarousel({ photos }: Props) {
           ‹
         </button>
 
-        <div className={styles.dotsBar}>
-          {photos.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={i === currentIndex ? `${styles.dot} ${styles.dotActive}` : styles.dot}
-            />
-          ))}
+        <div className={styles.caption}>
+          <h4 className={styles.captionName}>
+            <Link href={`/photographs/photographer/${buildSlug(current.firstName, current.lastName)}`} className={styles.captionLink}>
+              {[current.firstName, current.lastName].filter(Boolean).join(' ')}
+            </Link>
+          </h4>
+          {current.title && <> &middot; <em>{decodeHtmlEntities(current.title)}</em></>}
+          {current.medium && <> &middot; {decodeHtmlEntities(current.medium)}</>}
+          {current.date && <> &middot; {current.date}</>}
         </div>
 
         <button

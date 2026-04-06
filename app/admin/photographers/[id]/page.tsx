@@ -6,11 +6,10 @@ import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
 import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
-import Link from 'next/link';
 import { query } from '@/lib/db';
 import { deletePhoto } from '@/lib/r2';
-import { photoImageUrl } from '@/lib/photo-url';
 import DeletePhotographerSection from './DeletePhotographerSection';
+import PhotoGrid from './PhotoGrid';
 import adminStyles from '@/app/admin/admin.module.css';
 
 interface Photographer {
@@ -96,9 +95,9 @@ export default async function EditPhotographerPage({ params }: { params: Promise
   const oldSlug = makeSlug(p.firstName, p.lastName);
 
   const photos = (await query(
-    'SELECT id, title, enabled FROM photos WHERE photographer = ? ORDER BY title',
+    'SELECT id, title, enabled, level FROM photos WHERE photographer = ? ORDER BY level ASC, id ASC',
     [p.id]
-  )) as { id: number; title: string; enabled: number }[];
+  )) as { id: number; title: string; enabled: number; level: number }[];
 
   const updateAction = updatePhotographer.bind(null, p.id, oldSlug);
   const deleteAction = deletePhotographer.bind(null, p.id);
@@ -112,7 +111,7 @@ export default async function EditPhotographerPage({ params }: { params: Promise
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
         <div style={{ width: '480px', flexShrink: 0 }}>
-          <p style={{ margin: '0 0 1.25rem', fontSize: '0.85rem', color: '#666' }}>
+          <p style={{ margin: '0 0 1.25rem', fontSize: '0.9rem', color: '#888' }}>
             Last Name is required. All other fields are optional.
           </p>
 
@@ -140,56 +139,16 @@ export default async function EditPhotographerPage({ params }: { params: Promise
             </div>
           </form>
 
-          <div style={{ marginTop: '1.5rem' }}>
-            <Link href={`/admin/photos/new`} className={adminStyles.btnPrimarySmall}>
-              + Add Photograph
-            </Link>
-          </div>
         </div>
 
         {/* Photo thumbnails */}
         {photos.length > 0 && (
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ margin: '0 0 1rem', fontSize: '1.5rem' }}>
-              Photos <span style={{ fontWeight: 400, color: '#888', fontSize: '1rem' }}>({photos.length})</span>
-            </h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-              {photos.map(photo => (
-                <Link
-                  key={photo.id}
-                  href={`/admin/photos/${photo.id}`}
-                  style={{ textDecoration: 'none', color: 'inherit', flexShrink: 0 }}
-                >
-                  <div style={{ width: '220px' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photoImageUrl(p.id, photo.id)}
-                      alt={photo.title || `Photo ${photo.id}`}
-                      style={{
-                        width: '220px',
-                        height: '180px',
-                        objectFit: 'contain',
-                        backgroundColor: '#f5f5f5',
-                        border: '1px solid #e0e0e0',
-                        display: 'block',
-                        opacity: photo.enabled ? 1 : 0.4,
-                      }}
-                    />
-                    <p style={{
-                      margin: '0.3rem 0 0',
-                      fontSize: '0.72rem',
-                      color: '#555',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      maxWidth: '220px',
-                    }}>
-                      {photo.title || <em>Untitled</em>}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <PhotoGrid
+              photos={photos}
+              photographerId={p.id}
+              photographerSlug={oldSlug}
+            />
           </div>
         )}
       </div>

@@ -26,7 +26,7 @@ export default function ContactPage() {
               pmhi@hertzmann.net
             </a>
             <p className={styles.contactLabel}>Phone</p>
-            <span className={styles.contactValue}>
+            <span className={`${styles.contactValue} ${styles.contactValuePlain}`}>
               (415) 626-2677
             </span>
           </div>

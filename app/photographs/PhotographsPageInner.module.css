@@ -332,7 +332,7 @@
   min-width: 0;
 }
 
-.nameLink:hover .nameAvailable {
+.nameLink:hover span:last-child {
   text-decoration: underline;
   text-decoration-color: var(--color-gold);
   text-decoration-thickness: 2px;

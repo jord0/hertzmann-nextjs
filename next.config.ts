@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/pages/catalogs/:path*',
+        destination: '/catalogs',
+        permanent: true,
+      },
+      {
         source: '/pages/:path*',
         destination: '/',
         permanent: true,

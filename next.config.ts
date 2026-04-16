@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   serverExternalPackages: ['ssh2-sftp-client', 'ssh2'],
+  async redirects() {
+    return [
+      {
+        source: '/pages/:path*',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {

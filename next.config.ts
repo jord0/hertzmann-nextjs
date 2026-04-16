@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/dl/:path*',
+        destination: '/catalogs',
+        permanent: true,
+      },
+      {
         source: '/pages/:path*',
         destination: '/',
         permanent: true,

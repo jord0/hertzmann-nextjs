@@ -73,10 +73,10 @@
 .photoImage {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   margin-bottom: 0.75rem;
-  background-color: var(--color-bg-warm);
+  background-color: var(--color-bg);
   transition: opacity 0.2s;
 }
 

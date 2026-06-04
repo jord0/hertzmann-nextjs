@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   serverExternalPackages: ['ssh2-sftp-client', 'ssh2'],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '20mb',
+    },
+  },
   async redirects() {
     return [
       {

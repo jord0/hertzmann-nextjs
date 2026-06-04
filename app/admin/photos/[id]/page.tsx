@@ -88,9 +88,15 @@ async function updatePhoto(photoId: number, formData: FormData) {
   );
 
   const imageFile = formData.get('image') as File | null;
+  let uploadFailed = false;
   if (imageFile && imageFile.size > 0) {
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await uploadPhoto(photographer, photoId, buffer);
+    try {
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      await uploadPhoto(photographer, photoId, buffer);
+    } catch (err) {
+      console.error('R2 upload failed for photo', photoId, err);
+      uploadFailed = true;
+    }
   }
 
   const photographers = (await query(
@@ -105,7 +111,7 @@ async function updatePhoto(photoId: number, formData: FormData) {
     revalidatePath(`/photographs/photographer/${slug}`);
   }
 
-  redirect(`/admin/photos/${photoId}?saved=1`);
+  redirect(`/admin/photos/${photoId}?saved=1${uploadFailed ? '&uploadError=1' : ''}`);
 }
 
 export default async function EditPhotoPage({
@@ -113,10 +119,11 @@ export default async function EditPhotoPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ saved?: string; created?: string }>;
+  searchParams: Promise<{ saved?: string; created?: string; uploadError?: string }>;
 }) {
   const { id } = await params;
   const sp = await searchParams;
+
   const rows = (await query('SELECT * FROM photos WHERE id = ?', [id])) as Photo[];
   if (rows.length === 0) notFound();
   const photo = rows[0];
@@ -157,6 +164,19 @@ export default async function EditPhotoPage({
           fontSize: '0.9rem',
         }}>
           {sp.created ? 'Photo created successfully.' : 'Changes saved successfully.'}
+        </div>
+      )}
+      {sp.uploadError && (
+        <div style={{
+          marginBottom: '1.5rem',
+          padding: '0.75rem 1rem',
+          backgroundColor: '#fef3c7',
+          border: '1px solid #fde68a',
+          borderRadius: '4px',
+          color: '#92400e',
+          fontSize: '0.9rem',
+        }}>
+          Image upload failed — metadata was saved but the photo file was not uploaded. Check server logs and try replacing the image.
         </div>
       )}
 

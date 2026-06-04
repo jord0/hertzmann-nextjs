@@ -60,9 +60,15 @@ async function createPhoto(formData: FormData) {
   const photoId = result.insertId;
 
   const imageFile = formData.get('image') as File | null;
+  let uploadFailed = false;
   if (imageFile && imageFile.size > 0) {
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    await uploadPhoto(photographerId, photoId, buffer);
+    try {
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      await uploadPhoto(photographerId, photoId, buffer);
+    } catch (err) {
+      console.error('R2 upload failed for photo', photoId, err);
+      uploadFailed = true;
+    }
   }
 
   const photographers = (await query(
@@ -77,7 +83,7 @@ async function createPhoto(formData: FormData) {
     revalidatePath(`/photographs/photographer/${slug}`);
   }
 
-  redirect(`/admin/photos/${photoId}?created=1`);
+  redirect(`/admin/photos/${photoId}?created=1${uploadFailed ? '&uploadError=1' : ''}`);
 }
 
 export default async function NewPhotoPage() {

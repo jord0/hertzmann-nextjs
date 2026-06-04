@@ -7,6 +7,8 @@ import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import { uploadPhoto } from '@/lib/r2';
 import KeywordPicker from '../KeywordPicker';
+import PhotoImagePicker from '../PhotoImagePicker';
+import SubmitButton from '../SubmitButton';
 import adminStyles from '@/app/admin/admin.module.css';
 
 interface PhotographerOption {
@@ -149,11 +151,8 @@ export default async function NewPhotoPage() {
 
         <div style={{ marginBottom: '1rem' }}>
           <label style={labelStyle}>Image (JPEG)</label>
-          <div className={adminStyles.fileInputWrap} style={{ marginTop: '0.3rem' }}>
-            <label className={adminStyles.fileInputLabel}>
-              Choose File
-              <input className={adminStyles.fileInput} type="file" name="image" accept="image/jpeg" />
-            </label>
+          <div style={{ marginTop: '0.5rem' }}>
+            <PhotoImagePicker label="Choose Photo" />
           </div>
         </div>
 
@@ -165,7 +164,7 @@ export default async function NewPhotoPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-          <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+          <SubmitButton>Save</SubmitButton>
           <a href="/admin/photos" className={adminStyles.btnSecondary}>Cancel</a>
         </div>
       </form>

@@ -8,9 +8,12 @@ import type { SessionData } from '@/lib/session';
 import { sessionOptions } from '@/lib/session';
 import { query } from '@/lib/db';
 import adminStyles from '@/app/admin/admin.module.css';
-import { uploadPhoto } from '@/lib/r2';
+import { uploadPhoto, deletePhoto } from '@/lib/r2';
 import { photoImageUrl } from '@/lib/photo-url';
 import KeywordPicker from '../KeywordPicker';
+import PhotoImagePicker from '../PhotoImagePicker';
+import SubmitButton from '../SubmitButton';
+import DeletePhotoSection from './DeletePhotoSection';
 
 interface Photo {
   id: number;
@@ -114,6 +117,29 @@ async function updatePhoto(photoId: number, formData: FormData) {
   redirect(`/admin/photos/${photoId}?saved=1${uploadFailed ? '&uploadError=1' : ''}`);
 }
 
+async function deletePhotoRecord(photoId: number, photographerId: number) {
+  'use server';
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.isLoggedIn) redirect('/admin/login');
+
+  await query('DELETE FROM photos WHERE id = ?', [photoId]);
+  await deletePhoto(photographerId, photoId).catch(() => {});
+
+  const photographers = (await query(
+    'SELECT firstName, lastName FROM photographers WHERE id = ?',
+    [photographerId]
+  )) as { firstName: string; lastName: string }[];
+
+  revalidateTag('browse-data', 'default');
+  revalidateTag('carousel-photos', 'default');
+  if (photographers.length > 0) {
+    const slug = makeSlug(photographers[0].firstName, photographers[0].lastName);
+    revalidatePath(`/photographs/photographer/${slug}`);
+  }
+
+  redirect('/admin/photos');
+}
+
 export default async function EditPhotoPage({
   params,
   searchParams,
@@ -149,6 +175,7 @@ export default async function EditPhotoPage({
     .replace(/^\||\|$/g, '').split('|').filter(Boolean);
 
   const action = updatePhoto.bind(null, photo.id);
+  const deleteAction = deletePhotoRecord.bind(null, photo.id, photo.photographer);
   const currentPhotographer = photographers.find(p => p.id === photo.photographer);
 
   return (
@@ -236,7 +263,7 @@ export default async function EditPhotoPage({
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
-              <button type="submit" className={adminStyles.btnPrimary}>Save</button>
+              <SubmitButton>Save</SubmitButton>
               <a href="/admin/photos" className={adminStyles.btnSecondary}>Cancel</a>
             </div>
 
@@ -245,43 +272,18 @@ export default async function EditPhotoPage({
           {/* Photo preview + replace image */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <h2 style={{ margin: '0 0 1rem', fontSize: '1.5rem' }}>Preview</h2>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={photoImageUrl(photo.photographer, photo.id)}
-              alt={photo.title || `Photo ${photo.id}`}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '500px',
-                width: 'auto',
-                height: 'auto',
-                objectFit: 'contain',
-                backgroundColor: '#f5f5f5',
-                border: '1px solid #e0e0e0',
-                display: 'block',
-                opacity: photo.enabled ? 1 : 0.4,
-              }}
+            <PhotoImagePicker
+              currentImageUrl={photoImageUrl(photo.photographer, photo.id)}
+              photoEnabled={!!photo.enabled}
+              label="Replace Image"
             />
-            {!photo.enabled && (
-              <p style={{ margin: '0.5rem 0 0', fontSize: '0.8rem', color: '#888' }}>Disabled — not visible on site</p>
-            )}
-            <div style={{ marginTop: '1.5rem' }}>
-              <div className={adminStyles.fileInputWrap}>
-                <label htmlFor="image" className={adminStyles.fileInputLabel}>
-                  ↑ Replace Image
-                </label>
-                <input
-                  id="image"
-                  name="image"
-                  type="file"
-                  accept="image/jpeg"
-                  className={adminStyles.fileInput}
-                />
-              </div>
-              <p className={adminStyles.fileNameHint}>JPEG only</p>
-            </div>
           </div>
         </div>
       </form>
+
+      <hr style={{ margin: '3rem 0 1.5rem', border: 'none', borderTop: '1px solid #ddd' }} />
+
+      <DeletePhotoSection action={deleteAction} />
 
     </div>
   );

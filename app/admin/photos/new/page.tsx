@@ -132,6 +132,7 @@ export default async function NewPhotoPage() {
 
         <KeywordPicker allKeywords={allKeywords} />
 
+        <TextareaField label="Description" name="description" />
         <Field label="Medium" name="medium" placeholder="e.g. Gelatin silver print" />
         <Field label="Date" name="date" placeholder="e.g. 1952" />
 

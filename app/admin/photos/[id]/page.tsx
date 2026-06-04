@@ -238,6 +238,7 @@ export default async function EditPhotoPage({
 
             <KeywordPicker allKeywords={allKeywords} selected={selectedKeywords} />
 
+            <TextareaField label="Description" name="description" defaultValue={photo.description} />
             <Field label="Medium" name="medium" defaultValue={photo.medium} placeholder="e.g. Gelatin silver print" />
             <Field label="Date" name="date" defaultValue={photo.date} />
 

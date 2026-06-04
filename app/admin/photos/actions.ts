@@ -13,8 +13,12 @@ export async function togglePhotoEnabled(id: number, newEnabled: number) {
   if (!session.isLoggedIn) redirect('/admin/login');
 
   await query('UPDATE photos SET enabled = ? WHERE id = ?', [newEnabled, id]);
-  revalidateTag('browse-data', 'default');
-  revalidateTag('carousel-photos', 'default');
+  try {
+    revalidateTag('browse-data', 'default');
+    revalidateTag('carousel-photos', 'default');
+  } catch (err) {
+    console.error('revalidateTag failed after photo toggle:', err);
+  }
 }
 
 export async function reorderPhotos(photographerSlug: string, orderedIds: number[]) {

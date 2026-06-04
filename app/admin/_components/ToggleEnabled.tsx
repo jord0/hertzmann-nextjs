@@ -14,7 +14,13 @@ export default function ToggleEnabled({ enabled, action }: Props) {
   function handleClick() {
     const next = !optimistic;
     setOptimistic(next);
-    startTransition(() => action(next ? 1 : 0));
+    startTransition(async () => {
+      try {
+        await action(next ? 1 : 0);
+      } catch {
+        setOptimistic(!next);
+      }
+    });
   }
 
   return (

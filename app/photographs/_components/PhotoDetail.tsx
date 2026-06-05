@@ -122,7 +122,7 @@ export function PhotoDetail({ photo, nav }: { photo: PhotoData; nav: NavContext 
             {photo.width && photo.height && (
               <>
                 <dt className={styles.dt}>Image Size</dt>
-                <dd className={styles.dd}>{photo.width}&quot; × {photo.height}&quot;</dd>
+                <dd className={styles.dd}>{photo.height}&quot; × {photo.width}&quot;</dd>
               </>
             )}
             {photo.inventoryNumber && (
